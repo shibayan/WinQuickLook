@@ -39,15 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -70,6 +65,7 @@
     <Compile Include="Interop\ComConsts.cs" />
     <Compile Include="Interop\ComInterfaceExtension.cs" />
     <Compile Include="Interop\ComInterfaces.cs" />
+    <Compile Include="Interop\Consts.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\Structs.cs" />
     <Compile Include="KeyboardHook.cs" />

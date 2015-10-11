@@ -9,21 +9,18 @@ namespace WinQuickLook
 {
     public class KeyboardHook : IDisposable
     {
-        public KeyboardHook(Action perform, Action cancel)
+        public KeyboardHook(Action performAction, Action cancelAction)
         {
-            _perform = perform;
-            _cancel = cancel;
+            _performAction = performAction;
+            _cancelAction = cancelAction;
         }
 
         private IntPtr _hook;
 
-        private readonly Action _perform;
-        private readonly Action _cancel;
+        private readonly Action _performAction;
+        private readonly Action _cancelAction;
 
         private NativeMethods.LowLevelKeyboardProc _keyboardHookProc;
-
-        private const int WH_KEYBOARD_LL = 13;
-        private const int WM_KEYDOWN = 0x0100;
         
         public void Start()
         {
@@ -37,7 +34,7 @@ namespace WinQuickLook
             {
                 _keyboardHookProc = KeyboardHookProc;
 
-                _hook = NativeMethods.SetWindowsHookEx(WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
+                _hook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
             }
         }
 
@@ -46,22 +43,24 @@ namespace WinQuickLook
             if (_hook != IntPtr.Zero)
             {
                 NativeMethods.UnhookWindowsHookEx(_hook);
+
+                _hook = IntPtr.Zero;
             }
         }
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && wParam == (IntPtr)Consts.WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
 
                 if (vkCode == (int)Keys.Space)
                 {
-                    _perform();
+                    _performAction();
                 }
                 else if (vkCode == (int)Keys.Escape)
                 {
-                    _cancel();
+                    _cancelAction();
                 }
             }
 

@@ -11,18 +11,11 @@ namespace WinQuickLook
 {
     public class ShellIntegration
     {
-        public ShellIntegration()
-        {
-            _shellWindowsType = Type.GetTypeFromCLSID(CLSID.ShellWindows);
-        }
-
-        private readonly Type _shellWindowsType;
-
         public string GetSelectedItem()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
-            var shellWindows = (IShellWindows)Activator.CreateInstance(_shellWindowsType);
+            var shellWindows = (IShellWindows)Activator.CreateInstance(CLSID.ShellWindowsType);
 
             string filename = null;
 
@@ -98,7 +91,7 @@ namespace WinQuickLook
             return image;
         }
 
-        private bool IsCaretActive(IntPtr hwnd)
+        private static bool IsCaretActive(IntPtr hwnd)
         {
             var threadId = NativeMethods.GetWindowThreadProcessId(hwnd, IntPtr.Zero);
 

@@ -115,7 +115,7 @@ namespace WinQuickLook.Interop
 
         int get_Height();
 
-        void put_Height([In]int height);
+        void put_Height([In] int height);
 
         string get_LocationName();
 
@@ -263,7 +263,9 @@ namespace WinQuickLook.Interop
     public interface IPersistFolder2 : IUnknown
     {
         void GetClassID([Out] IntPtr pClassId);
+
         void Initialize([In] IntPtr pidl);
+
         void GetCurFolder([Out] IntPtr ppidl);
     }
 
@@ -299,11 +301,17 @@ namespace WinQuickLook.Interop
     public interface IPreviewHandler : IUnknown
     {
         void SetWindow(IntPtr hwnd, ref Rectangle rect);
+
         void SetRect(ref Rectangle rect);
+
         void DoPreview();
+
         void Unload();
+
         void SetFocus();
+
         void QueryFocus(out IntPtr phwnd);
+
         uint TranslateAccelerator(ref IntPtr pmsg);
     }
 
@@ -320,6 +328,6 @@ namespace WinQuickLook.Interop
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IInitializeWithItem
     {
-        void Initialize(IShellItem psi, uint grfMode);
+        void Initialize([In] IShellItem psi, uint grfMode);
     }
 }

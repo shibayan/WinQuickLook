@@ -73,19 +73,25 @@ namespace WinQuickLook
                 FileInfo = new FileInfo(selectedItem)
             };
 
+            // 最大サイズを計算
+            var maxContentWidth = SystemParameters.WorkArea.Width - 100;
+            var maxContentHeight = SystemParameters.WorkArea.Height - 100;
+
             // 画像 -> プレビューハンドラ -> サムネイル表示の順で調べる
             if (BitmapDecoder.CanDecode(selectedItem))
             {
                 var image = BitmapDecoder.GetImage(selectedItem);
+                
+                var scaleFactor = image.PixelWidth > image.PixelHeight ? maxContentWidth / image.PixelWidth : maxContentHeight / image.PixelHeight;
 
                 _quickLookWindow.Image = image;
-                _quickLookWindow.ContentWidth = image.PixelWidth;
-                _quickLookWindow.ContentHeight = image.PixelHeight;
+                _quickLookWindow.ContentWidth = Math.Min(image.PixelWidth, image.PixelWidth * scaleFactor);
+                _quickLookWindow.ContentHeight = Math.Min(image.PixelHeight, image.PixelHeight * scaleFactor);
             }
-            else if (PreviewHandlerHost.GetPreviewHandlerGUID(selectedItem) != Guid.Empty)
+            else if (PreviewHandlerHost.GetPreviewHandlerCLSID(selectedItem) != Guid.Empty)
             {
-                _quickLookWindow.ContentWidth = SystemParameters.WorkArea.Width / 1.5;
-                _quickLookWindow.ContentHeight = SystemParameters.WorkArea.Height / 1.5;
+                _quickLookWindow.ContentWidth = maxContentWidth / 1.5;
+                _quickLookWindow.ContentHeight = maxContentHeight / 1.5;
 
                 _quickLookWindow.OpenPreview();
             }

@@ -11,39 +11,43 @@ namespace WinQuickLook
 {
     public class PreviewHandlerHost : Control
     {
-        private IPreviewHandler _currentPreviewHandler;
+        private IPreviewHandler _previewHandler;
 
-        private Guid _currentPreviewHandlerGuid;
+        private const string PreviewHandlerSubKey = "shellex\\{8895b1c6-b41f-4c1c-a562-0d564250836f}";
         
         public PreviewHandlerHost()
         {
-            _currentPreviewHandlerGuid = Guid.Empty;
-
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            SetStyle(ControlStyles.UserPaint, true);
         }
         
         protected override void Dispose(bool disposing)
         {
             UnloadPreviewHandler();
 
-            if (_currentPreviewHandler != null)
-            {
-                Marshal.FinalReleaseComObject(_currentPreviewHandler);
-
-                _currentPreviewHandler = null;
-            }
-
             base.Dispose(disposing);
         }
         
-        public static Guid GetPreviewHandlerGUID(string filename)
+        protected override void OnResize(EventArgs e)
         {
-            var ext = Registry.ClassesRoot.OpenSubKey(Path.GetExtension(filename));
+            base.OnResize(e);
+
+            _previewHandler?.SetRect(ClientRectangle);
+        }
+
+        public static Guid GetPreviewHandlerCLSID(string filename)
+        {
+            var extension = Path.GetExtension(filename);
+
+            if (string.IsNullOrEmpty(extension))
+            {
+                return Guid.Empty;
+            }
+
+            var ext = Registry.ClassesRoot.OpenSubKey(extension);
 
             if (ext != null)
             {
-                var test = ext.OpenSubKey("shellex\\{8895b1c6-b41f-4c1c-a562-0d564250836f}");
+                var test = ext.OpenSubKey(PreviewHandlerSubKey);
 
                 if (test != null)
                 {
@@ -52,7 +56,7 @@ namespace WinQuickLook
 
                 var className = Convert.ToString(ext.GetValue(null));
 
-                test = Registry.ClassesRoot.OpenSubKey(className + "\\shellex\\{8895b1c6-b41f-4c1c-a562-0d564250836f}");
+                test = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
 
                 if (test != null)
                 {
@@ -62,61 +66,46 @@ namespace WinQuickLook
 
             return Guid.Empty;
         }
-        
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
 
-            _currentPreviewHandler?.SetRect(ClientRectangle);
-        }
-        
         public bool Open(string filename)
         {
             UnloadPreviewHandler();
             
-            Guid guid = GetPreviewHandlerGUID(filename);
+            var guid = GetPreviewHandlerCLSID(filename);
 
-            if (guid != Guid.Empty)
+            if (guid == Guid.Empty)
             {
-                try
+                return false;
+            }
+
+            try
+            {
+                var type = Type.GetTypeFromCLSID(guid);
+
+                _previewHandler = (IPreviewHandler)Activator.CreateInstance(type);
+
+                if (_previewHandler is IInitializeWithFile)
                 {
-                    if (guid != _currentPreviewHandlerGuid)
-                    {
-                        _currentPreviewHandlerGuid = guid;
-
-                        if (_currentPreviewHandler != null)
-                        {
-                            Marshal.FinalReleaseComObject(_currentPreviewHandler);
-                        }
-
-                        var comType = Type.GetTypeFromCLSID(_currentPreviewHandlerGuid);
-
-                        _currentPreviewHandler = (IPreviewHandler)Activator.CreateInstance(comType);
-                    }
-
-                    if (_currentPreviewHandler is IInitializeWithFile)
-                    {
-                        ((IInitializeWithFile)_currentPreviewHandler).Initialize(filename, 0);
-                    }
-                    else if (_currentPreviewHandler is IInitializeWithItem)
-                    {
-                        IShellItem shellItem;
-                        NativeMethods.SHCreateItemFromParsingName(filename, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
-
-                        ((IInitializeWithItem)_currentPreviewHandler).Initialize(shellItem, 0);
-                    }
-
-                    if (_currentPreviewHandler != null)
-                    {
-                        _currentPreviewHandler.SetWindow(Handle, ClientRectangle);
-                        _currentPreviewHandler.DoPreview();
-
-                        return true;
-                    }
+                    ((IInitializeWithFile)_previewHandler).Initialize(filename, 0);
                 }
-                catch
+                else if (_previewHandler is IInitializeWithItem)
                 {
+                    IShellItem shellItem;
+                    NativeMethods.SHCreateItemFromParsingName(filename, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
+
+                    ((IInitializeWithItem)_previewHandler).Initialize(shellItem, 0);
                 }
+
+                if (_previewHandler != null)
+                {
+                    _previewHandler.SetWindow(Handle, ClientRectangle);
+                    _previewHandler.DoPreview();
+
+                    return true;
+                }
+            }
+            catch
+            {
             }
 
             return false;
@@ -124,7 +113,14 @@ namespace WinQuickLook
         
         public void UnloadPreviewHandler()
         {
-            _currentPreviewHandler?.Unload();
+            if (_previewHandler != null)
+            {
+                _previewHandler.Unload();
+
+                Marshal.FinalReleaseComObject(_previewHandler);
+
+                _previewHandler = null;
+            }
         }
     }
 }
