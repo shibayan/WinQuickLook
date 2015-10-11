@@ -1,0 +1,29 @@
+﻿<Window x:Class="WinQuickLook.QuickLookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinQuickLook"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" ShowActivated="True" ShowInTaskbar="False">
+    <Border SnapsToDevicePixels="True">
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>
+            <Button x:Name="open" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">関連付けられたアプリで開く</Button>
+            <Border Background="White" Grid.Row="2" Width="{Binding ContentWidth}" Height="{Binding ContentHeight}" MaxWidth="{x:Static SystemParameters.PrimaryScreenWidth}" MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}" MinWidth="450" MinHeight="300">
+                <Grid>
+                    <Image Source="{Binding Image}" Stretch="Uniform" StretchDirection="DownOnly" />
+                    <MediaElement Source="{Binding Video}" Stretch="Uniform" StretchDirection="DownOnly" />
+                    <WindowsFormsHost x:Name="windowsFormsHost" Visibility="Hidden">
+                        <local:PreviewHandlerHost x:Name="previewHandlerHost" />
+                    </WindowsFormsHost>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
