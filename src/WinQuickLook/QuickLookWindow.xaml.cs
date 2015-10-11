@@ -60,6 +60,7 @@ namespace WinQuickLook
 
                 base.Close();
 
+                Image = null;
                 previewHandlerHost.Dispose();
             }
         }
@@ -70,7 +71,7 @@ namespace WinQuickLook
 
             base.Show();
 
-            Activate();
+            Dispatcher.InvokeAsync(() => Activate());
         }
 
         public void OpenPreview()

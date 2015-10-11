@@ -81,8 +81,16 @@ namespace WinQuickLook
             if (BitmapDecoder.CanDecode(selectedItem))
             {
                 var image = BitmapDecoder.GetImage(selectedItem);
+
+                var scaleFactor = 1.0;
                 
-                var scaleFactor = image.PixelWidth > image.PixelHeight ? maxContentWidth / image.PixelWidth : maxContentHeight / image.PixelHeight;
+                if (maxContentWidth < image.PixelWidth || maxContentHeight < image.PixelHeight)
+                {
+                    var subWidth = image.PixelWidth - maxContentWidth;
+                    var subHeight = image.PixelHeight - maxContentHeight;
+
+                    scaleFactor = subWidth > subHeight ? maxContentWidth / image.PixelWidth : maxContentHeight / image.PixelHeight;
+                }
 
                 _quickLookWindow.Image = image;
                 _quickLookWindow.ContentWidth = Math.Min(image.PixelWidth, image.PixelWidth * scaleFactor);
