@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>
             <Button x:Name="open" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">関連付けられたアプリで開く</Button>
-            <Border Background="White" Grid.Row="2" MaxWidth="{x:Static SystemParameters.PrimaryScreenWidth}" MaxHeight="{x:Static SystemParameters.PrimaryScreenHeight}" MinWidth="450" MinHeight="300">
+            <Border Background="White" Grid.Row="2" MinWidth="450" MinHeight="300">
                 <Grid>
                     <Image Source="{Binding Image}" Width="{Binding ContentWidth}" Height="{Binding ContentHeight}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" />
                     <!--<MediaElement Source="{Binding Video}" Stretch="Uniform" />-->

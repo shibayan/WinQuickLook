@@ -77,7 +77,7 @@ namespace WinQuickLook
             var maxContentWidth = SystemParameters.WorkArea.Width - 100;
             var maxContentHeight = SystemParameters.WorkArea.Height - 100;
 
-            // 画像 -> プレビューハンドラ -> サムネイル表示の順で調べる
+            // 画像 -> テキスト -> プレビューハンドラ -> サムネイル表示の順で調べる
             if (BitmapDecoder.CanDecode(selectedItem))
             {
                 var image = BitmapDecoder.GetImage(selectedItem);
