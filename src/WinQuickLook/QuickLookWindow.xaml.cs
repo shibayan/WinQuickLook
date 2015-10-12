@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms.Integration;
 
 using WinQuickLook.Handlers;
 
@@ -51,6 +52,9 @@ namespace WinQuickLook
                 IsClosed = true;
 
                 base.Close();
+                
+                (PreviewHost as WindowsFormsHost)?.Child.Dispose();
+                PreviewHost = null;
             }
         }
 
