@@ -61,9 +61,9 @@ namespace WinQuickLook.Interop
 
             shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING, out str);
 
-            var buffer = new StringBuilder(260);
+            var buffer = new StringBuilder(Consts.MAX_PATH);
 
-            NativeMethods.StrRetToBuf(ref str, pidl, buffer, 260);
+            NativeMethods.StrRetToBuf(ref str, pidl, buffer, Consts.MAX_PATH);
 
             return buffer.ToString();
         }

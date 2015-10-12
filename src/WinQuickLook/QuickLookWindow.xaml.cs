@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
-using System.Windows.Media;
+
+using WinQuickLook.Handlers;
 
 namespace WinQuickLook
 {
@@ -17,40 +19,30 @@ namespace WinQuickLook
 
             open.Click += (sender, e) =>
             {
-                Process.Start(FileInfo.FullName);
+                Process.Start(_fileInfo.FullName);
             };
         }
 
+        private FileInfo _fileInfo;
+
+        private readonly IQuickLookHandler[] _handlers =
+        {
+            new ImagePreviewHandler(),
+            new TextPreviewHandler(),
+            new ComInteropPreviewHandler(),
+            new ShellPreviewHandler(),
+        };
+
         public bool IsClosed { get; set; }
-
-        public FileInfo FileInfo { get; set; }
-
-        public ImageSource Image
+        
+        public UIElement PreviewHost
         {
-            get { return (ImageSource)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get { return (UIElement)GetValue(PreviewHostProperty); }
+            set { SetValue(PreviewHostProperty, value); }
         }
-
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(ImageSource), typeof(QuickLookWindow), new PropertyMetadata(null));
-
-        public double ContentWidth
-        {
-            get { return (double)GetValue(ContentWidthProperty); }
-            set { SetValue(ContentWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty ContentWidthProperty =
-            DependencyProperty.Register("ContentWidth", typeof(double), typeof(QuickLookWindow), new PropertyMetadata(0.0));
-
-        public double ContentHeight
-        {
-            get { return (double)GetValue(ContentHeightProperty); }
-            set { SetValue(ContentHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty ContentHeightProperty =
-            DependencyProperty.Register("ContentHeight", typeof(double), typeof(QuickLookWindow), new PropertyMetadata(0.0));
+        
+        public static readonly DependencyProperty PreviewHostProperty =
+            DependencyProperty.Register("PreviewHost", typeof(UIElement), typeof(QuickLookWindow), new PropertyMetadata(null));
 
         public new void Close()
         {
@@ -59,27 +51,25 @@ namespace WinQuickLook
                 IsClosed = true;
 
                 base.Close();
-
-                Image = null;
-                previewHandlerHost.Dispose();
             }
+        }
+
+        public void Open(string fileName)
+        {
+            var handler = _handlers.First(x => x.CanOpen(fileName));
+
+            PreviewHost = handler.GetElement(fileName);
+
+            _fileInfo = new FileInfo(fileName);
         }
 
         public new void Show()
         {
-            Title = FileInfo.Name;
+            Title = _fileInfo.Name;
 
             base.Show();
 
             Dispatcher.InvokeAsync(() => Activate());
-        }
-
-        public void OpenPreview()
-        {
-            previewHandlerHost.Size = new System.Drawing.Size((int)ContentWidth, (int)ContentHeight);
-            previewHandlerHost.Open(FileInfo.FullName);
-
-            windowsFormsHost.Visibility = Visibility.Visible;
         }
     }
 }

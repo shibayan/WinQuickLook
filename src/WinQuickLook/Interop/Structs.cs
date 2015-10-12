@@ -37,6 +37,16 @@ namespace WinQuickLook.Interop
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct KBDLLHOOKSTRUCT
+    {
+        public int vkCode;
+        public int scanCode;
+        public int flags;
+        public int time;
+        public IntPtr dwExtraInfo;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct SIZE
     {
         public int cx;
@@ -69,5 +79,13 @@ namespace WinQuickLook.Interop
         public int y;
         public int cx;
         public int cy;
+
+        public RECT(int x, int y, int cx, int cy)
+        {
+            this.x = x;
+            this.y = y;
+            this.cx = cx;
+            this.cy = cy;
+        }
     }
 }

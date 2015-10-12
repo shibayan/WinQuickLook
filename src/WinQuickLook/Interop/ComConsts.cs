@@ -52,4 +52,22 @@ namespace WinQuickLook.Interop
         FORADDRESSBAR = 0x4000,
         FORPARSING = 0x8000
     }
+
+    [Flags]
+    public enum ShellWindowTypeConstants
+    {
+        SWC_EXPLORER = 0x0,
+        SWC_BROWSER = 0x00000001,
+        SWC_3RDPARTY = 0x00000002,
+        SWC_CALLBACK = 0x00000004,
+        SWC_DESKTOP = 0x00000008
+    }
+
+    [Flags]
+    public enum ShellWindowFindWindowOptions
+    {
+        SWFO_NEEDDISPATCH = 0x00000001,
+        SWFO_INCLUDEPENDING = 0x00000002,
+        SWFO_COOKIEPASSED = 0x00000004
+    }
 }

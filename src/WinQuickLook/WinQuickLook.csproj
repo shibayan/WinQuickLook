@@ -61,7 +61,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapDecoder.cs" />
+    <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
+    <Compile Include="Handlers\ImagePreviewHandler.cs" />
+    <Compile Include="Handlers\IQuickLookHandler.cs" />
+    <Compile Include="Handlers\TextPreviewHandler.cs" />
     <Compile Include="Interop\ComConsts.cs" />
     <Compile Include="Interop\ComInterfaceExtension.cs" />
     <Compile Include="Interop\ComInterfaces.cs" />
@@ -75,7 +78,8 @@
     <Compile Include="QuickLookWindow.xaml.cs">
       <DependentUpon>QuickLookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellIntegration.cs" />
+    <Compile Include="Handlers\ShellPreviewHandler.cs" />
+    <Compile Include="WinExplorerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NotifyIconWrapper.cs">

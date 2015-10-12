@@ -6,14 +6,12 @@ namespace WinQuickLook.Interop
 {
     public static class NativeMethods
     {
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        [DllImport("user32.dll")]
-        public static extern uint GetAsyncKeyState(int vKey);
-
+        
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
@@ -25,9 +23,6 @@ namespace WinQuickLook.Interop
 
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr hook, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr PostMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
@@ -43,5 +38,14 @@ namespace WinQuickLook.Interop
 
         [DllImport("user32.dll")]
         public static extern uint GetGUIThreadInfo(uint dwthreadid, ref GUITHREADINFO lpguithreadinfo);
+
+        [DllImport("user32.dll")]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("user32.dll")]
+        public static extern short GetAsyncKeyState(int vKey);
     }
 }

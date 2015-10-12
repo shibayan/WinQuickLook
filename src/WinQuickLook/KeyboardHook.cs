@@ -50,21 +50,54 @@ namespace WinQuickLook
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)Consts.WM_KEYDOWN)
+            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_KEYDOWN)
             {
-                int vkCode = Marshal.ReadInt32(lParam);
+                var kbdllhook = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 
-                if (vkCode == (int)Keys.Space)
+                switch ((Keys)kbdllhook.vkCode)
                 {
-                    _performAction();
-                }
-                else if (vkCode == (int)Keys.Escape)
-                {
-                    _cancelAction();
+                    case Keys.Space:
+                        if (IsNoModifierKey())
+                        {
+                            _performAction();
+                        }
+                        break;
+
+                    case Keys.Escape:
+                        if (IsNoModifierKey())
+                        {
+                            _cancelAction();
+                        }
+                        break;
                 }
             }
 
             return NativeMethods.CallNextHookEx(_hook, nCode, wParam, lParam);
+        }
+
+        private static bool IsNoModifierKey()
+        {
+            if (NativeMethods.GetAsyncKeyState((int)Keys.ControlKey) != 0)
+            {
+                return false;
+            }
+
+            if (NativeMethods.GetAsyncKeyState((int)Keys.Menu) != 0)
+            {
+                return false;
+            }
+
+            if (NativeMethods.GetAsyncKeyState((int)Keys.ShiftKey) != 0)
+            {
+                return false;
+            }
+
+            if (NativeMethods.GetAsyncKeyState((int)Keys.LWin) != 0 || NativeMethods.GetAsyncKeyState((int)Keys.RWin) != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

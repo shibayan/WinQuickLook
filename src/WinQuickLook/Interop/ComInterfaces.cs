@@ -54,9 +54,8 @@ namespace WinQuickLook.Interop
         void OnNavigate([In] int lCookie, [In] object pvarLoc);
 
         void OnActivated([In] int lCookie, [In, MarshalAs(UnmanagedType.VariantBool)] bool fActive);
-
-        [return: MarshalAs(UnmanagedType.IDispatch)]
-        object FindWindowSW([In] object pvarLoc, [In] object pvarLocRoot, [In] int swClass, [Out] out IntPtr phwnd, [In] int swfwOptions);
+        
+        void FindWindowSW([In] ref object pvarLoc, [In] ref object pvarLocRoot, [In] ShellWindowTypeConstants swClass, [Out] out IntPtr phwnd, [In] ShellWindowFindWindowOptions swfwOptions, [Out, MarshalAs(UnmanagedType.IDispatch)] out object ppdispOut);
 
         void OnCreated([In] long lCookie, [In, MarshalAs(UnmanagedType.IUnknown)] object punk);
 

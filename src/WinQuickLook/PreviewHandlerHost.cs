@@ -34,9 +34,9 @@ namespace WinQuickLook
             _previewHandler?.SetRect(ClientRectangle);
         }
 
-        public static Guid GetPreviewHandlerCLSID(string filename)
+        public static Guid GetPreviewHandlerCLSID(string fileName)
         {
-            var extension = Path.GetExtension(filename);
+            var extension = Path.GetExtension(fileName);
 
             if (string.IsNullOrEmpty(extension))
             {
@@ -67,11 +67,11 @@ namespace WinQuickLook
             return Guid.Empty;
         }
 
-        public bool Open(string filename)
+        public bool Open(string fileName)
         {
             UnloadPreviewHandler();
             
-            var guid = GetPreviewHandlerCLSID(filename);
+            var guid = GetPreviewHandlerCLSID(fileName);
 
             if (guid == Guid.Empty)
             {
@@ -86,12 +86,12 @@ namespace WinQuickLook
 
                 if (_previewHandler is IInitializeWithFile)
                 {
-                    ((IInitializeWithFile)_previewHandler).Initialize(filename, 0);
+                    ((IInitializeWithFile)_previewHandler).Initialize(fileName, 0);
                 }
                 else if (_previewHandler is IInitializeWithItem)
                 {
                     IShellItem shellItem;
-                    NativeMethods.SHCreateItemFromParsingName(filename, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
+                    NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
 
                     ((IInitializeWithItem)_previewHandler).Initialize(shellItem, 0);
                 }
