@@ -47,7 +47,8 @@ namespace WinQuickLook.Handlers
             return image;
         }
 
-        private static readonly string[] _supportFormats = {
+        private static readonly string[] _supportFormats =
+        {
             ".jpeg", ".jpe", ".jpg", ".png", ".bmp", ".gif", ".tif", ".tiff", ".ico"
         };
 

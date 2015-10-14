@@ -62,9 +62,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
+    <Compile Include="Handlers\HtmlPreviewHandler.cs" />
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
     <Compile Include="Handlers\IQuickLookHandler.cs" />
     <Compile Include="Handlers\TextPreviewHandler.cs" />
+    <Compile Include="Handlers\VideoPreviewHandler.cs" />
     <Compile Include="Interop\ComConsts.cs" />
     <Compile Include="Interop\ComInterfaceExtension.cs" />
     <Compile Include="Interop\ComInterfaces.cs" />

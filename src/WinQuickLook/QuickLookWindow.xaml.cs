@@ -29,6 +29,7 @@ namespace WinQuickLook
         private readonly IQuickLookHandler[] _handlers =
         {
             new ImagePreviewHandler(),
+            new VideoPreviewHandler(),
             new TextPreviewHandler(),
             new ComInteropPreviewHandler(),
             new ShellPreviewHandler(),
@@ -98,6 +99,13 @@ namespace WinQuickLook
                 if (image != null && image.StretchDirection != StretchDirection.Both)
                 {
                     image.StretchDirection = StretchDirection.Both;
+                }
+
+                var mediaElement = PreviewHost as MediaElement;
+
+                if (mediaElement != null && mediaElement.StretchDirection != StretchDirection.Both)
+                {
+                    mediaElement.StretchDirection = StretchDirection.Both;
                 }
             }
         }

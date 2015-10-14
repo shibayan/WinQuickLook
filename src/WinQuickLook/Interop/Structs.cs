@@ -13,9 +13,6 @@ namespace WinQuickLook.Interop
         public IntPtr pOleStr;
 
         [FieldOffset(4)]
-        public IntPtr pStr;
-
-        [FieldOffset(4)]
         public uint uOffset;
 
         [FieldOffset(4)]
@@ -87,5 +84,14 @@ namespace WinQuickLook.Interop
             this.cx = cx;
             this.cy = cy;
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct DetectEncodingInfo
+    {
+        public int nLangID;
+        public int nCodePage;
+        public int nDocPercent;
+        public int nConfidence;
     }
 }

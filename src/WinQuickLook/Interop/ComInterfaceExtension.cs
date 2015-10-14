@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace WinQuickLook.Interop
 {
@@ -61,11 +60,11 @@ namespace WinQuickLook.Interop
 
             shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING, out str);
 
-            var buffer = new StringBuilder(Consts.MAX_PATH);
+            string buffer;
 
-            NativeMethods.StrRetToBuf(ref str, pidl, buffer, Consts.MAX_PATH);
+            NativeMethods.StrRetToBSTR(ref str, pidl, out buffer);
 
-            return buffer.ToString();
+            return buffer;
         }
     }
 }

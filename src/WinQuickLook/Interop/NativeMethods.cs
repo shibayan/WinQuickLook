@@ -31,7 +31,7 @@ namespace WinQuickLook.Interop
         public static extern void SHCreateItemFromParsingName([In, MarshalAs(UnmanagedType.LPWStr)] string pszPath, [In] IntPtr pbc, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, [Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex = 2)] out IShellItem ppv);
         
         [DllImport("shlwapi.dll")]
-        public static extern void StrRetToBuf([In] ref STRRET pstr, [In] IntPtr pidl, StringBuilder pszBuf, uint cchBuf);
+        public static extern void StrRetToBSTR([In, Out] ref STRRET pstr, [In] IntPtr pidl, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstr);
 
         [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr lpdwProcessId);
