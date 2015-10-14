@@ -11,7 +11,7 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public UIElement GetElement(string fileName)
+        public FrameworkElement GetElement(string fileName)
         {
             var maxWidth = SystemParameters.WorkArea.Width - 100;
             var maxHeight = SystemParameters.WorkArea.Height - 100;

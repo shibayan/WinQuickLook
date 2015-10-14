@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -64,6 +65,18 @@ namespace WinQuickLook
             Marshal.ReleaseComObject(shellWindows);
 
             return fileName;
+        }
+
+        public static void CreateShortcutLink(string linkPath)
+        {
+            var shellLink = (IShellLink)Activator.CreateInstance(CLSID.ShellLinkType);
+            var persistFile = shellLink.QueryInterface<IPersistFile>();
+
+            shellLink.SetPath(Assembly.GetEntryAssembly().Location);
+            persistFile.Save(linkPath, true);
+
+            Marshal.ReleaseComObject(persistFile);
+            Marshal.ReleaseComObject(shellLink);
         }
 
         private static string GetSelectedItemCore(IWebBrowserApp webBrowserApp)

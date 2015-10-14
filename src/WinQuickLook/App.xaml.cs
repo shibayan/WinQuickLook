@@ -30,8 +30,11 @@ namespace WinQuickLook
 
         private void CancelQuickLook()
         {
-            _quickLookWindow?.Close();
-            _quickLookWindow = null;
+            if (_quickLookWindow != null && _quickLookWindow.IsActive)
+            {
+                _quickLookWindow.Close();
+                _quickLookWindow = null;
+            }
         }
 
         private void PerformQuickLook()
@@ -46,7 +49,7 @@ namespace WinQuickLook
 
             var selectedItem = WinExplorerHelper.GetSelectedItem();
 
-            if (selectedItem == null || !File.Exists(selectedItem))
+            if (selectedItem == null || (!File.Exists(selectedItem) && !Directory.Exists(selectedItem)))
             {
                 return;
             }

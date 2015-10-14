@@ -17,7 +17,7 @@ namespace WinQuickLook.Handlers
             return ((IList)_supportFormats).Contains(extension);
         }
 
-        public UIElement GetElement(string fileName)
+        public FrameworkElement GetElement(string fileName)
         {
             var bitmap = GetImage(fileName);
 
@@ -38,11 +38,10 @@ namespace WinQuickLook.Handlers
 
             image.BeginInit();
             image.Stretch = Stretch.Uniform;
-            image.VerticalAlignment = VerticalAlignment.Center;
-            image.HorizontalAlignment = HorizontalAlignment.Center;
+            image.StretchDirection = StretchDirection.DownOnly;
             image.Source = bitmap;
-            image.Width = Math.Min(bitmap.PixelWidth, bitmap.PixelWidth * scaleFactor);
-            image.Height = Math.Min(bitmap.PixelHeight, bitmap.PixelHeight * scaleFactor);
+            image.Width = Math.Min(bitmap.PixelWidth, (int)(bitmap.PixelWidth * scaleFactor));
+            image.Height = Math.Min(bitmap.PixelHeight, (int)(bitmap.PixelHeight * scaleFactor));
             image.EndInit();
 
             return image;
@@ -58,10 +57,15 @@ namespace WinQuickLook.Handlers
 
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(fileName);
+            bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
             bitmap.EndInit();
 
-            return bitmap;
+            int stride = bitmap.PixelWidth * 4;
+            var pixels = new byte[stride * bitmap.PixelHeight];
+
+            bitmap.CopyPixels(pixels, stride, 0);
+
+            return BitmapSource.Create(bitmap.PixelWidth, bitmap.PixelHeight, 96.0, 96.0, bitmap.Format, bitmap.Palette, pixels, stride);
         }
     }
 }

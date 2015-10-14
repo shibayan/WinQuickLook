@@ -17,7 +17,7 @@ namespace WinQuickLook.Handlers
             return true;
         }
 
-        public UIElement GetElement(string fileName)
+        public FrameworkElement GetElement(string fileName)
         {
             var bitmap = GetImage(fileName);
 

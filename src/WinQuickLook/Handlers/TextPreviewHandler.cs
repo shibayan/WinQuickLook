@@ -15,7 +15,7 @@ namespace WinQuickLook.Handlers
             return ((IList)_supportFormats).Contains(extension);
         }
 
-        public UIElement GetElement(string fileName)
+        public FrameworkElement GetElement(string fileName)
         {
             var maxWidth = SystemParameters.WorkArea.Width - 100;
             var maxHeight = SystemParameters.WorkArea.Height - 100;
@@ -32,7 +32,8 @@ namespace WinQuickLook.Handlers
             return webBrowser;
         }
 
-        private static readonly string[] _supportFormats = {
+        private static readonly string[] _supportFormats =
+        {
             ".txt", ".log", ".htm", ".html", ".md", ".markdown"
         };
     }

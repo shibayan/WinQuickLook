@@ -5,8 +5,10 @@ namespace WinQuickLook.Interop
     public static class CLSID
     {
         public static readonly Guid ShellWindows = new Guid("9BA05972-F6A8-11CF-A442-00A0C90A8F39");
+        public static readonly Guid ShellLink = new Guid("00021401-0000-0000-C000-000000000046");
 
         public static readonly Type ShellWindowsType = Type.GetTypeFromCLSID(ShellWindows);
+        public static readonly Type ShellLinkType = Type.GetTypeFromCLSID(ShellLink);
     }
 
     public static class SID

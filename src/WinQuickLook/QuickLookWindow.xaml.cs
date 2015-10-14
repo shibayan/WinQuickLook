@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 
 using WinQuickLook.Handlers;
@@ -14,13 +16,11 @@ namespace WinQuickLook
         {
             InitializeComponent();
 
-            DataContext = this;
-
-            Deactivated += (sender, e) => Close();
-
             open.Click += (sender, e) =>
             {
                 Process.Start(_fileInfo.FullName);
+
+                Close();
             };
         }
 
@@ -62,7 +62,18 @@ namespace WinQuickLook
         {
             var handler = _handlers.First(x => x.CanOpen(fileName));
 
-            PreviewHost = handler.GetElement(fileName);
+            var element = handler.GetElement(fileName);
+
+            PreviewHost = element;
+
+            if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
+            {
+                Width = Math.Max(element.Width + 4 + 2 + 2, 300);
+                Height = Math.Max(element.Height + 30 + 4 + 2 + 2, 200);
+
+                element.Width = double.NaN;
+                element.Height = double.NaN;
+            }
 
             _fileInfo = new FileInfo(fileName);
         }
@@ -74,6 +85,21 @@ namespace WinQuickLook
             base.Show();
 
             Dispatcher.InvokeAsync(() => Activate());
+        }
+        
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+
+            if (IsLoaded)
+            {
+                var image = PreviewHost as Image;
+
+                if (image != null && image.StretchDirection != StretchDirection.Both)
+                {
+                    image.StretchDirection = StretchDirection.Both;
+                }
+            }
         }
     }
 }

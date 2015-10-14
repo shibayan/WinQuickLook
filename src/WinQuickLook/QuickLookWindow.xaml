@@ -4,18 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" ShowActivated="True" ShowInTaskbar="False">
-    <Border SnapsToDevicePixels="True">
-        <Grid Margin="5">
+        x:Name="window" MinWidth="300" MinHeight="200"
+        WindowStartupLocation="CenterScreen" ShowActivated="True" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="30"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>
-            <Button x:Name="open" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">関連付けられたアプリで開く</Button>
-            <Border Background="White" Grid.Row="2" MinWidth="450" MinHeight="300">
-                <ContentPresenter Content="{Binding PreviewHost}" />
+            <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+            <Button x:Name="open" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True" Margin="5,0,0,0" Grid.Row="0">Open...</Button>
+            <Border Grid.Row="1" Margin="2,0,2,2" BorderBrush="LightGray" BorderThickness="1">
+                <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" />
             </Border>
         </Grid>
     </Border>
