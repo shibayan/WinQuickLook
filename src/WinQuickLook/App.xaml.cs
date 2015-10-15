@@ -1,11 +1,14 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Windows;
 
 namespace WinQuickLook
 {
     public partial class App
     {
-        private KeyboardHook _keyboard;
+        private readonly Mutex _mutex = new Mutex(false, "WinQuickLook");
+
+        private KeyboardHook _keyboardHook;
         private NotifyIconWrapper _notifyIcon;
 
         private QuickLookWindow _quickLookWindow;
@@ -14,20 +17,29 @@ namespace WinQuickLook
         {
             base.OnStartup(e);
 
+            if (!_mutex.WaitOne(0, false))
+            {
+                Current.Shutdown();
+
+                return;
+            }
+
             WebBrowserHelper.SetDocumentMode(11000);
 
             _notifyIcon = new NotifyIconWrapper();
 
-            _keyboard = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
-            _keyboard.Start();
+            _keyboardHook = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
+            _keyboardHook.Start();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
 
-            _keyboard.Dispose();
-            _notifyIcon.Dispose();
+            _keyboardHook?.Dispose();
+            _notifyIcon?.Dispose();
+
+            _mutex.ReleaseMutex();
         }
 
         private void CancelQuickLook()
