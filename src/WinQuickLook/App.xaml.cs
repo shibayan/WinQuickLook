@@ -14,6 +14,8 @@ namespace WinQuickLook
         {
             base.OnStartup(e);
 
+            WebBrowserHelper.SetDocumentMode(11000);
+
             _notifyIcon = new NotifyIconWrapper();
 
             _keyboard = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
