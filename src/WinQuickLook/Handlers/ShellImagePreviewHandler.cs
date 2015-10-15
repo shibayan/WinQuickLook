@@ -10,7 +10,7 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public class ShellPreviewHandler : IQuickLookHandler
+    public class ShellImagePreviewHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -35,7 +35,7 @@ namespace WinQuickLook.Handlers
             return image;
         }
 
-        private BitmapSource GetImage(string fileName)
+        private static BitmapSource GetImage(string fileName)
         {
             IShellItem shellItem;
 

@@ -30,9 +30,10 @@ namespace WinQuickLook
         {
             new ImagePreviewHandler(),
             new VideoPreviewHandler(),
+            new HtmlPreviewHandler(),
             new TextPreviewHandler(),
             new ComInteropPreviewHandler(),
-            new ShellPreviewHandler(),
+            new ShellImagePreviewHandler(),
         };
 
         public bool IsClosed { get; set; }

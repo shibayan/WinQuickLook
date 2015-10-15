@@ -61,6 +61,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Handlers\AudioPreviewHandler.cs" />
     <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
     <Compile Include="Handlers\HtmlPreviewHandler.cs" />
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="QuickLookWindow.xaml.cs">
       <DependentUpon>QuickLookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\ShellPreviewHandler.cs" />
+    <Compile Include="Handlers\ShellImagePreviewHandler.cs" />
     <Compile Include="WinExplorerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
