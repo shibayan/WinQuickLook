@@ -49,6 +49,11 @@ namespace WinQuickLook.Handlers
 
         private static Encoding DetectEncoding(byte[] contents)
         {
+            if (contents.Length == 0)
+            {
+                return Encoding.ASCII;
+            }
+
             var multiLanguage2 = (IMultiLanguage2)Activator.CreateInstance(CLSID.MultiLanguageType);
 
             int scores = 1;
@@ -68,7 +73,7 @@ namespace WinQuickLook.Handlers
                 handle.Free();
             }
 
-            Marshal.ReleaseComObject(multiLanguage2);
+            Marshal.FinalReleaseComObject(multiLanguage2);
 
             return Encoding.GetEncoding(encodingInfo.nCodePage);
         }

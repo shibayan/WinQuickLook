@@ -71,30 +71,9 @@ namespace WinQuickLook
         {
             UnloadPreviewHandler();
             
-            var guid = GetPreviewHandlerCLSID(fileName);
-
-            if (guid == Guid.Empty)
-            {
-                return false;
-            }
-
             try
             {
-                var type = Type.GetTypeFromCLSID(guid);
-
-                _previewHandler = (IPreviewHandler)Activator.CreateInstance(type);
-
-                if (_previewHandler is IInitializeWithFile)
-                {
-                    ((IInitializeWithFile)_previewHandler).Initialize(fileName, 0);
-                }
-                else if (_previewHandler is IInitializeWithItem)
-                {
-                    IShellItem shellItem;
-                    NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
-
-                    ((IInitializeWithItem)_previewHandler).Initialize(shellItem, 0);
-                }
+                _previewHandler = CreatePreviewHandler(fileName);
 
                 if (_previewHandler != null)
                 {
@@ -110,8 +89,47 @@ namespace WinQuickLook
 
             return false;
         }
+
+        public IPreviewHandler CreatePreviewHandler(string fileName)
+        {
+            var clsid = GetPreviewHandlerCLSID(fileName);
+
+            if (clsid == Guid.Empty)
+            {
+                return null;
+            }
+
+            var type = Type.GetTypeFromCLSID(clsid);
+
+            var previewHandler = (IPreviewHandler)Activator.CreateInstance(type);
+
+            var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
+
+            if (initializeWithFile != null)
+            {
+                initializeWithFile.Initialize(fileName, 0);
+
+                return previewHandler;
+            }
+
+            var initializeWithItem = previewHandler.QueryInterface<IInitializeWithItem>();
+
+            if (initializeWithItem != null)
+            {
+                IShellItem shellItem;
+                NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
+
+                initializeWithItem.Initialize(shellItem, 0);
+
+                return previewHandler;
+            }
+
+            Marshal.FinalReleaseComObject(previewHandler);
+
+            return null;
+        }
         
-        public void UnloadPreviewHandler()
+        private void UnloadPreviewHandler()
         {
             if (_previewHandler != null)
             {

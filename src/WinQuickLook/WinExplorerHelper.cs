@@ -25,30 +25,22 @@ namespace WinQuickLook
             if (IsDesktopWindow(foregroundHwnd))
             {
                 IntPtr desktopHwnd;
-                object dispatch;
+                IWebBrowserApp webBrowserApp;
 
                 var pvarLoc = new object();
 
-                shellWindows.FindWindowSW(ref pvarLoc, ref pvarLoc, ShellWindowTypeConstants.SWC_DESKTOP, out desktopHwnd, ShellWindowFindWindowOptions.SWFO_NEEDDISPATCH, out dispatch);
+                shellWindows.FindWindowSW(ref pvarLoc, ref pvarLoc, ShellWindowTypeConstants.SWC_DESKTOP, out desktopHwnd, ShellWindowFindWindowOptions.SWFO_NEEDDISPATCH, out webBrowserApp);
 
                 if (!IsCaretActive(desktopHwnd))
                 {
-                    var webBrowserApp = (IWebBrowserApp)dispatch;
-
                     fileName = GetSelectedItemCore(webBrowserApp);
-
-                    Marshal.ReleaseComObject(webBrowserApp);
                 }
-
-                Marshal.ReleaseComObject(dispatch);
             }
             else
             {
                 for (int i = 0; i < shellWindows.Count && fileName == null ; i++)
                 {
-                    var dispatch = shellWindows.Item(i);
-
-                    var webBrowserApp = (IWebBrowserApp)dispatch;
+                    var webBrowserApp = (IWebBrowserApp)shellWindows.Item(i);
 
                     var hwnd = webBrowserApp.get_HWND();
 
@@ -56,13 +48,10 @@ namespace WinQuickLook
                     {
                         fileName = GetSelectedItemCore(webBrowserApp);
                     }
-
-                    Marshal.ReleaseComObject(webBrowserApp);
-                    Marshal.ReleaseComObject(dispatch);
                 }
             }
 
-            Marshal.ReleaseComObject(shellWindows);
+            Marshal.FinalReleaseComObject(shellWindows);
 
             return fileName;
         }
@@ -74,9 +63,8 @@ namespace WinQuickLook
 
             shellLink.SetPath(Assembly.GetEntryAssembly().Location);
             persistFile.Save(linkPath, true);
-
-            Marshal.ReleaseComObject(persistFile);
-            Marshal.ReleaseComObject(shellLink);
+            
+            Marshal.FinalReleaseComObject(shellLink);
         }
 
         private static string GetSelectedItemCore(IWebBrowserApp webBrowserApp)
@@ -91,24 +79,22 @@ namespace WinQuickLook
 
             int focus = folderView.GetFocusedItem();
 
-            var pidl = folderView.Item(focus);
-
             var persistFolder2 = folderView.GetFolder<IPersistFolder2>();
 
             var shellFolder = persistFolder2.QueryInterface<IShellFolder>();
+
+            var pidl = folderView.Item(focus);
 
             var filename = shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING);
 
             // Cleanup
             Marshal.FreeCoTaskMem(pidl);
 
-            Marshal.ReleaseComObject(shellFolder);
-            Marshal.ReleaseComObject(persistFolder2);
-            Marshal.ReleaseComObject(folderView);
-            Marshal.ReleaseComObject(shellView);
-            Marshal.ReleaseComObject(shellBrowser);
-            Marshal.ReleaseComObject(serviceProvider);
-
+            Marshal.FinalReleaseComObject(shellFolder);
+            Marshal.FinalReleaseComObject(folderView);
+            Marshal.FinalReleaseComObject(shellBrowser);
+            Marshal.FinalReleaseComObject(serviceProvider);
+            
             return filename;
         }
 
