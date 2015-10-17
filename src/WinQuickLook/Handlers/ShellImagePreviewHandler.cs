@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using WinQuickLook.Controls;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
@@ -21,18 +21,16 @@ namespace WinQuickLook.Handlers
         {
             var bitmap = GetImage(fileName);
 
-            var image = new Image();
+            var viewer = new FileInfoViewer();
 
-            image.BeginInit();
-            image.Stretch = Stretch.Uniform;
-            image.VerticalAlignment = VerticalAlignment.Center;
-            image.HorizontalAlignment = HorizontalAlignment.Center;
-            image.Source = bitmap;
-            image.Width = bitmap.PixelWidth;
-            image.Height = bitmap.PixelHeight;
-            image.EndInit();
+            viewer.BeginInit();
+            viewer.Width = 500;
+            viewer.Height = 280;
+            viewer.Image = bitmap;
+            viewer.FileInfo = new FileInfo(fileName);
+            viewer.EndInit();
 
-            return image;
+            return viewer;
         }
 
         private static BitmapSource GetImage(string fileName)

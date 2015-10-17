@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="WinQuickLook.Controls.FileInfoViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:WinQuickLook.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="280" d:DesignWidth="500" x:Name="userControl">
+    <UserControl.Resources>
+        <converters:LongToFileSizeConverter x:Key="LongToFileSizeConverter" />
+        <converters:FileNameToTypeNameConverter x:Key="FileNameToTypeNameConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+        <Image Source="{Binding Image, ElementName=userControl}" Margin="15" Stretch="Uniform" Grid.Column="0" />
+        <StackPanel Orientation="Vertical" Margin="0,25,15,15" Grid.Column="1">
+            <TextBlock Text="{Binding FileInfo.Name, ElementName=userControl}" FontSize="22" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding FileInfo.FullName, ElementName=userControl, Converter={StaticResource FileNameToTypeNameConverter}}" FontSize="16" Margin="0,20,0,0" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding FileInfo.Length, ElementName=userControl, Converter={StaticResource LongToFileSizeConverter}}" FontSize="16" Margin="0,15,0,0" />
+            <TextBlock Text="{Binding FileInfo.LastWriteTime, StringFormat=Last Modified {0}, ElementName=userControl}" FontSize="16" Margin="0,15,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

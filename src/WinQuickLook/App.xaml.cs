@@ -44,18 +44,16 @@ namespace WinQuickLook
 
         private void CancelQuickLook()
         {
-            if (_quickLookWindow != null && _quickLookWindow.IsActive)
+            if (_quickLookWindow?.CloseIfActive() ?? false)
             {
-                _quickLookWindow.Close();
                 _quickLookWindow = null;
             }
         }
 
         private void PerformQuickLook()
         {
-            if (_quickLookWindow != null && _quickLookWindow.IsActive)
+            if (_quickLookWindow?.CloseIfActive() ?? false)
             {
-                _quickLookWindow.Close();
                 _quickLookWindow = null;
 
                 return;

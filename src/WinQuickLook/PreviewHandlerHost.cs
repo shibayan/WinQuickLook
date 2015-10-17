@@ -70,21 +70,15 @@ namespace WinQuickLook
         public bool Open(string fileName)
         {
             UnloadPreviewHandler();
-            
-            try
-            {
-                _previewHandler = CreatePreviewHandler(fileName);
 
-                if (_previewHandler != null)
-                {
-                    _previewHandler.SetWindow(Handle, ClientRectangle);
-                    _previewHandler.DoPreview();
+            _previewHandler = CreatePreviewHandler(fileName);
 
-                    return true;
-                }
-            }
-            catch
+            if (_previewHandler != null)
             {
+                _previewHandler.SetWindow(Handle, ClientRectangle);
+                _previewHandler.DoPreview();
+
+                return true;
             }
 
             return false;

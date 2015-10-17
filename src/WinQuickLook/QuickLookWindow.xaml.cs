@@ -60,6 +60,18 @@ namespace WinQuickLook
             }
         }
 
+        public bool CloseIfActive()
+        {
+            if (!IsActive)
+            {
+                return false;
+            }
+
+            Close();
+
+            return true;
+        }
+
         public void Open(string fileName)
         {
             var handler = _handlers.First(x => x.CanOpen(fileName));
