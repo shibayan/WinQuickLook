@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Data;
@@ -13,11 +14,16 @@ namespace WinQuickLook.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var fileExtension = (string)value;
+            var fileName = (string)value;
+
+            if (Directory.Exists(fileName))
+            {
+                return "Directory";
+            }
 
             var sfi = new SHFILEINFO();
 
-            NativeMethods.SHGetFileInfo(fileExtension, 0, ref sfi, Marshal.SizeOf(sfi), SHGFI.TYPENAME | SHGFI.USEFILEATTRIBUTES);
+            NativeMethods.SHGetFileInfo(fileName, 0, ref sfi, Marshal.SizeOf(sfi), SHGFI.TYPENAME | SHGFI.USEFILEATTRIBUTES);
 
             return sfi.szTypeName;
         }

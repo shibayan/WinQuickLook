@@ -27,7 +27,16 @@ namespace WinQuickLook.Handlers
             viewer.Width = 500;
             viewer.Height = 280;
             viewer.Image = bitmap;
-            viewer.FileInfo = new FileInfo(fileName);
+
+            if (File.Exists(fileName))
+            {
+                viewer.FileInfo = new FileInfo(fileName);
+            }
+            else
+            {
+                viewer.FileInfo = new DirectoryInfo(fileName);
+            }
+
             viewer.EndInit();
 
             return viewer;

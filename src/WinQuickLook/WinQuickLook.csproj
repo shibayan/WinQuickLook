@@ -65,7 +65,7 @@
       <DependentUpon>FileInfoViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\FileNameToTypeNameConverter.cs" />
-    <Compile Include="Converters\LongToFileSizeConverter.cs" />
+    <Compile Include="Converters\FileInfoToFileSizeConverter.cs" />
     <Compile Include="Handlers\AudioPreviewHandler.cs" />
     <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
     <Compile Include="Handlers\HtmlPreviewHandler.cs" />

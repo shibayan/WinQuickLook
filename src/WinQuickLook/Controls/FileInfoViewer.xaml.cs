@@ -20,14 +20,14 @@ namespace WinQuickLook.Controls
         public static readonly DependencyProperty ImageProperty =
             DependencyProperty.Register("Image", typeof(BitmapSource), typeof(FileInfoViewer), new PropertyMetadata(null));
         
-        public FileInfo FileInfo
+        public FileSystemInfo FileInfo
         {
             get { return (FileInfo)GetValue(FileInfoProperty); }
             set { SetValue(FileInfoProperty, value); }
         }
 
         public static readonly DependencyProperty FileInfoProperty =
-            DependencyProperty.Register("FileInfo", typeof(FileInfo), typeof(FileInfoViewer), new PropertyMetadata(null));
+            DependencyProperty.Register("FileInfo", typeof(FileSystemInfo), typeof(FileInfoViewer), new PropertyMetadata(null));
         
     }
 }
