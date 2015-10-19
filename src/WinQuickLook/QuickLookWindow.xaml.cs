@@ -98,7 +98,7 @@ namespace WinQuickLook
 
             base.Show();
 
-            Dispatcher.InvokeAsync(() => Activate());
+            Topmost = false;
         }
         
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
