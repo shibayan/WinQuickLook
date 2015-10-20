@@ -10,7 +10,7 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public class ShellImagePreviewHandler : IQuickLookHandler
+    public class GenericPreviewHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {

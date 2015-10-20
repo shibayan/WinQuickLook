@@ -86,7 +86,7 @@
     <Compile Include="QuickLookWindow.xaml.cs">
       <DependentUpon>QuickLookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\ShellImagePreviewHandler.cs" />
+    <Compile Include="Handlers\GenericPreviewHandler.cs" />
     <Compile Include="WebBrowserHelper.cs" />
     <Compile Include="WinExplorerHelper.cs" />
   </ItemGroup>
