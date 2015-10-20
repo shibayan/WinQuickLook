@@ -108,4 +108,21 @@ namespace WinQuickLook.Interop
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
         public string szTypeName;
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ACCENTPOLICY
+    {
+        public int nAccentState;
+        public int nFlags;
+        public int nColor;
+        public int nAnimationId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct WINCOMPATTRDATA
+    {
+        public int nAttribute;
+        public IntPtr pData;
+        public int ulDataSize;
+    }
 }

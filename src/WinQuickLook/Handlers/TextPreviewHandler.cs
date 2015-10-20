@@ -42,6 +42,8 @@ namespace WinQuickLook.Handlers
             return textBox;
         }
 
+        public bool AllowsTransparency => true;
+
         private static readonly string[] _supportFormats =
         {
             ".txt", ".log", ".md", ".markdown", ".xml"

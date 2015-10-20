@@ -47,6 +47,8 @@ namespace WinQuickLook.Handlers
             return image;
         }
 
+        public bool AllowsTransparency => true;
+
         private static readonly string[] _supportFormats =
         {
             ".jpeg", ".jpe", ".jpg", ".png", ".bmp", ".gif", ".tif", ".tiff", ".ico"

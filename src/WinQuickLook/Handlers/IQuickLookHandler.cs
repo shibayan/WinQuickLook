@@ -6,5 +6,6 @@ namespace WinQuickLook.Handlers
     {
         bool CanOpen(string fileName);
         FrameworkElement GetElement(string fileName);
+        bool AllowsTransparency { get; }
     }
 }

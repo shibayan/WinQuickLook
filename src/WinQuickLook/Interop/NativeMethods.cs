@@ -50,5 +50,8 @@ namespace WinQuickLook.Interop
 
         [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(int vKey);
+
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WINCOMPATTRDATA data);
     }
 }

@@ -32,6 +32,8 @@ namespace WinQuickLook.Handlers
             return webBrowser;
         }
 
+        public bool AllowsTransparency => true;
+
         private static readonly string[] _supportFormats =
         {
             ".htm", ".html", ".xhtml"

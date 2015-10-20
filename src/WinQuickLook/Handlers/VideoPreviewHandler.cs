@@ -35,6 +35,8 @@ namespace WinQuickLook.Handlers
             return media;
         }
 
+        public bool AllowsTransparency => true;
+
         private static readonly string[] _supportFormats =
         {
             ".mp4", ".m4v", ".mpg", ".mpeg", ".avi", ".mov"

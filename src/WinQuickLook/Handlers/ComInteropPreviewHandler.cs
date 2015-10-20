@@ -15,7 +15,7 @@ namespace WinQuickLook.Handlers
         {
             var maxWidth = SystemParameters.WorkArea.Width - 100;
             var maxHeight = SystemParameters.WorkArea.Height - 100;
-
+            
             var previewHandlerHost = new PreviewHandlerHost();
 
             var windowsFormsHost = new WindowsFormsHost();
@@ -30,5 +30,7 @@ namespace WinQuickLook.Handlers
 
             return windowsFormsHost;
         }
+
+        public bool AllowsTransparency => false;
     }
 }

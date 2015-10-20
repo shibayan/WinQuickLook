@@ -14,5 +14,7 @@ namespace WinQuickLook.Handlers
         {
             throw new NotImplementedException();
         }
+
+        public bool AllowsTransparency => true;
     }
 }

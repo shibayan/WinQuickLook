@@ -42,6 +42,8 @@ namespace WinQuickLook.Handlers
             return viewer;
         }
 
+        public bool AllowsTransparency => true;
+
         private static BitmapSource GetImage(string fileName)
         {
             IShellItem shellItem;

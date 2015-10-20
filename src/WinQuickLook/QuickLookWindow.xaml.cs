@@ -2,11 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 using WinQuickLook.Handlers;
+using WinQuickLook.Interop;
 
 namespace WinQuickLook
 {
@@ -25,8 +29,9 @@ namespace WinQuickLook
         }
 
         private FileInfo _fileInfo;
+        private IQuickLookHandler _handler;
 
-        private readonly IQuickLookHandler[] _handlers =
+        private static readonly IQuickLookHandler[] _handlers =
         {
             new ImagePreviewHandler(),
             new VideoPreviewHandler(),
@@ -46,6 +51,16 @@ namespace WinQuickLook
         
         public static readonly DependencyProperty PreviewHostProperty =
             DependencyProperty.Register("PreviewHost", typeof(UIElement), typeof(QuickLookWindow), new PropertyMetadata(null));
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            if (_handler.AllowsTransparency)
+            {
+                SetBlurEffect();
+            }
+        }
 
         public new void Close()
         {
@@ -74,9 +89,9 @@ namespace WinQuickLook
 
         public void Open(string fileName)
         {
-            var handler = _handlers.First(x => x.CanOpen(fileName));
+            _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var element = handler.GetElement(fileName);
+            var element = _handler.GetElement(fileName);
 
             PreviewHost = element;
 
@@ -121,6 +136,35 @@ namespace WinQuickLook
                     mediaElement.StretchDirection = StretchDirection.Both;
                 }
             }
+        }
+
+        private void SetBlurEffect()
+        {
+            Background = new SolidColorBrush(Color.FromArgb(0x90, 0xFF, 0xFF, 0xFF));
+            WindowStyle = WindowStyle.None;
+
+            var interopHelper = new WindowInteropHelper(this);
+
+            var accentPolicy = new ACCENTPOLICY
+            {
+                nAccentState = 3
+            };
+
+            var accentPolicySize = Marshal.SizeOf(accentPolicy);
+            var accentPolicyPtr = Marshal.AllocHGlobal(accentPolicySize);
+
+            Marshal.StructureToPtr(accentPolicy, accentPolicyPtr, false);
+
+            var winCompatData = new WINCOMPATTRDATA
+            {
+                nAttribute = 19,
+                ulDataSize = accentPolicySize,
+                pData = accentPolicyPtr
+            };
+
+            NativeMethods.SetWindowCompositionAttribute(interopHelper.Handle, ref winCompatData);
+
+            Marshal.FreeHGlobal(accentPolicyPtr);
         }
     }
 }
