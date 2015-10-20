@@ -3,18 +3,16 @@ using System.Windows;
 
 namespace WinQuickLook.Handlers
 {
-    public class AudioPreviewHandler : IQuickLookHandler
+    public class AudioPreviewHandler : PreviewHandlerBase
     {
-        public bool CanOpen(string fileName)
+        public override bool CanOpen(string fileName)
         {
             throw new NotImplementedException();
         }
 
-        public FrameworkElement GetElement(string fileName)
+        public override FrameworkElement GetElement(string fileName)
         {
             throw new NotImplementedException();
         }
-
-        public bool AllowsTransparency => true;
     }
 }

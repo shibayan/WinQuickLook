@@ -8,16 +8,16 @@ using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Handlers
 {
-    public class ImagePreviewHandler : IQuickLookHandler
+    public class ImagePreviewHandler : PreviewHandlerBase
     {
-        public bool CanOpen(string fileName)
+        public override bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return ((IList)_supportFormats).Contains(extension);
         }
 
-        public FrameworkElement GetElement(string fileName)
+        public override FrameworkElement GetElement(string fileName)
         {
             var bitmap = GetImage(fileName);
 
@@ -46,8 +46,6 @@ namespace WinQuickLook.Handlers
 
             return image;
         }
-
-        public bool AllowsTransparency => true;
 
         private static readonly string[] _supportFormats =
         {

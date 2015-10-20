@@ -38,24 +38,24 @@ namespace WinQuickLook
                 return Guid.Empty;
             }
 
-            var ext = Registry.ClassesRoot.OpenSubKey(extension);
+            var extensionKey = Registry.ClassesRoot.OpenSubKey(extension);
 
-            if (ext != null)
+            if (extensionKey != null)
             {
-                var test = ext.OpenSubKey(PreviewHandlerSubKey);
+                var subKey = extensionKey.OpenSubKey(PreviewHandlerSubKey);
 
-                if (test != null)
+                if (subKey != null)
                 {
-                    return new Guid(Convert.ToString(test.GetValue(null)));
+                    return new Guid(Convert.ToString(subKey.GetValue(null)));
                 }
 
-                var className = Convert.ToString(ext.GetValue(null));
+                var className = Convert.ToString(extensionKey.GetValue(null));
 
-                test = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
+                subKey = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
 
-                if (test != null)
+                if (subKey != null)
                 {
-                    return new Guid(Convert.ToString(test.GetValue(null)));
+                    return new Guid(Convert.ToString(subKey.GetValue(null)));
                 }
             }
 

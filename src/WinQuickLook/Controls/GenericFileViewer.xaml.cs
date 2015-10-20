@@ -4,9 +4,9 @@ using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Controls
 {
-    public partial class FileInfoViewer
+    public partial class GeneficFileViewer
     {
-        public FileInfoViewer()
+        public GeneficFileViewer()
         {
             InitializeComponent();
         }
@@ -18,7 +18,7 @@ namespace WinQuickLook.Controls
         }
 
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(BitmapSource), typeof(FileInfoViewer), new PropertyMetadata(null));
+            DependencyProperty.Register("Image", typeof(BitmapSource), typeof(GeneficFileViewer), new PropertyMetadata(null));
         
         public FileSystemInfo FileInfo
         {
@@ -27,7 +27,6 @@ namespace WinQuickLook.Controls
         }
 
         public static readonly DependencyProperty FileInfoProperty =
-            DependencyProperty.Register("FileInfo", typeof(FileSystemInfo), typeof(FileInfoViewer), new PropertyMetadata(null));
-        
+            DependencyProperty.Register("FileInfo", typeof(FileSystemInfo), typeof(GeneficFileViewer), new PropertyMetadata(null));
     }
 }

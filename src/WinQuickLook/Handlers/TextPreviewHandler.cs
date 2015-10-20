@@ -10,16 +10,16 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public class TextPreviewHandler : IQuickLookHandler
+    public class TextPreviewHandler : PreviewHandlerBase
     {
-        public bool CanOpen(string fileName)
+        public override bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return ((IList)_supportFormats).Contains(extension);
         }
 
-        public FrameworkElement GetElement(string fileName)
+        public override FrameworkElement GetElement(string fileName)
         {
             var maxWidth = SystemParameters.WorkArea.Width - 100;
             var maxHeight = SystemParameters.WorkArea.Height - 100;
@@ -41,8 +41,6 @@ namespace WinQuickLook.Handlers
 
             return textBox;
         }
-
-        public bool AllowsTransparency => true;
 
         private static readonly string[] _supportFormats =
         {

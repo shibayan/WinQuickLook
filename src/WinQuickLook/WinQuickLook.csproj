@@ -64,8 +64,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\FileInfoViewer.xaml.cs">
-      <DependentUpon>FileInfoViewer.xaml</DependentUpon>
+    <Compile Include="Controls\GenericFileViewer.xaml.cs">
+      <DependentUpon>GenericFileViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\FileNameToTypeNameConverter.cs" />
     <Compile Include="Converters\FileInfoToFileSizeConverter.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Handlers\HtmlPreviewHandler.cs" />
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
     <Compile Include="Handlers\IQuickLookHandler.cs" />
+    <Compile Include="Handlers\PreviewHandlerBase.cs" />
     <Compile Include="Handlers\TextPreviewHandler.cs" />
     <Compile Include="Handlers\VideoPreviewHandler.cs" />
     <Compile Include="Interop\ComConsts.cs" />
@@ -131,7 +132,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\FileInfoViewer.xaml">
+    <Page Include="Controls\GenericFileViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
