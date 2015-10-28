@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Controls
@@ -10,14 +11,14 @@ namespace WinQuickLook.Controls
             InitializeComponent();
         }
         
-        public string Source
+        public Uri Source
         {
-            get { return (string)GetValue(SourceProperty); }
+            get { return (Uri)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
         
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(string), typeof(AudioFileViewer), new PropertyMetadata(null));
+            DependencyProperty.Register("Source", typeof(Uri), typeof(AudioFileViewer), new PropertyMetadata(null));
 
         public BitmapSource Thumbnail
         {

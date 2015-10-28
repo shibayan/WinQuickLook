@@ -23,7 +23,7 @@ namespace WinQuickLook.Handlers
             audioViewer.BeginInit();
             audioViewer.Width = 250;
             audioViewer.Height = 250;
-            audioViewer.Source = fileName;
+            audioViewer.Source = new Uri(fileName, UriKind.Absolute);
             audioViewer.Thumbnail = GetThumbnail(fileName);
             audioViewer.EndInit();
 

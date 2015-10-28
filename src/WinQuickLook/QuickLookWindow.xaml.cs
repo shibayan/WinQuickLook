@@ -39,7 +39,7 @@ namespace WinQuickLook
             new HtmlPreviewHandler(),
             new TextPreviewHandler(),
             new ComInteropPreviewHandler(),
-            new GenericPreviewHandler(),
+            new GenericPreviewHandler()
         };
 
         public bool IsClosed { get; set; }
