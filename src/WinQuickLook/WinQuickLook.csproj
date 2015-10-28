@@ -64,6 +64,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\AudioFileViewer.xaml.cs">
+      <DependentUpon>AudioFileViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GenericFileViewer.xaml.cs">
       <DependentUpon>GenericFileViewer.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\AudioFileViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\GenericFileViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -35,6 +35,7 @@ namespace WinQuickLook
         {
             new ImagePreviewHandler(),
             new VideoPreviewHandler(),
+            new AudioPreviewHandler(),
             new HtmlPreviewHandler(),
             new TextPreviewHandler(),
             new ComInteropPreviewHandler(),
@@ -48,7 +49,7 @@ namespace WinQuickLook
             get { return (UIElement)GetValue(PreviewHostProperty); }
             set { SetValue(PreviewHostProperty, value); }
         }
-        
+
         public static readonly DependencyProperty PreviewHostProperty =
             DependencyProperty.Register("PreviewHost", typeof(UIElement), typeof(QuickLookWindow), new PropertyMetadata(null));
 

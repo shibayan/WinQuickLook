@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.IO;
 using System.Windows;
+
+using WinQuickLook.Controls;
 
 namespace WinQuickLook.Handlers
 {
@@ -7,12 +11,28 @@ namespace WinQuickLook.Handlers
     {
         public override bool CanOpen(string fileName)
         {
-            throw new NotImplementedException();
+            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+
+            return ((IList)_supportFormats).Contains(extension);
         }
 
         public override FrameworkElement GetElement(string fileName)
         {
-            throw new NotImplementedException();
+            var audioViewer = new AudioFileViewer();
+
+            audioViewer.BeginInit();
+            audioViewer.Width = 250;
+            audioViewer.Height = 250;
+            audioViewer.Source = fileName;
+            audioViewer.Thumbnail = GetThumbnail(fileName);
+            audioViewer.EndInit();
+
+            return audioViewer;
         }
+
+        private static readonly string[] _supportFormats =
+        {
+            ".mp3", ".m4a", ".wav", ".wma"
+        };
     }
 }
