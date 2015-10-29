@@ -21,8 +21,8 @@ namespace WinQuickLook.Handlers
         {
             var bitmap = GetImage(fileName);
 
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = (SystemParameters.WorkArea.Width - 100) / 2;
+            var maxHeight = (SystemParameters.WorkArea.Height - 100) / 2;
 
             var scaleFactor = 1.0;
 
@@ -58,8 +58,11 @@ namespace WinQuickLook.Handlers
 
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.CreateOptions = BitmapCreateOptions.None;
             bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
             bitmap.EndInit();
+
+            bitmap.Freeze();
 
             int stride = bitmap.PixelWidth * 4;
             var pixels = new byte[stride * bitmap.PixelHeight];
