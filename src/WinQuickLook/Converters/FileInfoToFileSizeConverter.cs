@@ -44,15 +44,15 @@ namespace WinQuickLook.Converters
 
         private static object GetSizeFormat(long length)
         {
-            if (length > 1024 * 1024 * 1024)
+            if (length >= 1024 * 1024 * 1024)
             {
                 return $"{length / (double)(1024 * 1024 * 1024):0.##} GB";
             }
-            if (length > 1024 * 1024)
+            if (length >= 1024 * 1024)
             {
                 return $"{length / (double)(1024 * 1024):0.##} MB";
             }
-            if (length > 1024)
+            if (length >= 1024)
             {
                 return $"{length / (double)1024:0.##} KB";
             }
