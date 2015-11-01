@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace WinQuickLook.Controls
 {
-    public partial class AudioFileViewer
+    public partial class VideoFileViewer
     {
-        public AudioFileViewer()
+        public VideoFileViewer()
         {
             InitializeComponent();
         }
@@ -15,25 +14,16 @@ namespace WinQuickLook.Controls
         private bool _isSeeking;
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        
+
         public Uri Source
         {
             get { return (Uri)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
-        
+
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(Uri), typeof(AudioFileViewer), new PropertyMetadata(null));
-
-        public BitmapSource Thumbnail
-        {
-            get { return (BitmapSource)GetValue(ThumbnailProperty); }
-            set { SetValue(ThumbnailProperty, value); }
-        }
+            DependencyProperty.Register("Source", typeof(Uri), typeof(VideoFileViewer), new PropertyMetadata(null));
         
-        public static readonly DependencyProperty ThumbnailProperty =
-            DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(AudioFileViewer), new PropertyMetadata(null));
-
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
             var timeSpan = mediaElement.NaturalDuration.TimeSpan;
@@ -70,7 +60,7 @@ namespace WinQuickLook.Controls
                 slider.Value = mediaElement.Position.TotalSeconds;
             }
         }
-        
+
         private void Slider_DragStarted(object sender, RoutedEventArgs e)
         {
             _isSeeking = true;
