@@ -98,7 +98,7 @@ namespace WinQuickLook
 
             if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
             {
-                Width = Math.Max(element.Width + 4 + 2 + 2, 300);
+                Width = Math.Max(element.Width + 4 + 2 + 2, 250);
                 Height = Math.Max(element.Height + 30 + 4 + 2 + 2, 200);
 
                 element.Width = double.NaN;

@@ -36,5 +36,11 @@ namespace WinQuickLook
 
             InitializeComponent();
         }
+
+        public event EventHandler Click
+        {
+            add { notifyIcon1.Click += value; }
+            remove { notifyIcon1.Click -= value; }
+        }
     }
 }
