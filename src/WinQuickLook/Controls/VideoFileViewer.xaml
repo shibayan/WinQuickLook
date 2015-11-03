@@ -16,7 +16,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <MediaElement x:Name="mediaElement" Source="{Binding Source, ElementName=userControl}" LoadedBehavior="Manual" MediaOpened="MediaElement_MediaOpened" />
+        <MediaElement x:Name="mediaElement" Source="{Binding Source, ElementName=userControl}" ScrubbingEnabled="True" LoadedBehavior="Manual" MediaOpened="MediaElement_MediaOpened" />
         <Border Background="#80000000" VerticalAlignment="Bottom" Padding="10">
             <Grid>
                 <Grid.ColumnDefinitions>
