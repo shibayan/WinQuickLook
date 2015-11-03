@@ -44,25 +44,15 @@ namespace WinQuickLook
 
         public bool IsClosed { get; set; }
         
-        public UIElement PreviewHost
+        public FrameworkElement PreviewHost
         {
-            get { return (UIElement)GetValue(PreviewHostProperty); }
+            get { return (FrameworkElement)GetValue(PreviewHostProperty); }
             set { SetValue(PreviewHostProperty, value); }
         }
 
         public static readonly DependencyProperty PreviewHostProperty =
-            DependencyProperty.Register("PreviewHost", typeof(UIElement), typeof(QuickLookWindow), new PropertyMetadata(null));
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            if (_handler.AllowsTransparency)
-            {
-                SetBlurEffect();
-            }
-        }
-
+            DependencyProperty.Register("PreviewHost", typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
+        
         public new void Close()
         {
             if (!IsClosed)
@@ -70,9 +60,6 @@ namespace WinQuickLook
                 IsClosed = true;
 
                 base.Close();
-                
-                (PreviewHost as WindowsFormsHost)?.Child.Dispose();
-                PreviewHost = null;
             }
         }
 
@@ -98,8 +85,8 @@ namespace WinQuickLook
 
             if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
             {
-                Width = Math.Max(element.Width + 4 + 2 + 2, 250);
-                Height = Math.Max(element.Height + 30 + 4 + 2 + 2, 200);
+                Width = Math.Max(element.Width + 4 + 2 + 2, MinWidth);
+                Height = Math.Max(element.Height + 30 + 4 + 2 + 2, MinHeight);
 
                 element.Width = double.NaN;
                 element.Height = double.NaN;
@@ -116,11 +103,17 @@ namespace WinQuickLook
 
             Topmost = false;
         }
-        
-        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-        {
-            base.OnRenderSizeChanged(sizeInfo);
 
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            if (_handler.AllowsTransparency)
+            {
+                SetBlurEffect();
+            }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
             if (IsLoaded)
             {
                 var image = PreviewHost as Image;
@@ -137,6 +130,12 @@ namespace WinQuickLook
                     mediaElement.StretchDirection = StretchDirection.Both;
                 }
             }
+        }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            (PreviewHost as WindowsFormsHost)?.Child.Dispose();
+            PreviewHost = null;
         }
 
         private void SetBlurEffect()

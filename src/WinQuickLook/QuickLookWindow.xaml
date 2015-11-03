@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Name="window" MinWidth="250" MinHeight="200"
-        WindowStartupLocation="CenterScreen" ShowActivated="True" Topmost="True" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        WindowStartupLocation="CenterScreen" ShowActivated="True" Topmost="True" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True"
+        Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged" SourceInitialized="Window_SourceInitialized">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="30"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
