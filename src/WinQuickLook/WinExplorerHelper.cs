@@ -38,7 +38,7 @@ namespace WinQuickLook
             }
             else
             {
-                for (int i = 0; i < shellWindows.Count && fileName == null ; i++)
+                for (int i = 0; i < shellWindows.Count; i++)
                 {
                     var webBrowserApp = (IWebBrowserApp)shellWindows.Item(i);
 
@@ -47,6 +47,8 @@ namespace WinQuickLook
                     if (hwnd == foregroundHwnd && !IsCaretActive(hwnd))
                     {
                         fileName = GetSelectedItemCore(webBrowserApp);
+
+                        break;
                     }
                 }
             }
@@ -63,7 +65,7 @@ namespace WinQuickLook
 
             shellLink.SetPath(Assembly.GetEntryAssembly().Location);
             persistFile.Save(linkPath, true);
-            
+
             Marshal.FinalReleaseComObject(shellLink);
         }
 
@@ -94,7 +96,7 @@ namespace WinQuickLook
             Marshal.FinalReleaseComObject(folderView);
             Marshal.FinalReleaseComObject(shellBrowser);
             Marshal.FinalReleaseComObject(serviceProvider);
-            
+
             return filename;
         }
 
@@ -102,8 +104,10 @@ namespace WinQuickLook
         {
             var threadId = NativeMethods.GetWindowThreadProcessId(hwnd, IntPtr.Zero);
 
-            var info = new GUITHREADINFO();
-            info.cbSize = Marshal.SizeOf(info);
+            var info = new GUITHREADINFO
+            {
+                cbSize = Marshal.SizeOf<GUITHREADINFO>()
+            };
 
             NativeMethods.GetGUIThreadInfo(threadId, ref info);
 

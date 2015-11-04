@@ -30,6 +30,7 @@ namespace WinQuickLook
 
         private FileInfo _fileInfo;
         private IQuickLookHandler _handler;
+        private bool _isClosed;
 
         private static readonly IQuickLookHandler[] _handlers =
         {
@@ -41,8 +42,6 @@ namespace WinQuickLook
             new ComInteropPreviewHandler(),
             new GenericPreviewHandler()
         };
-
-        public bool IsClosed { get; set; }
         
         public FrameworkElement PreviewHost
         {
@@ -55,9 +54,9 @@ namespace WinQuickLook
         
         public new void Close()
         {
-            if (!IsClosed)
+            if (!_isClosed)
             {
-                IsClosed = true;
+                _isClosed = true;
 
                 base.Close();
             }
