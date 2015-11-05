@@ -2,7 +2,7 @@
 
 namespace WinQuickLook.Handlers
 {
-    public interface IQuickLookHandler
+    public interface IQuickLookPreviewHandler
     {
         bool AllowsTransparency { get; }
         bool CanOpen(string fileName);

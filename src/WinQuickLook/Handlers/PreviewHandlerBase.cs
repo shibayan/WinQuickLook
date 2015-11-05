@@ -8,7 +8,7 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public abstract class PreviewHandlerBase : IQuickLookHandler
+    public abstract class PreviewHandlerBase : IQuickLookPreviewHandler
     {
         public virtual bool AllowsTransparency => true;
         public abstract bool CanOpen(string fileName);

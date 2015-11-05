@@ -79,7 +79,7 @@
     <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
     <Compile Include="Handlers\HtmlPreviewHandler.cs" />
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
-    <Compile Include="Handlers\IQuickLookHandler.cs" />
+    <Compile Include="Handlers\IQuickLookPreviewHandler.cs" />
     <Compile Include="Handlers\PreviewHandlerBase.cs" />
     <Compile Include="Handlers\TextPreviewHandler.cs" />
     <Compile Include="Handlers\VideoPreviewHandler.cs" />

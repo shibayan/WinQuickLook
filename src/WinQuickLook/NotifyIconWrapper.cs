@@ -25,7 +25,7 @@ namespace WinQuickLook
                 }
                 else
                 {
-                    WinExplorerHelper.CreateShortcutLink(linkPath);
+                    WinExplorerHelper.CreateLink(linkPath);
                 }
             };
         }

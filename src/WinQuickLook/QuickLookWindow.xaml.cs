@@ -29,10 +29,10 @@ namespace WinQuickLook
         }
 
         private FileInfo _fileInfo;
-        private IQuickLookHandler _handler;
+        private IQuickLookPreviewHandler _handler;
         private bool _isClosed;
 
-        private static readonly IQuickLookHandler[] _handlers =
+        private static readonly IQuickLookPreviewHandler[] _handlers =
         {
             new ImagePreviewHandler(),
             new VideoPreviewHandler(),
@@ -120,13 +120,6 @@ namespace WinQuickLook
                 if (image != null && image.StretchDirection != StretchDirection.Both)
                 {
                     image.StretchDirection = StretchDirection.Both;
-                }
-
-                var mediaElement = PreviewHost as MediaElement;
-
-                if (mediaElement != null && mediaElement.StretchDirection != StretchDirection.Both)
-                {
-                    mediaElement.StretchDirection = StretchDirection.Both;
                 }
             }
         }

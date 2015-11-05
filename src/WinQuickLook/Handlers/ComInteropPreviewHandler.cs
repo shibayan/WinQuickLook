@@ -4,7 +4,7 @@ using System.Windows.Forms.Integration;
 
 namespace WinQuickLook.Handlers
 {
-    public class ComInteropPreviewHandler : IQuickLookHandler
+    public class ComInteropPreviewHandler : IQuickLookPreviewHandler
     {
         public bool CanOpen(string fileName)
         {

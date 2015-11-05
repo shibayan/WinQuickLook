@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,17 @@ namespace WinQuickLook
 {
     public static class WinExplorerHelper
     {
+        public static void CreateLink(string linkPath)
+        {
+            var shellLink = (IShellLink)Activator.CreateInstance(CLSID.ShellLinkType);
+            var persistFile = shellLink.QueryInterface<IPersistFile>();
+
+            shellLink.SetPath(Assembly.GetEntryAssembly().Location);
+            persistFile.Save(linkPath, true);
+
+            Marshal.FinalReleaseComObject(shellLink);
+        }
+
         public static string GetSelectedItem()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
@@ -55,18 +67,12 @@ namespace WinQuickLook
 
             Marshal.FinalReleaseComObject(shellWindows);
 
+            if (fileName == null || (!File.Exists(fileName) && !Directory.Exists(fileName)))
+            {
+                return null;
+            }
+
             return fileName;
-        }
-
-        public static void CreateShortcutLink(string linkPath)
-        {
-            var shellLink = (IShellLink)Activator.CreateInstance(CLSID.ShellLinkType);
-            var persistFile = shellLink.QueryInterface<IPersistFile>();
-
-            shellLink.SetPath(Assembly.GetEntryAssembly().Location);
-            persistFile.Save(linkPath, true);
-
-            Marshal.FinalReleaseComObject(shellLink);
         }
 
         private static string GetSelectedItemCore(IWebBrowserApp webBrowserApp)
@@ -87,7 +93,7 @@ namespace WinQuickLook
 
             var pidl = folderView.Item(focus);
 
-            var filename = shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING);
+            var fileName = shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING);
 
             // Cleanup
             Marshal.FreeCoTaskMem(pidl);
@@ -97,7 +103,7 @@ namespace WinQuickLook
             Marshal.FinalReleaseComObject(shellBrowser);
             Marshal.FinalReleaseComObject(serviceProvider);
 
-            return filename;
+            return fileName;
         }
 
         private static bool IsCaretActive(IntPtr hwnd)

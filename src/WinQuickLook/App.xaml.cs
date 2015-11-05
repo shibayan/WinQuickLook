@@ -62,7 +62,7 @@ namespace WinQuickLook
 
             var selectedItem = WinExplorerHelper.GetSelectedItem();
 
-            if (selectedItem == null || (!File.Exists(selectedItem) && !Directory.Exists(selectedItem)))
+            if (selectedItem == null)
             {
                 return;
             }
