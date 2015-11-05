@@ -21,6 +21,9 @@ branches:
 #    environment configuration    #
 #---------------------------------#
 
+# Operating system (build VM template)
+os: Visual Studio 2015
+
 # enable patching of AssemblyInfo.* files
 assembly_info:
   patch: true
@@ -44,5 +47,5 @@ configuration: Release
 artifacts:
 
   # pushing a single file with environment variable in path and "Deployment name" specified
-  - path: WinQuickLook\bin\$(configuration)
+  - path: src\WinQuickLook\bin\$(configuration)
     name: WinQuickLook
