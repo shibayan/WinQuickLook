@@ -38,7 +38,7 @@ namespace WinQuickLook
             }
         }
 
-        public void Dispose()
+        public void Stop()
         {
             if (_hook != IntPtr.Zero)
             {
@@ -46,6 +46,11 @@ namespace WinQuickLook
 
                 _hook = IntPtr.Zero;
             }
+        }
+
+        public void Dispose()
+        {
+            Stop();
         }
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
