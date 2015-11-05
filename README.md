@@ -1,7 +1,7 @@
 WinQuickLook
 ================
 
-"Quick Look" like Windows Explorer file previewer.
+"Quick Look" like Windows Explorer file viewer.
 
 ## Requirements
 
