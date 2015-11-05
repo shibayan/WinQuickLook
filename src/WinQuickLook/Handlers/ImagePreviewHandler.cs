@@ -64,6 +64,11 @@ namespace WinQuickLook.Handlers
 
             bitmap.Freeze();
 
+            if (Math.Abs(bitmap.DpiX - 96.0) < 0.1 && Math.Abs(bitmap.DpiY - 96.0) < 0.1)
+            {
+                return bitmap;
+            }
+
             int stride = bitmap.PixelWidth * 4;
             var pixels = new byte[stride * bitmap.PixelHeight];
 
