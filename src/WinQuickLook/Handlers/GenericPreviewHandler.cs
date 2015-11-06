@@ -19,7 +19,7 @@ namespace WinQuickLook.Handlers
             fileViewer.BeginInit();
             fileViewer.Width = 500;
             fileViewer.Height = 280;
-            fileViewer.Image = GetThumbnail(fileName);
+            fileViewer.Thumbnail = GetThumbnail(fileName);
 
             if (File.Exists(fileName))
             {

@@ -11,14 +11,14 @@ namespace WinQuickLook.Controls
             InitializeComponent();
         }
         
-        public BitmapSource Image
+        public BitmapSource Thumbnail
         {
-            get { return (BitmapSource)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get { return (BitmapSource)GetValue(ThumbnailProperty); }
+            set { SetValue(ThumbnailProperty, value); }
         }
-
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(BitmapSource), typeof(GeneficFileViewer), new PropertyMetadata(null));
+        
+        public static readonly DependencyProperty ThumbnailProperty =
+            DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(GeneficFileViewer), new PropertyMetadata(null));
         
         public FileSystemInfo FileInfo
         {
