@@ -2,6 +2,7 @@ WinQuickLook
 ================
 
 [![Build status](https://ci.appveyor.com/api/projects/status/8ct3i49pyfs7puy8?svg=true)](https://ci.appveyor.com/project/shibayan/winquicklook)
+[![GitHub release](https://img.shields.io/github/release/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/releases/latest)
 
 "Quick Look" like Windows Explorer file viewer.
 
