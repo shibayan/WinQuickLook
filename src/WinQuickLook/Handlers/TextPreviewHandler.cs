@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 using WinQuickLook.Interop;
 
@@ -35,6 +36,8 @@ namespace WinQuickLook.Handlers
             textBox.Text = encoding.GetString(contents);
             textBox.IsReadOnly = true;
             textBox.IsReadOnlyCaretVisible = false;
+            textBox.FontFamily = new FontFamily("Consolas");
+            textBox.FontSize = 13;
             textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             textBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             textBox.EndInit();

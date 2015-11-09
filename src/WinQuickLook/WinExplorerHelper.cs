@@ -21,6 +21,24 @@ namespace WinQuickLook
             Marshal.FinalReleaseComObject(shellLink);
         }
 
+        public static object GetSizeFormat(long length)
+        {
+            if (length >= 1024 * 1024 * 1024)
+            {
+                return $"{length / (double)(1024 * 1024 * 1024):0.##} GB";
+            }
+            if (length >= 1024 * 1024)
+            {
+                return $"{length / (double)(1024 * 1024):0.##} MB";
+            }
+            if (length >= 1024)
+            {
+                return $"{length / (double)1024:0.##} KB";
+            }
+
+            return $"{length} B";
+        }
+
         public static string GetSelectedItem()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();

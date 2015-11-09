@@ -22,7 +22,7 @@ namespace WinQuickLook.Converters
             {
                 var length = fileInfo.Length;
 
-                return GetSizeFormat(length);
+                return WinExplorerHelper.GetSizeFormat(length);
             }
 
             var directoryInfo = value as DirectoryInfo;
@@ -40,24 +40,6 @@ namespace WinQuickLook.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;
-        }
-
-        private static object GetSizeFormat(long length)
-        {
-            if (length >= 1024 * 1024 * 1024)
-            {
-                return $"{length / (double)(1024 * 1024 * 1024):0.##} GB";
-            }
-            if (length >= 1024 * 1024)
-            {
-                return $"{length / (double)(1024 * 1024):0.##} MB";
-            }
-            if (length >= 1024)
-            {
-                return $"{length / (double)1024:0.##} KB";
-            }
-
-            return $"{length} B";
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
 using WinQuickLook.Interop;
@@ -96,7 +97,16 @@ namespace WinQuickLook
 
         public new void Show()
         {
-            Title = _fileInfo.Name;
+            if (PreviewHost is Image)
+            {
+                var bitmap = (BitmapSource)((Image)PreviewHost).Source;
+
+                Title = $"{_fileInfo.Name} ({bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetSizeFormat(_fileInfo.Length)})";
+            }
+            else
+            {
+                Title = _fileInfo.Name;
+            }
 
             base.Show();
 
