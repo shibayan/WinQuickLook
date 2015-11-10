@@ -2,8 +2,9 @@ WinQuickLook
 ================
 
 [![Build status](https://ci.appveyor.com/api/projects/status/8ct3i49pyfs7puy8?svg=true)](https://ci.appveyor.com/project/shibayan/winquicklook)
-[![GitHub release](https://img.shields.io/github/release/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/releases/latest)
-[![Github downloads](https://img.shields.io/github/downloads/shibayan/WinQuickLook/latest/total.svg)](https://github.com/shibayan/WinQuickLook/releases/latest)
+[![Release](https://img.shields.io/github/release/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/shibayan/WinQuickLook/latest/total.svg)](https://github.com/shibayan/WinQuickLook/releases/latest)
+[![License](https://img.shields.io/github/license/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
 
 "Quick Look" like Windows Explorer file viewer.
 
@@ -14,4 +15,4 @@ WinQuickLook
 
 ## License
 
-[Apache License 2.0](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE.md)
+[Apache License 2.0](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)

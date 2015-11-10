@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -19,14 +22,14 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Roslyn cache directories
-*.ide/
+# Visual Studio 2015 cache/options directory
+.vs/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-#NUNIT
+# NUNIT
 *.VisualState.xml
 TestResult.xml
 
@@ -137,7 +140,7 @@ publish/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
-# If using the old MSBuild-Integrated Package Restore, uncomment this:
+# Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 
 # Windows Azure Build Output
@@ -148,8 +151,7 @@ csx/
 AppPackages/
 
 # Others
-sql/
-*.Cache
+*.[Cc]ache
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -159,6 +161,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+bower_components/
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -183,49 +186,11 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-# =========================
-# Operating System Files
-# =========================
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
 
-# OSX
-# =========================
+# Visual Studio 6 build log
+*.plg
 
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-# =========================
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
+# Visual Studio 6 workspace options file
+*.opt
