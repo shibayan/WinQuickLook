@@ -24,6 +24,12 @@ namespace WinQuickLook.Interop
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr hook, int nCode, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         [DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
 

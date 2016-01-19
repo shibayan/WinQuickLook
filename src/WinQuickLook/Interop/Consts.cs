@@ -9,6 +9,9 @@ namespace WinQuickLook.Interop
         public const int WM_KEYDOWN = 0x0100;
 
         public const int MAX_PATH = 260;
+
+        public const int GWL_EXSTYLE = -20;
+        public const int WS_EX_NOACTIVATE = 0x8000000;
     }
 
     [Flags]

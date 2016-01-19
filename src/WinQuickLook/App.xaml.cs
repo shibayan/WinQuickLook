@@ -12,6 +12,8 @@ namespace WinQuickLook
 
         private QuickLookWindow _quickLookWindow;
 
+        private string _currentItem;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -52,19 +54,20 @@ namespace WinQuickLook
 
         private void PerformQuickLook()
         {
-            if (_quickLookWindow?.CloseIfActive() ?? false)
-            {
-                _quickLookWindow = null;
-
-                return;
-            }
-
             var selectedItem = WinExplorerHelper.GetSelectedItem();
 
-            if (selectedItem == null)
+            if (selectedItem == null || selectedItem == _currentItem)
             {
+                if (_quickLookWindow?.CloseIfActive() ?? false)
+                {
+                    _currentItem = null;
+                    _quickLookWindow = null;
+                }
+
                 return;
             }
+
+            _currentItem = selectedItem;
 
             _quickLookWindow?.Close();
             _quickLookWindow = null;
