@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WinQuickLook")]
-[assembly: AssemblyCopyright("Copyright © 2015 shibayan")]
+[assembly: AssemblyCopyright("Copyright © 2015-2016 shibayan")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

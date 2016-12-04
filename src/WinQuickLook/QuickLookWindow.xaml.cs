@@ -43,7 +43,7 @@ namespace WinQuickLook
             new ComInteropPreviewHandler(),
             new GenericPreviewHandler()
         };
-        
+
         public FrameworkElement PreviewHost
         {
             get { return (FrameworkElement)GetValue(PreviewHostProperty); }
@@ -52,7 +52,7 @@ namespace WinQuickLook
 
         public static readonly DependencyProperty PreviewHostProperty =
             DependencyProperty.Register("PreviewHost", typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
-        
+
         public new void Close()
         {
             if (!_isClosed)

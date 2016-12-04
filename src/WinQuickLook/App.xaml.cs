@@ -30,7 +30,7 @@ namespace WinQuickLook
             _notifyIcon = new NotifyIconWrapper();
             _notifyIcon.Click += (_, __) => { _quickLookWindow?.Activate(); };
 
-            _keyboardHook = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
+            _keyboardHook = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(ChangeQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
             _keyboardHook.Start();
         }
 
@@ -64,6 +64,31 @@ namespace WinQuickLook
                     _quickLookWindow = null;
                 }
 
+                return;
+            }
+
+            _currentItem = selectedItem;
+
+            _quickLookWindow?.Close();
+            _quickLookWindow = null;
+
+            _quickLookWindow = new QuickLookWindow();
+            _quickLookWindow.Open(selectedItem);
+
+            _quickLookWindow.Show();
+        }
+
+        private void ChangeQuickLook()
+        {
+            if (_quickLookWindow == null)
+            {
+                return;
+            }
+
+            var selectedItem = WinExplorerHelper.GetSelectedItem();
+
+            if (selectedItem == null || selectedItem == _currentItem)
+            {
                 return;
             }
 

@@ -9,15 +9,17 @@ namespace WinQuickLook
 {
     public class KeyboardHook : IDisposable
     {
-        public KeyboardHook(Action performAction, Action cancelAction)
+        public KeyboardHook(Action performAction, Action changeAction, Action cancelAction)
         {
             _performAction = performAction;
+            _changeAction = changeAction;
             _cancelAction = cancelAction;
         }
 
         private IntPtr _hook;
 
         private readonly Action _performAction;
+        private readonly Action _changeAction;
         private readonly Action _cancelAction;
 
         private NativeMethods.LowLevelKeyboardProc _keyboardHookProc;
@@ -55,24 +57,25 @@ namespace WinQuickLook
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_KEYDOWN)
+            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_KEYDOWN && IsNoModifierKey())
             {
                 var kbdllhook = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 
-                switch ((Keys)kbdllhook.vkCode)
+                switch ((Keys) kbdllhook.vkCode)
                 {
                     case Keys.Space:
-                        if (IsNoModifierKey())
-                        {
-                            _performAction();
-                        }
+                        _performAction();
                         break;
 
                     case Keys.Escape:
-                        if (IsNoModifierKey())
-                        {
-                            _cancelAction();
-                        }
+                        _cancelAction();
+                        break;
+
+                    case Keys.Left:
+                    case Keys.Right:
+                    case Keys.Up:
+                    case Keys.Down:
+                        _changeAction();
                         break;
                 }
             }
