@@ -15,11 +15,11 @@ WinQuickLook
 
 ## Usage
 
-- Download [latest version](https://github.com/shibayan/WinQuickLook/releases/latest)
-- Launch WinQuickLook.exe
-- Open explorer
-- Select a file
-- Press a space-key
+1. Download [latest version](https://github.com/shibayan/WinQuickLook/releases/latest)
+2. Launch WinQuickLook.exe
+3. Open explorer
+4. Select a file
+5. Press a space-key
 
 ## License
 
