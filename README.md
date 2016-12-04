@@ -10,7 +10,7 @@ WinQuickLook
 
 ## Requirements
 
-- .NET Framework 4.6
+- .NET Framework 4.6.1
 - Windows 10
 
 ## License
