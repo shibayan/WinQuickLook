@@ -13,6 +13,14 @@ WinQuickLook
 - .NET Framework 4.6.1
 - Windows 10
 
+## Usage
+
+- Download [latest version](https://github.com/shibayan/WinQuickLook/releases/latest)
+- Launch WinQuickLook.exe
+- Open explorer
+- Select a file
+- Press a space-key
+
 ## License
 
 [Apache License 2.0](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
