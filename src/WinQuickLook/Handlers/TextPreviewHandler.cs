@@ -40,6 +40,7 @@ namespace WinQuickLook.Handlers
             textBox.FontSize = 13;
             textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             textBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            textBox.BorderThickness = new Thickness(0);
             textBox.EndInit();
 
             return textBox;
