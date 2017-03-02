@@ -37,7 +37,7 @@ namespace WinQuickLook.Handlers
             textBox.IsReadOnly = true;
             textBox.IsReadOnlyCaretVisible = false;
             textBox.FontFamily = new FontFamily("Consolas");
-            textBox.FontSize = 13;
+            textBox.FontSize = 16;
             textBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             textBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             textBox.BorderThickness = new Thickness(0);
