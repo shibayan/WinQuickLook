@@ -82,6 +82,7 @@
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
     <Compile Include="Handlers\IQuickLookPreviewHandler.cs" />
     <Compile Include="Handlers\PreviewHandlerBase.cs" />
+    <Compile Include="Handlers\SyntaxHighlightPreviewHandler.cs" />
     <Compile Include="Handlers\TextPreviewHandler.cs" />
     <Compile Include="Handlers\VideoPreviewHandler.cs" />
     <Compile Include="Interop\ComConsts.cs" />
@@ -159,7 +160,10 @@
   <ItemGroup>
     <Resource Include="Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\prism.css" />
+    <Resource Include="Resources\prism.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -25,7 +25,7 @@ namespace WinQuickLook
                 return;
             }
 
-            WebBrowserHelper.SetDocumentMode(11000);
+            WebBrowserHelper.SetDocumentMode(11001);
 
             _notifyIcon = new NotifyIconWrapper();
             _notifyIcon.Click += (_, __) => { _quickLookWindow?.Activate(); };
