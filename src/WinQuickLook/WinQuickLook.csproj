@@ -168,4 +168,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <PropertyGroup>
+      <TargetUWP>..\WinQuickLook.Package\win32\</TargetUWP>
+    </PropertyGroup>
+    <ItemGroup>
+      <Win32Binaries Include="$(TargetDir)\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Win32Binaries)" DestinationFolder="$(TargetUWP)" />
+  </Target>
 </Project>
