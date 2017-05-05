@@ -28,6 +28,7 @@ before_build:
   - nuget restore .\src\WinQuickLook.sln
 
 build:
+  project: .\src\WinQuickLook\WinQuickLook.csproj
   verbosity: minimal
 
 artifacts:
