@@ -25,7 +25,7 @@ platform: Any CPU
 configuration: Release
 
 before_build:
-  - nuget restore
+  - nuget restore .\src\WinQuickLook.sln
 
 build:
   verbosity: minimal
