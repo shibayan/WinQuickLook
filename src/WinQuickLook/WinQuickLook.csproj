@@ -42,6 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.3\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -77,12 +81,12 @@
     <Compile Include="Converters\FileNameToTypeNameConverter.cs" />
     <Compile Include="Converters\FileInfoToFileSizeConverter.cs" />
     <Compile Include="Handlers\AudioPreviewHandler.cs" />
+    <Compile Include="Handlers\SyntaxHighlightPreviewHandler.cs" />
     <Compile Include="Handlers\ComInteropPreviewHandler.cs" />
     <Compile Include="Handlers\HtmlPreviewHandler.cs" />
     <Compile Include="Handlers\ImagePreviewHandler.cs" />
     <Compile Include="Handlers\IQuickLookPreviewHandler.cs" />
     <Compile Include="Handlers\PreviewHandlerBase.cs" />
-    <Compile Include="Handlers\SyntaxHighlightPreviewHandler.cs" />
     <Compile Include="Handlers\TextPreviewHandler.cs" />
     <Compile Include="Handlers\VideoPreviewHandler.cs" />
     <Compile Include="Interop\ComConsts.cs" />
@@ -130,6 +134,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,10 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\prism.css" />
-    <Resource Include="Resources\prism.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
