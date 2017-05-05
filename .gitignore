@@ -194,3 +194,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Desktop Bridge additional file
+BundleArtifacts/
+win32/
+_pkginfo.txt
