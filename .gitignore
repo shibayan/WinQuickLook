@@ -196,4 +196,6 @@ FakesAssemblies/
 *.opt
 
 # Desktop Bridge additional file
+BundleArtifacts/
 win32/
+_pkginfo.txt
