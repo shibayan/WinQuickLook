@@ -39,6 +39,7 @@ namespace WinQuickLook
             new VideoPreviewHandler(),
             new AudioPreviewHandler(),
             new HtmlPreviewHandler(),
+            new SyntaxHighlightPreviewHandler(),
             new TextPreviewHandler(),
             new ComInteropPreviewHandler(),
             new GenericPreviewHandler()
