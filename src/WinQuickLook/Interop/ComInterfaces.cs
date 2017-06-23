@@ -332,67 +332,6 @@ namespace WinQuickLook.Interop
     }
 
     [ComImport]
-    [Guid("000214F9-0000-0000-C000-000000000046")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IShellLink : IUnknown
-    {
-        void GetPath([Out] StringBuilder pszFile, int cch, [In, Out] IntPtr pfd, int fFlags);
-
-        void GetIDList([Out] IntPtr ppidl);
-
-        void SetIDList([In] IntPtr pidl);
-
-        void GetDescription([Out] StringBuilder pszName, int cch);
-
-        void SetDescription([In] string pszName);
-
-        void GetWorkingDirectory([Out] StringBuilder pszDir, int cch);
-
-        void SetWorkingDirectory([In] string pszDir);
-
-        void GetArguments([Out] StringBuilder pszArgs, int cch);
-
-        void SetArguments([In] string pszArgs);
-
-        void GetHotkey([Out] out ushort pwHotkey);
-
-        void SetHotkey([In] ushort wHotkey);
-
-        void GetShowCmd([Out] out int piShowCmd);
-
-        void SetShowCmd(int iShowCmd);
-
-        void GetIconLocation([Out] StringBuilder pszIconPath, int cch, [Out] out int piIcon);
-
-        void SetIconLocation([In] string pszIconPath, int iIcon);
-
-        void SetRelativePath([In] string pszPathRel, int dwReserved);
-
-        void Resolve([In] IntPtr hwnd, int fFlags);
-
-        void SetPath([In] string pszFile);
-    }
-
-    [ComImport]
-    [Guid("0000010b-0000-0000-C000-000000000046")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPersistFile : IUnknown
-    {
-        void GetClassID([Out] IntPtr pClassId);
-
-        [PreserveSig]
-        int IsDirty();
-
-        void Load([In] string pszFileName, int dwMode);
-
-        void Save([In] string pszFileName, [In, MarshalAs(UnmanagedType.Bool)] bool fRemember);
-
-        void SaveCompleted([In] string pszFileName);
-
-        void GetCurFile([Out] StringBuilder ppszFileName);
-    }
-
-    [ComImport]
     [Guid("DCCFC164-2B38-11d2-B7EC-00C04F8F5D9A")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IMultiLanguage2 : IUnknown

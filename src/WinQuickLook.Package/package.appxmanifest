@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap">
-  <Identity Name="63945shiba-yan.WinQuickLook" ProcessorArchitecture="x64" Version="1.1.24.0" Publisher="CN=E08B54D9-23EA-473D-8731-192043D7D2BB" />
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap">
+  <Identity Name="63945shiba-yan.WinQuickLook" ProcessorArchitecture="x64" Version="1.1.26.0" Publisher="CN=E08B54D9-23EA-473D-8731-192043D7D2BB" />
   <mp:PhoneIdentity PhoneProductId="ed69dca7-23a5-4dff-a4ca-7a42c21df581" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>WinQuickLook</DisplayName>
@@ -8,21 +8,27 @@
     <Logo>images\storelogo.png</Logo>
   </Properties>
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.351" MaxVersionTested="10.0.14393.351" />
   </Dependencies>
   <Resources>
     <Resource Language="en-us" />
   </Resources>
   <Capabilities>
+    <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
   <Applications>
     <Application Id="App" Executable="win32\WinQuickLook.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="WinQuickLook" Description="WinQuickLook" BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png">
+        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" Square310x310Logo="images\LargeTile.png" Square71x71Logo="images\SmallTile.png">
         </uap:DefaultTile>
-        <uap:SplashScreen Image="images\splashscreen.png" />
+        <uap:SplashScreen Image="images\splashscreen.png" BackgroundColor="#316745" />
       </uap:VisualElements>
+      <Extensions>
+        <desktop:Extension Category="windows.startupTask" Executable="win32\WinQuickLook.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="WinQuickLookTask" Enabled="false" DisplayName="WinQuickLook" />
+        </desktop:Extension>
+      </Extensions>
     </Application>
   </Applications>
 </Package>
