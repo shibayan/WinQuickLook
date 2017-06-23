@@ -15,8 +15,8 @@ WinQuickLook
 
 ## Usage
 
-1. Download [latest version](https://github.com/shibayan/WinQuickLook/releases/latest)
-2. Launch WinQuickLook.exe
+1. Install [latest version](https://www.microsoft.com/store/apps/9njmtkk6jc0q)
+2. Launch WinQuickLook
 3. Open explorer
 4. Select a file
 5. Press a space-key
