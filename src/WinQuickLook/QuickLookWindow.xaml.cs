@@ -47,8 +47,8 @@ namespace WinQuickLook
 
         public FrameworkElement PreviewHost
         {
-            get { return (FrameworkElement)GetValue(PreviewHostProperty); }
-            set { SetValue(PreviewHostProperty, value); }
+            get => (FrameworkElement)GetValue(PreviewHostProperty);
+            set => SetValue(PreviewHostProperty, value);
         }
 
         public static readonly DependencyProperty PreviewHostProperty =

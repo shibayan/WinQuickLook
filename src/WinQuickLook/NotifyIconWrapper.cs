@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 
 namespace WinQuickLook
@@ -11,21 +10,29 @@ namespace WinQuickLook
         {
             InitializeComponent();
 
-            var directory = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            var linkPath = Path.Combine(directory, "WinQuickLook.lnk");
+            contextMenuStrip1.Opening += async (sender, e) =>
+            {
+                var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("WinQuickLookTask");
 
-            toolStripMenuItem2.Checked = File.Exists(linkPath);
+                toolStripMenuItem2.Checked = startupTask.State == Windows.ApplicationModel.StartupTaskState.Enabled;
+            };
 
             toolStripMenuItem1.Click += (sender, e) => Application.Current.Shutdown();
-            toolStripMenuItem2.Click += (sender, e) =>
+            toolStripMenuItem2.Click += async (sender, e) =>
             {
-                if (File.Exists(linkPath))
+                var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("WinQuickLookTask");
+
+                if (startupTask.State == Windows.ApplicationModel.StartupTaskState.Enabled)
                 {
-                    File.Delete(linkPath);
+                    startupTask.Disable();
+
+                    toolStripMenuItem2.Checked = false;
                 }
                 else
                 {
-                    WinExplorerHelper.CreateLink(linkPath);
+                    var state = await startupTask.RequestEnableAsync();
+
+                    toolStripMenuItem2.Checked = state == Windows.ApplicationModel.StartupTaskState.Enabled;
                 }
             };
         }
@@ -39,8 +46,8 @@ namespace WinQuickLook
 
         public event EventHandler Click
         {
-            add { notifyIcon1.Click += value; }
-            remove { notifyIcon1.Click -= value; }
+            add => notifyIcon1.Click += value;
+            remove => notifyIcon1.Click -= value;
         }
     }
 }

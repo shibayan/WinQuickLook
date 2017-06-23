@@ -55,7 +55,6 @@
             // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.CheckOnClick = true;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(127, 22);
             this.toolStripMenuItem2.Text = "Auto Start";
