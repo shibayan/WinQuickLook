@@ -1,4 +1,4 @@
-version: 1.1.{build}
+version: '{build}'
 
 branches:
   only:
@@ -9,16 +9,10 @@ skip_tags: true
 skip_commits:
   message: /\[ci skip\]/
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 init:
   - git config --global core.autocrlf input
-
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
 
 platform: Any CPU
 
@@ -30,7 +24,3 @@ before_build:
 build:
   project: .\src\WinQuickLook\WinQuickLook.csproj
   verbosity: minimal
-
-artifacts:
-  - path: src\WinQuickLook\bin\$(configuration)
-    name: WinQuickLook
