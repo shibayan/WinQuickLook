@@ -5,7 +5,7 @@ namespace WinQuickLook
 {
     public partial class App
     {
-        private readonly Mutex _mutex = new Mutex(false, "WinQuickLook");
+        private Mutex _mutex = new Mutex(false, "WinQuickLook");
 
         private KeyboardHook _keyboardHook;
         private NotifyIconWrapper _notifyIcon;
@@ -20,6 +20,9 @@ namespace WinQuickLook
 
             if (!_mutex.WaitOne(0, false))
             {
+                _mutex.Close();
+                _mutex = null;
+
                 Current.Shutdown();
 
                 return;
@@ -41,7 +44,7 @@ namespace WinQuickLook
             _keyboardHook?.Dispose();
             _notifyIcon?.Dispose();
 
-            _mutex.ReleaseMutex();
+            _mutex?.ReleaseMutex();
         }
 
         private void CancelQuickLook()
