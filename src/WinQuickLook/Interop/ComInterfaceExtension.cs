@@ -11,58 +11,44 @@ namespace WinQuickLook.Interop
 
         public static TInterface QueryService<TInterface>(this IServiceProvider serviceProvider, Guid guidService)
         {
-            object ppvObject;
-
-            serviceProvider.QueryService(guidService, typeof(TInterface).GUID, out ppvObject);
+            serviceProvider.QueryService(guidService, typeof(TInterface).GUID, out var ppvObject);
 
             return (TInterface)ppvObject;
         }
 
         public static IShellView QueryActiveShellView(this IShellBrowser shellBrowser)
         {
-            IShellView ppshv;
-
-            shellBrowser.QueryActiveShellView(out ppshv);
+            shellBrowser.QueryActiveShellView(out var ppshv);
 
             return ppshv;
         }
 
         public static TInterface GetFolder<TInterface>(this IFolderView folderView)
         {
-            object ppv;
-
-            folderView.GetFolder(typeof(TInterface).GUID, out ppv);
+            folderView.GetFolder(typeof(TInterface).GUID, out var ppv);
 
             return (TInterface)ppv;
         }
 
         public static int GetFocusedItem(this IFolderView folderView)
         {
-            int piItem;
-
-            folderView.GetFocusedItem(out piItem);
+            folderView.GetFocusedItem(out var piItem);
 
             return piItem;
         }
 
         public static IntPtr Item(this IFolderView folderView, int index)
         {
-            IntPtr pidl;
-
-            folderView.Item(index, out pidl);
+            folderView.Item(index, out var pidl);
 
             return pidl;
         }
 
         public static string GetDisplayNameOf(this IShellFolder shellFolder, IntPtr pidl, SHGDNF uFlags)
         {
-            STRRET str;
+            shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING, out var str);
 
-            shellFolder.GetDisplayNameOf(pidl, SHGDNF.FORPARSING, out str);
-
-            string buffer;
-
-            NativeMethods.StrRetToBSTR(ref str, pidl, out buffer);
+            NativeMethods.StrRetToBSTR(ref str, pidl, out var buffer);
 
             return buffer;
         }

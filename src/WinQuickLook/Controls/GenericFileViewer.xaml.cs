@@ -13,8 +13,8 @@ namespace WinQuickLook.Controls
         
         public BitmapSource Thumbnail
         {
-            get { return (BitmapSource)GetValue(ThumbnailProperty); }
-            set { SetValue(ThumbnailProperty, value); }
+            get => (BitmapSource)GetValue(ThumbnailProperty);
+            set => SetValue(ThumbnailProperty, value);
         }
         
         public static readonly DependencyProperty ThumbnailProperty =
@@ -22,8 +22,8 @@ namespace WinQuickLook.Controls
         
         public FileSystemInfo FileInfo
         {
-            get { return (FileInfo)GetValue(FileInfoProperty); }
-            set { SetValue(FileInfoProperty, value); }
+            get => (FileInfo)GetValue(FileInfoProperty);
+            set => SetValue(FileInfoProperty, value);
         }
 
         public static readonly DependencyProperty FileInfoProperty =

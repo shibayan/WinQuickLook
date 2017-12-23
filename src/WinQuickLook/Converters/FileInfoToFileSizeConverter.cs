@@ -16,18 +16,14 @@ namespace WinQuickLook.Converters
                 return DependencyProperty.UnsetValue;
             }
 
-            var fileInfo = value as FileInfo;
-
-            if (fileInfo != null)
+            if (value is FileInfo fileInfo)
             {
                 var length = fileInfo.Length;
 
                 return WinExplorerHelper.GetSizeFormat(length);
             }
 
-            var directoryInfo = value as DirectoryInfo;
-
-            if (directoryInfo != null)
+            if (value is DirectoryInfo directoryInfo)
             {
                 int count = directoryInfo.GetFiles().Length + directoryInfo.GetDirectories().Length;
 

@@ -42,12 +42,9 @@ namespace WinQuickLook
 
             if (IsDesktopWindow(foregroundHwnd))
             {
-                IntPtr desktopHwnd;
-                IWebBrowserApp webBrowserApp;
-
                 var pvarLoc = new object();
 
-                shellWindows.FindWindowSW(ref pvarLoc, ref pvarLoc, ShellWindowTypeConstants.SWC_DESKTOP, out desktopHwnd, ShellWindowFindWindowOptions.SWFO_NEEDDISPATCH, out webBrowserApp);
+                shellWindows.FindWindowSW(ref pvarLoc, ref pvarLoc, ShellWindowTypeConstants.SWC_DESKTOP, out var desktopHwnd, ShellWindowFindWindowOptions.SWFO_NEEDDISPATCH, out var webBrowserApp);
 
                 if (!IsCaretActive(desktopHwnd))
                 {

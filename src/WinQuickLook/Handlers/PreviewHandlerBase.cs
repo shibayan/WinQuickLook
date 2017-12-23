@@ -16,15 +16,11 @@ namespace WinQuickLook.Handlers
 
         protected static BitmapSource GetThumbnail(string fileName)
         {
-            IShellItem shellItem;
-
-            NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
+            NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
 
             var imageFactory = shellItem.QueryInterface<IShellItemImageFactory>();
 
-            IntPtr bitmap;
-
-            imageFactory.GetImage(new SIZE(256, 256), SIIGBF.RESIZETOFIT, out bitmap);
+            imageFactory.GetImage(new SIZE(256, 256), SIIGBF.RESIZETOFIT, out var bitmap);
 
             var image = Imaging.CreateBitmapSourceFromHBitmap(bitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 

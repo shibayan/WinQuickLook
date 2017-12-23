@@ -18,8 +18,8 @@ namespace WinQuickLook.Controls
         
         public Uri Source
         {
-            get { return (Uri)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get => (Uri)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
         }
         
         public static readonly DependencyProperty SourceProperty =
@@ -27,8 +27,8 @@ namespace WinQuickLook.Controls
 
         public BitmapSource Thumbnail
         {
-            get { return (BitmapSource)GetValue(ThumbnailProperty); }
-            set { SetValue(ThumbnailProperty, value); }
+            get => (BitmapSource)GetValue(ThumbnailProperty);
+            set => SetValue(ThumbnailProperty, value);
         }
         
         public static readonly DependencyProperty ThumbnailProperty =
@@ -36,10 +36,19 @@ namespace WinQuickLook.Controls
 
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
+            if (!mediaElement.NaturalDuration.HasTimeSpan)
+            {
+                duration.Text = "00:00";
+                slider.IsEnabled = false;
+
+                return;
+            }
+
             var timeSpan = mediaElement.NaturalDuration.TimeSpan;
 
             duration.Text = $"{(int)timeSpan.TotalMinutes:D2}:{timeSpan.Seconds:D2}";
 
+            slider.IsEnabled = true;
             slider.Maximum = timeSpan.TotalSeconds;
 
             _timer.Interval = TimeSpan.FromMilliseconds(250);

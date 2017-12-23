@@ -126,9 +126,7 @@ namespace WinQuickLook
         {
             if (IsLoaded)
             {
-                var image = PreviewHost as Image;
-
-                if (image != null && image.StretchDirection != StretchDirection.Both)
+                if (PreviewHost is Image image && image.StretchDirection != StretchDirection.Both)
                 {
                     image.StretchDirection = StretchDirection.Both;
                 }

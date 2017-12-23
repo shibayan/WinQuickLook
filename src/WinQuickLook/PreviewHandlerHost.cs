@@ -105,8 +105,7 @@ namespace WinQuickLook
 
             if (initializeWithItem != null)
             {
-                IShellItem shellItem;
-                NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out shellItem);
+                NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
 
                 initializeWithItem.Initialize(shellItem, 0);
 
