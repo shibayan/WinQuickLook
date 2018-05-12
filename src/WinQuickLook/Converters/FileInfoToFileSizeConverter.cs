@@ -11,23 +11,18 @@ namespace WinQuickLook.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            switch (value)
             {
-                return DependencyProperty.UnsetValue;
-            }
+                case null:
+                    return DependencyProperty.UnsetValue;
+                case FileInfo fileInfo:
+                    var length = fileInfo.Length;
 
-            if (value is FileInfo fileInfo)
-            {
-                var length = fileInfo.Length;
+                    return WinExplorerHelper.GetSizeFormat(length);
+                case DirectoryInfo directoryInfo:
+                    int count = directoryInfo.GetFiles().Length + directoryInfo.GetDirectories().Length;
 
-                return WinExplorerHelper.GetSizeFormat(length);
-            }
-
-            if (value is DirectoryInfo directoryInfo)
-            {
-                int count = directoryInfo.GetFiles().Length + directoryInfo.GetDirectories().Length;
-
-                return $"{count} items";
+                    return $"{count} items";
             }
 
             return DependencyProperty.UnsetValue;

@@ -41,6 +41,7 @@ namespace WinQuickLook
             new HtmlPreviewHandler(),
             new SyntaxHighlightPreviewHandler(),
             new TextPreviewHandler(),
+            new PdfPreviewHandler(),
             new ComInteropPreviewHandler(),
             new GenericPreviewHandler()
         };

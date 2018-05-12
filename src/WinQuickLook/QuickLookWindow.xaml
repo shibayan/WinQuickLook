@@ -145,17 +145,13 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <!--<Border BorderBrush="White" BorderThickness="1">-->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-            <Button x:Name="open" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True" Margin="5,0,0,0" Padding="5,2" Grid.Row="0">Open with ...</Button>
-            <Border Grid.Row="1" Margin="5,0,5,5" BorderBrush="LightGray" BorderThickness="1">
-                <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" />
-            </Border>
-        </Grid>
-    <!--</Border>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
+        <Button x:Name="open" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True" Margin="5,0,0,0" Padding="5,2" Grid.Row="0">Open with ...</Button>
+        <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" Grid.Row="1" Margin="5,0,5,5" />
+    </Grid>
 </Window>
