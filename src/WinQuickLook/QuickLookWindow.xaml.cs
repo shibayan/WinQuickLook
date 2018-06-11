@@ -99,9 +99,9 @@ namespace WinQuickLook
 
         public new void Show()
         {
-            if (PreviewHost is Image)
+            if (PreviewHost is Image image)
             {
-                var bitmap = (BitmapSource)((Image)PreviewHost).Source;
+                var bitmap = (BitmapSource)image.Source;
 
                 Title = $"{_fileInfo.Name} ({bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetSizeFormat(_fileInfo.Length)})";
             }
