@@ -32,7 +32,7 @@ namespace WinQuickLook.Handlers
             windowsFormsHost.Height = maxHeight / 1.5;
             windowsFormsHost.EndInit();
 
-            pdfViewer.Document = PdfDocument.Load(fileName);
+            pdfViewer.Document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileName)));
 
             return windowsFormsHost;
         }
