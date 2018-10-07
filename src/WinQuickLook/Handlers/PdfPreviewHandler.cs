@@ -8,8 +8,6 @@ namespace WinQuickLook.Handlers
 {
     public class PdfPreviewHandler : IQuickLookPreviewHandler
     {
-        public bool AllowsTransparency => false;
-
         public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();

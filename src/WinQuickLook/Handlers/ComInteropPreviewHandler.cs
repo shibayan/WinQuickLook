@@ -30,7 +30,5 @@ namespace WinQuickLook.Handlers
 
             return windowsFormsHost;
         }
-
-        public bool AllowsTransparency => false;
     }
 }

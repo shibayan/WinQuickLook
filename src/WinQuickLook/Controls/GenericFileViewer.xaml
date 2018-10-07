@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:WinQuickLook.Converters"
+             xmlns:properties="clr-namespace:WinQuickLook.Properties"
+             xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="280" d:DesignWidth="500" x:Name="userControl">
     <UserControl.Resources>
@@ -20,7 +22,7 @@
             <TextBlock Text="{Binding FileInfo.Name, ElementName=userControl}" FontSize="22" TextWrapping="Wrap" />
             <TextBlock Text="{Binding FileInfo.FullName, ElementName=userControl, Converter={StaticResource FileNameToTypeNameConverter}}" FontSize="16" Margin="0,20,0,0" TextWrapping="Wrap" />
             <TextBlock Text="{Binding FileInfo, ElementName=userControl, Converter={StaticResource FileInfoToFileSizeConverter}}" FontSize="16" Margin="0,15,0,0" />
-            <TextBlock Text="{Binding FileInfo.LastWriteTime, StringFormat=Last modified {0}, ElementName=userControl}" FontSize="16" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding FileInfo.LastWriteTime, StringFormat={x:Static properties:Resources.LastModifiedText}, ElementName=userControl, ConverterCulture={x:Static gl:CultureInfo.CurrentUICulture}}" FontSize="16" Margin="0,15,0,0" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 </UserControl>

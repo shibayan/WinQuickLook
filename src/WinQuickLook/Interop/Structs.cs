@@ -114,7 +114,7 @@ namespace WinQuickLook.Interop
     {
         public int nAccentState;
         public int nFlags;
-        public int nColor;
+        public uint nColor;
         public int nAnimationId;
     }
 

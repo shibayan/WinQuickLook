@@ -22,7 +22,7 @@ namespace WinQuickLook.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace WinQuickLook.Properties {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WinQuickLook.Properties.Resources", typeof(Resources).Assembly);
@@ -47,16 +47,79 @@ namespace WinQuickLook.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Auto Start に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoStartText {
+            get {
+                return ResourceManager.GetString("AutoStartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Exit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExitText {
+            get {
+                return ResourceManager.GetString("ExitText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} items に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileItemCount {
+            get {
+                return ResourceManager.GetString("FileItemCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FileTypeDirectory {
+            get {
+                return ResourceManager.GetString("FileTypeDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last modified {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LastModifiedText {
+            get {
+                return ResourceManager.GetString("LastModifiedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can&apos;t open this file with associated program. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenButtonErrorMessage {
+            get {
+                return ResourceManager.GetString("OpenButtonErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open with {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OpenButtonText {
+            get {
+                return ResourceManager.GetString("OpenButtonText", resourceCulture);
             }
         }
     }

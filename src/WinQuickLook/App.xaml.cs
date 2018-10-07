@@ -10,7 +10,7 @@ namespace WinQuickLook
         private KeyboardHook _keyboardHook;
         private NotifyIconWrapper _notifyIcon;
 
-        private QuickLookWindow _quickLookWindow;
+        private readonly QuickLookWindow _quickLookWindow = new QuickLookWindow();
 
         private string _currentItem;
 
@@ -49,10 +49,7 @@ namespace WinQuickLook
 
         private void CancelQuickLook()
         {
-            if (_quickLookWindow?.CloseIfActive() ?? false)
-            {
-                _quickLookWindow = null;
-            }
+            _quickLookWindow.HideIfVisible();
         }
 
         private void PerformQuickLook()
@@ -61,10 +58,9 @@ namespace WinQuickLook
 
             if (selectedItem == null || selectedItem == _currentItem)
             {
-                if (_quickLookWindow?.CloseIfActive() ?? false)
+                if (_quickLookWindow.HideIfVisible())
                 {
                     _currentItem = null;
-                    _quickLookWindow = null;
                 }
 
                 return;
@@ -72,18 +68,13 @@ namespace WinQuickLook
 
             _currentItem = selectedItem;
 
-            _quickLookWindow?.Close();
-            _quickLookWindow = null;
-
-            _quickLookWindow = new QuickLookWindow();
             _quickLookWindow.Open(selectedItem);
-
             _quickLookWindow.Show();
         }
 
         private void ChangeQuickLook()
         {
-            if (_quickLookWindow == null)
+            if (!_quickLookWindow.IsVisible)
             {
                 return;
             }
@@ -97,12 +88,7 @@ namespace WinQuickLook
 
             _currentItem = selectedItem;
 
-            _quickLookWindow?.Close();
-            _quickLookWindow = null;
-
-            _quickLookWindow = new QuickLookWindow();
             _quickLookWindow.Open(selectedItem);
-
             _quickLookWindow.Show();
         }
     }

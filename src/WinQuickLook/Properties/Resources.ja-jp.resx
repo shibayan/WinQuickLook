@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoStartText" xml:space="preserve">
-    <value>Auto Start</value>
+    <value>自動起動</value>
   </data>
   <data name="ExitText" xml:space="preserve">
-    <value>Exit</value>
+    <value>WinQuickLook を終了</value>
   </data>
   <data name="FileItemCount" xml:space="preserve">
-    <value>{0} items</value>
+    <value>{0} 項目</value>
   </data>
   <data name="FileTypeDirectory" xml:space="preserve">
-    <value>Directory</value>
+    <value>ディレクトリ</value>
   </data>
   <data name="LastModifiedText" xml:space="preserve">
-    <value>Last modified {0}</value>
+    <value>最終更新日 {0}</value>
   </data>
   <data name="OpenButtonErrorMessage" xml:space="preserve">
-    <value>Can't open this file with associated program.</value>
+    <value>関連付けられたアプリケーションで開けませんでした</value>
   </data>
   <data name="OpenButtonText" xml:space="preserve">
-    <value>Open with {0}</value>
+    <value>{0} で開く</value>
   </data>
 </root>

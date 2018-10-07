@@ -9,19 +9,28 @@ namespace WinQuickLook
 {
     public static class WinExplorerHelper
     {
+        private const long TeraByte = 1024L * 1024 * 1024 * 1024;
+        private const long GigaByte = 1024L * 1024 * 1024;
+        private const long MegaByte = 1024L * 1024;
+        private const long KiroByte = 1024L;
+
         public static object GetSizeFormat(long length)
         {
-            if (length >= 1024 * 1024 * 1024)
+            if (length >= TeraByte)
             {
-                return $"{length / (double)(1024 * 1024 * 1024):0.##} GB";
+                return $"{length / (double)TeraByte:0.##} TB";
             }
-            if (length >= 1024 * 1024)
+            if (length >= GigaByte)
             {
-                return $"{length / (double)(1024 * 1024):0.##} MB";
+                return $"{length / (double)GigaByte:0.##} GB";
             }
-            if (length >= 1024)
+            if (length >= MegaByte)
             {
-                return $"{length / (double)1024:0.##} KB";
+                return $"{length / (double)MegaByte:0.##} MB";
+            }
+            if (length >= KiroByte)
+            {
+                return $"{length / (double)KiroByte:0.##} KB";
             }
 
             return $"{length} B";

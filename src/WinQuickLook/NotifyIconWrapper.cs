@@ -10,6 +10,9 @@ namespace WinQuickLook
         {
             InitializeComponent();
 
+            toolStripMenuItem2.Text = Properties.Resources.AutoStartText;
+            toolStripMenuItem1.Text = Properties.Resources.ExitText;
+
             contextMenuStrip1.Opening += async (sender, e) =>
             {
                 var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("WinQuickLookTask");

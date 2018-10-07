@@ -15,13 +15,19 @@ namespace WinQuickLook.Handlers
 
         public override FrameworkElement GetElement(string fileName)
         {
+            var maxWidth = SystemParameters.WorkArea.Width - 100;
+            var maxHeight = SystemParameters.WorkArea.Height - 100;
+
             var avalonEdit = new ICSharpCode.AvalonEdit.TextEditor();
 
             avalonEdit.BeginInit();
 
+            avalonEdit.Width = maxWidth / 2;
+            avalonEdit.Height = maxHeight / 2;
             avalonEdit.FontFamily = new FontFamily("Consolas");
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
+            avalonEdit.ShowLineNumbers = true;
             avalonEdit.Load(fileName);
             avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName));
 

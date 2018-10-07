@@ -10,7 +10,6 @@ namespace WinQuickLook.Handlers
 {
     public abstract class PreviewHandlerBase : IQuickLookPreviewHandler
     {
-        public virtual bool AllowsTransparency => true;
         public abstract bool CanOpen(string fileName);
         public abstract FrameworkElement GetElement(string fileName);
 
