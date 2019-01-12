@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +12,7 @@ namespace WinQuickLook.Handlers
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
-            return ((IList)_supportFormats).Contains(extension);
+            return _supportFormats.Contains(extension);
         }
 
         public override FrameworkElement GetElement(string fileName)
@@ -32,7 +32,7 @@ namespace WinQuickLook.Handlers
             return webBrowser;
         }
 
-        private static readonly string[] _supportFormats =
+        private static readonly IList<string> _supportFormats = new[]
         {
             ".htm", ".html", ".xhtml"
         };

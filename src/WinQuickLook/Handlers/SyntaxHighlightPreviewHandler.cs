@@ -10,6 +10,11 @@ namespace WinQuickLook.Handlers
     {
         public override bool CanOpen(string fileName)
         {
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
+
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 

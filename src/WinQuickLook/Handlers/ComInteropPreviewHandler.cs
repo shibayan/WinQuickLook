@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
@@ -8,6 +9,11 @@ namespace WinQuickLook.Handlers
     {
         public bool CanOpen(string fileName)
         {
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
+
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 

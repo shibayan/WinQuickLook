@@ -45,7 +45,7 @@ namespace WinQuickLook
         }
 
         public static readonly DependencyProperty PreviewHostProperty =
-            DependencyProperty.Register("PreviewHost", typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(PreviewHost), typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
 
         public bool HideIfVisible()
         {
@@ -139,6 +139,20 @@ namespace WinQuickLook
             CleanupHost();
         }
 
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(_fileInfo.FullName);
+
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show(Properties.Resources.OpenButtonErrorMessage, "WinQuickLook");
+            }
+        }
+
         private void SetBlurEffect()
         {
             WindowStyle = WindowStyle.None;
@@ -187,20 +201,6 @@ namespace WinQuickLook
 
             open.Content = string.Format(Properties.Resources.OpenButtonText, pszOut);
             open.Visibility = Visibility.Visible;
-        }
-
-        private void OpenButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(_fileInfo.FullName);
-
-                Close();
-            }
-            catch
-            {
-                MessageBox.Show(Properties.Resources.OpenButtonErrorMessage, "WinQuickLook");
-            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,9 +11,21 @@ namespace WinQuickLook.Handlers
     {
         public override bool CanOpen(string fileName)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
 
-            return ((IList)_supportFormats).Contains(extension);
+            try
+            {
+                BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public override FrameworkElement GetElement(string fileName)
@@ -46,11 +57,6 @@ namespace WinQuickLook.Handlers
 
             return image;
         }
-
-        private static readonly string[] _supportFormats =
-        {
-            ".jpeg", ".jpe", ".jpg", ".png", ".bmp", ".gif", ".tif", ".tiff", ".ico"
-        };
 
         private static BitmapSource GetImage(string fileName)
         {
