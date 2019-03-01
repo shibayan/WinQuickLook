@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 using WinQuickLook.Interop;
 
@@ -9,21 +10,22 @@ namespace WinQuickLook
 {
     public class KeyboardHook : IDisposable
     {
-        public KeyboardHook(Action performAction, Action changeAction, Action cancelAction)
+        public KeyboardHook(Dispatcher dispatcher)
         {
-            _performAction = performAction;
-            _changeAction = changeAction;
-            _cancelAction = cancelAction;
+            Dispatcher = dispatcher;
+
+            _keyboardHookProc = KeyboardHookProc;
         }
 
+        public Dispatcher Dispatcher { get; }
+
+        public Action PerformAction { get; set; }
+        public Action ChangeAction { get; set; }
+        public Action CancelAction { get; set; }
+
         private IntPtr _hook;
+        private readonly NativeMethods.LowLevelKeyboardProc _keyboardHookProc;
 
-        private readonly Action _performAction;
-        private readonly Action _changeAction;
-        private readonly Action _cancelAction;
-
-        private NativeMethods.LowLevelKeyboardProc _keyboardHookProc;
-        
         public void Start()
         {
             if (_hook != IntPtr.Zero)
@@ -34,8 +36,6 @@ namespace WinQuickLook
             using (var process = Process.GetCurrentProcess())
             using (var module = process.MainModule)
             {
-                _keyboardHookProc = KeyboardHookProc;
-
                 _hook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
             }
         }
@@ -57,25 +57,25 @@ namespace WinQuickLook
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_KEYDOWN && IsNoModifierKey())
+            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_KEYDOWN && IsNotModifierKeys())
             {
                 var kbdllhook = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 
-                switch ((Keys) kbdllhook.vkCode)
+                switch ((Keys)kbdllhook.vkCode)
                 {
                     case Keys.Space:
-                        _performAction();
+                        Dispatcher.InvokeAsync(PerformAction);
                         break;
 
                     case Keys.Escape:
-                        _cancelAction();
+                        Dispatcher.InvokeAsync(CancelAction);
                         break;
 
                     case Keys.Left:
                     case Keys.Right:
                     case Keys.Up:
                     case Keys.Down:
-                        _changeAction();
+                        Dispatcher.InvokeAsync(ChangeAction);
                         break;
                 }
             }
@@ -83,7 +83,7 @@ namespace WinQuickLook
             return NativeMethods.CallNextHookEx(_hook, nCode, wParam, lParam);
         }
 
-        private static bool IsNoModifierKey()
+        private static bool IsNotModifierKeys()
         {
             if (NativeMethods.GetAsyncKeyState((int)Keys.ControlKey) != 0)
             {

@@ -28,12 +28,16 @@ namespace WinQuickLook
                 return;
             }
 
-            WebBrowserHelper.SetDocumentMode(11001);
-
             _notifyIcon = new NotifyIconWrapper();
             _notifyIcon.Click += (_, __) => { _quickLookWindow?.Activate(); };
 
-            _keyboardHook = new KeyboardHook(() => Current.Dispatcher.InvokeAsync(PerformQuickLook), () => Current.Dispatcher.InvokeAsync(ChangeQuickLook), () => Current.Dispatcher.InvokeAsync(CancelQuickLook));
+            _keyboardHook = new KeyboardHook(Current.Dispatcher)
+            {
+                PerformAction = PerformQuickLook,
+                ChangeAction = ChangeQuickLook,
+                CancelAction = CancelQuickLook
+            };
+
             _keyboardHook.Start();
         }
 
@@ -45,11 +49,6 @@ namespace WinQuickLook
             _notifyIcon?.Dispose();
 
             _mutex?.ReleaseMutex();
-        }
-
-        private void CancelQuickLook()
-        {
-            _quickLookWindow.HideIfVisible();
         }
 
         private void PerformQuickLook()
@@ -90,6 +89,11 @@ namespace WinQuickLook
 
             _quickLookWindow.Open(selectedItem);
             _quickLookWindow.Show();
+        }
+
+        private void CancelQuickLook()
+        {
+            _quickLookWindow.HideIfVisible();
         }
     }
 }

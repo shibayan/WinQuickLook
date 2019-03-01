@@ -27,13 +27,15 @@ namespace WinQuickLook
 
         private static readonly IQuickLookPreviewHandler[] _handlers =
         {
-            new ImagePreviewHandler(),
-            new VideoPreviewHandler(),
-            new AudioPreviewHandler(),
-            new HtmlPreviewHandler(),
             new SyntaxHighlightPreviewHandler(),
             new TextPreviewHandler(),
+            new HtmlPreviewHandler(),
+            new InternetShortcutPreviewHandler(),
             new PdfPreviewHandler(),
+            new VideoPreviewHandler(),
+            new AudioPreviewHandler(),
+            new AnimatedGifPreviewHandler(),
+            new ImagePreviewHandler(),
             new ComInteropPreviewHandler(),
             new GenericPreviewHandler()
         };

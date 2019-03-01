@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 
 namespace WinQuickLook.Interop
 {
+    [SuppressUnmanagedCodeSecurity]
     public static class NativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]

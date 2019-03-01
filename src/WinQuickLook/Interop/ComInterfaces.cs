@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 
 namespace WinQuickLook.Interop
@@ -12,6 +13,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellItem : IUnknown
     {
         void BindToHandler([In] IntPtr pbc, [In, MarshalAs(UnmanagedType.LPStruct)] Guid bhid, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
@@ -28,6 +30,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellItemImageFactory : IUnknown
     {
         void GetImage([In, MarshalAs(UnmanagedType.Struct)] SIZE size, [In] SIIGBF flags, [Out] out IntPtr phbm);
@@ -36,6 +39,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("85CB6900-4D95-11CF-960C-0080C7F4EE85")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellWindows : IUnknown
     {
         int Count { get; }
@@ -66,6 +70,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("0002DF05-0000-0000-C000-000000000046")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IWebBrowserApp : IUnknown
     {
         void GoBack();
@@ -173,6 +178,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("6D5140C1-7436-11CE-8034-00AA006009FA")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IServiceProvider : IUnknown
     {
         [PreserveSig]
@@ -183,6 +189,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("000214E2-0000-0000-C000-000000000046")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellBrowser : IUnknown
     {
         void GetWindow([Out] IntPtr phwnd);
@@ -219,6 +226,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("000214E3-0000-0000-C000-000000000046")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellView : IUnknown
     {
     }
@@ -226,6 +234,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("cde725b0-ccc9-4519-917e-325d72fab4ce")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IFolderView : IUnknown
     {
         void GetCurrentViewMode([Out] out uint pViewMode);
@@ -260,6 +269,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("1AC3D9F0-175C-11d1-95BE-00609797EA4F")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IPersistFolder2 : IUnknown
     {
         void GetClassID([Out] IntPtr pClassId);
@@ -272,6 +282,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("000214E6-0000-0000-C000-000000000046")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IShellFolder : IUnknown
     {
         void ParseDisplayName([In] IntPtr hwnd, [In] IntPtr pbc, [In, MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName, [In, Out] ref uint pchEaten, [Out] out IntPtr ppidl, [In, Out] ref uint pdwAttributes);
@@ -298,6 +309,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("8895b1c6-b41f-4c1c-a562-0d564250836f")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IPreviewHandler : IUnknown
     {
         void SetWindow(IntPtr hwnd, ref Rectangle rect);
@@ -318,6 +330,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("b7d14566-0509-4cce-a71f-0a554233bd9b")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IInitializeWithFile
     {
         void Initialize([MarshalAs(UnmanagedType.LPWStr)] string pszFilePath, uint grfMode);
@@ -326,6 +339,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("7F73BE3F-FB79-493C-A6C7-7EE14E245841")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IInitializeWithItem
     {
         void Initialize([In] IShellItem psi, uint grfMode);
@@ -334,6 +348,7 @@ namespace WinQuickLook.Interop
     [ComImport]
     [Guid("DCCFC164-2B38-11d2-B7EC-00C04F8F5D9A")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
     public interface IMultiLanguage2 : IUnknown
     {
         void GetNumberOfCodePageInfo([Out] out uint pcCodePage);
