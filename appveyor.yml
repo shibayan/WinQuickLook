@@ -19,7 +19,7 @@ platform: x64
 configuration: Release
 
 before_build:
-  - nuget restore .\src\WinQuickLook.sln
+  - nuget restore .\src\WinQuickLook\WinQuickLook.csproj
 
 build:
   project: .\src\WinQuickLook\WinQuickLook.csproj
