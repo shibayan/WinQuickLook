@@ -112,15 +112,15 @@ namespace WinQuickLook
 
         private void CleanupHost()
         {
-            var formsHost = PreviewHost as WindowsFormsHost;
-
-            PreviewHost = null;
-
-            if (formsHost != null)
+            if (PreviewHost is WindowsFormsHost formsHost)
             {
                 formsHost.Child.Dispose();
                 formsHost.Child = null;
+
+                formsHost.Dispose();
             }
+
+            PreviewHost = null;
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
