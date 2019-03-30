@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
@@ -159,13 +160,15 @@ namespace WinQuickLook
         {
             WindowStyle = WindowStyle.None;
 
-            var interopHelper = new WindowInteropHelper(this);
+            var theme = PlatformHelper.GetWindowsTheme();
+
+            Foreground = theme == WindowsTheme.Light ? Brushes.Black : Brushes.White;
 
             var accentPolicy = new ACCENTPOLICY
             {
                 nAccentState = 3,
                 nFlags = 2,
-                nColor = 0x90FFFFFF
+                nColor = theme == WindowsTheme.Light ? 0x90FFFFFF : 0x90000000
             };
 
             var accentPolicySize = Marshal.SizeOf(accentPolicy);
@@ -179,6 +182,8 @@ namespace WinQuickLook
                 ulDataSize = accentPolicySize,
                 pData = accentPolicyPtr
             };
+
+            var interopHelper = new WindowInteropHelper(this);
 
             NativeMethods.SetWindowCompositionAttribute(interopHelper.Handle, ref winCompatData);
 
@@ -201,7 +206,7 @@ namespace WinQuickLook
 
             NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
 
-            open.Content = string.Format(Properties.Resources.OpenButtonText, pszOut);
+            open.ToolTip = string.Format(Properties.Resources.OpenButtonText, pszOut);
             open.Visibility = Visibility.Visible;
         }
     }

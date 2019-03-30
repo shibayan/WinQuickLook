@@ -155,6 +155,7 @@
     <Compile Include="Interop\ComInterfaces.cs" />
     <Compile Include="Interop\Consts.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
+    <Compile Include="Interop\PlatformHelper.cs" />
     <Compile Include="Interop\Structs.cs" />
     <Compile Include="KeyboardHook.cs" />
     <Compile Include="PreviewHandlerHost.cs">
@@ -224,7 +225,7 @@
       <Version>5.0.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView">
-      <Version>5.1.0</Version>
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="PdfiumViewer">
       <Version>2.13.0</Version>

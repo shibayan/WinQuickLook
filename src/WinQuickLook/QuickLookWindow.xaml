@@ -8,19 +8,21 @@
         ShowActivated="False" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True" FocusVisualStyle="{x:Null}"
         Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged" SourceInitialized="Window_SourceInitialized">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="30"
+        <WindowChrome CaptionHeight="40"
                       GlassFrameThickness="-1"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
-        <Button x:Name="open" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
-                Margin="5,0,0,0" Padding="5,2" Grid.Row="0" Click="OpenButton_Click" />
+        <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14" />
+        <Button x:Name="open" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
+                Margin="5,0,0,0" Padding="2" Grid.Row="0" Click="OpenButton_Click">
+            <TextBlock Text="&#xE78B;" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
+        </Button>
         <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" Grid.Row="1" Margin="5,0,5,5" />
     </Grid>
 </Window>
