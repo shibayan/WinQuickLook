@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        x:Name="window" MinWidth="250" MinHeight="200" Background="Transparent"
+        x:Name="window" MinWidth="300" MinHeight="250" Background="Transparent"
         ShowActivated="False" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True" FocusVisualStyle="{x:Null}"
         Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged" SourceInitialized="Window_SourceInitialized">
     <WindowChrome.WindowChrome>
@@ -22,6 +22,10 @@
         <Button x:Name="open" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
                 Margin="5,0,0,0" Padding="2" Grid.Row="0" Click="OpenButton_Click">
             <TextBlock Text="&#xE78B;" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
+        </Button>
+        <Button Visibility="Visible" HorizontalAlignment="Right" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
+                Margin="0,0,5,0" Padding="2" Grid.Row="0" Click="CloseButton_Click">
+            <TextBlock Text="&#xE711;" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
         </Button>
         <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" Grid.Row="1" Margin="5,0,5,5" />
     </Grid>

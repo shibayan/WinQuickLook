@@ -148,12 +148,17 @@ namespace WinQuickLook
             {
                 Process.Start(_fileInfo.FullName);
 
-                Close();
+                HideIfVisible();
             }
             catch
             {
                 MessageBox.Show(Properties.Resources.OpenButtonErrorMessage, "WinQuickLook");
             }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideIfVisible();
         }
 
         private void SetBlurEffect()

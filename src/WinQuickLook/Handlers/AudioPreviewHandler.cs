@@ -21,8 +21,8 @@ namespace WinQuickLook.Handlers
             var audioViewer = new AudioFileViewer();
 
             audioViewer.BeginInit();
-            audioViewer.Width = 250;
-            audioViewer.Height = 250;
+            audioViewer.Width = 300;
+            audioViewer.Height = 300;
             audioViewer.Source = new Uri(fileName, UriKind.Absolute);
             audioViewer.Thumbnail = GetThumbnail(fileName);
             audioViewer.EndInit();

@@ -45,6 +45,8 @@ namespace WinQuickLook
         {
             base.OnExit(e);
 
+            _quickLookWindow.Close();
+
             _keyboardHook?.Dispose();
             _notifyIcon?.Dispose();
 
