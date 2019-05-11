@@ -36,7 +36,9 @@ namespace WinQuickLook.Interop
         public static extern bool DeleteObject(IntPtr hObject);
 
         [DllImport("shell32.dll")]
-        public static extern void SHCreateItemFromParsingName([In, MarshalAs(UnmanagedType.LPWStr)] string pszPath, [In] IntPtr pbc, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, [Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex = 2)] out IShellItem ppv);
+        public static extern void SHCreateItemFromParsingName([In, MarshalAs(UnmanagedType.LPWStr)] string pszPath, [In] IntPtr pbc, [In, MarshalAs(UnmanagedType.LPStruct)]
+                                                              Guid riid, [Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex = 2)]
+                                                              out IShellItem ppv);
 
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SHGetFileInfo([In, MarshalAs(UnmanagedType.LPTStr)] string pszPath, uint dwFileAttributes, [In, Out] ref SHFILEINFO psfi, int cbFileInfo, SHGFI uFlags);
@@ -64,5 +66,8 @@ namespace WinQuickLook.Interop
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
         public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra, [Out] StringBuilder pszOut, [In, Out] ref int pcchOut);
+
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmGetColorizationColor([Out] out uint pcrColorization, [Out] out bool pfOpaqueBlend);
     }
 }

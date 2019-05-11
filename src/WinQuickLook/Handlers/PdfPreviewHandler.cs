@@ -17,20 +17,19 @@ namespace WinQuickLook.Handlers
 
         public FrameworkElement GetElement(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
-
             var pdfViewer = new PdfViewer();
+
+            var document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileName)));
+
+            pdfViewer.Document = document;
 
             var windowsFormsHost = new WindowsFormsHost();
 
             windowsFormsHost.BeginInit();
             windowsFormsHost.Child = pdfViewer;
-            windowsFormsHost.Width = maxWidth / 1.5;
-            windowsFormsHost.Height = maxHeight / 1.5;
+            windowsFormsHost.Width = document.PageSizes[0].Width * 1.2;
+            windowsFormsHost.Height = document.PageSizes[0].Height * 1.2;
             windowsFormsHost.EndInit();
-
-            pdfViewer.Document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileName)));
 
             return windowsFormsHost;
         }
