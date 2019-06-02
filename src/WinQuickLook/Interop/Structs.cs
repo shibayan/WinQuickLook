@@ -125,4 +125,13 @@ namespace WinQuickLook.Interop
         public IntPtr pData;
         public int ulDataSize;
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MONITORINFO
+    {
+        public int cbSize;
+        public RECT rcMonitor;
+        public RECT rcWork;
+        public int dwFlags;
+    }
 }
