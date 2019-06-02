@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
 
 using WinQuickLook.Interop;
 
@@ -34,6 +35,23 @@ namespace WinQuickLook
             }
 
             return $"{length} B";
+        }
+
+        public static Rect GetCurrentMonitor()
+        {
+            var foregroundHwnd = NativeMethods.GetForegroundWindow();
+
+            var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
+
+            var monitorInfo = new MONITORINFO
+            {
+                cbSize = Marshal.SizeOf<MONITORINFO>()
+            };
+
+            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+            return new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
+                monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
         }
 
         public static string GetSelectedItem()

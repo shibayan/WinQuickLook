@@ -10,10 +10,10 @@ namespace WinQuickLook.Interop
 
         internal static WindowsTheme GetWindowsTheme()
         {
-
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
+            using (var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
             {
-                object registryValueObject = key?.GetValue(RegistryValueName);
+                var registryValueObject = key?.GetValue(RegistryValueName);
+
                 if (registryValueObject == null)
                 {
                     return WindowsTheme.Light;
