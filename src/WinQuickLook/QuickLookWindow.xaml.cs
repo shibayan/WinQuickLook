@@ -74,6 +74,8 @@ namespace WinQuickLook
 
             PreviewHost = element;
 
+            var monitor = WinExplorerHelper.GetCurrentMonitor();
+
             if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
             {
                 Width = Math.Max(element.Width + 4 + 2 + 2, MinWidth);
@@ -83,8 +85,8 @@ namespace WinQuickLook
                 element.Height = double.NaN;
             }
 
-            Left = (SystemParameters.WorkArea.Width - Width) / 2;
-            Top = (SystemParameters.WorkArea.Height - Height) / 2;
+            Left = monitor.X + ((monitor.Width - Width) / 2);
+            Top = monitor.Y + ((monitor.Height - Height) / 2);
 
             _fileInfo = new FileInfo(fileName);
 

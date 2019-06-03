@@ -12,6 +12,9 @@ namespace WinQuickLook.Interop
 
         public const int GWL_EXSTYLE = -20;
         public const int WS_EX_NOACTIVATE = 0x8000000;
+
+        public const int MONITOR_DEFAULTTOPRIMARY = 1;
+        public const int MONITOR_DEFAULTTONEAREST = 2;
     }
 
     [Flags]
