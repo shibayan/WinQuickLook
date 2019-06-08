@@ -90,8 +90,12 @@ namespace WinQuickLook
                     {
                         fileName = GetSelectedItemCore(webBrowserApp);
 
+                        Marshal.FinalReleaseComObject(webBrowserApp);
+
                         break;
                     }
+
+                    Marshal.FinalReleaseComObject(webBrowserApp);
                 }
             }
 
