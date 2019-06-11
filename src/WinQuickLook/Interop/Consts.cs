@@ -20,6 +20,14 @@ namespace WinQuickLook.Interop
         public const int DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = 17;
         public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = 18;
         public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = 34;
+
+        public const int MDT_EFFECTIVE_DPI = 0;
+        public const int MDT_ANGULAR_DPI = 1;
+        public const int MDT_RAW_API = 3;
+
+        public const int SWP_NOACTIVATE = 0x0010;
+        public const int SWP_NOSIZE = 0x0001;
+        public const int SWP_NOZORDER = 0x0004;
     }
 
     [Flags]
