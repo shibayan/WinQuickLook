@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Windows;
 
+using WinQuickLook.Interop;
+
 namespace WinQuickLook
 {
     public partial class App
@@ -27,6 +29,8 @@ namespace WinQuickLook
 
                 return;
             }
+
+            NativeMethods.SetProcessDpiAwarenessContext(Consts.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
             _notifyIcon = new NotifyIconWrapper();
             _notifyIcon.Click += (_, __) => { _quickLookWindow?.Activate(); };
