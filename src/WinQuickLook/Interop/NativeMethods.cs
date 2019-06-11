@@ -6,7 +6,7 @@ using System.Text;
 namespace WinQuickLook.Interop
 {
     [SuppressUnmanagedCodeSecurity]
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
@@ -75,5 +75,8 @@ namespace WinQuickLook.Interop
 
         [DllImport("user32.dll")]
         public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetProcessDpiAwarenessContext(int dpiFlag);
     }
 }

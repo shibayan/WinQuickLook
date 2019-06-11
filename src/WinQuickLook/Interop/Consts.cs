@@ -15,6 +15,11 @@ namespace WinQuickLook.Interop
 
         public const int MONITOR_DEFAULTTOPRIMARY = 1;
         public const int MONITOR_DEFAULTTONEAREST = 2;
+
+        public const int DPI_AWARENESS_CONTEXT_UNAWARE = 16;
+        public const int DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = 17;
+        public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = 18;
+        public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = 34;
     }
 
     [Flags]
