@@ -50,6 +50,13 @@ namespace WinQuickLook
         public static readonly DependencyProperty PreviewHostProperty =
             DependencyProperty.Register(nameof(PreviewHost), typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
 
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            WinExplorerHelper.SetWindowLocation(this);
+        }
+
         public bool HideIfVisible()
         {
             if (!IsVisible)
@@ -74,21 +81,18 @@ namespace WinQuickLook
 
             PreviewHost = element;
 
-            var monitor = WinExplorerHelper.GetCurrentMonitor();
-
             if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
             {
-                Width = Math.Max(element.Width + 4 + 2 + 2, MinWidth);
-                Height = Math.Max(element.Height + 30 + 4 + 2 + 2, MinHeight);
+                Width = Math.Max(element.Width + 4 + 2 + 2 + 2, MinWidth);
+                Height = Math.Max(element.Height + 40 + 4 + 2 + 2 + 2, MinHeight);
 
                 element.Width = double.NaN;
                 element.Height = double.NaN;
             }
 
-            Left = monitor.X + ((monitor.Width - Width) / 2);
-            Top = monitor.Y + ((monitor.Height - Height) / 2);
-
             _fileInfo = new FileInfo(fileName);
+
+            WinExplorerHelper.SetWindowLocation(this);
 
             SetAssocName(fileName);
         }

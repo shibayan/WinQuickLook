@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 using WinQuickLook.Interop;
 
@@ -37,7 +39,7 @@ namespace WinQuickLook
             return $"{length} B";
         }
 
-        public static Rect GetCurrentMonitor()
+        public static void SetWindowLocation(Window window)
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
@@ -50,8 +52,20 @@ namespace WinQuickLook
 
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
 
-            return new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
+            var monitor = new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
                 monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
+
+            NativeMethods.GetDpiForMonitor(hMonitor, Consts.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
+
+            var dpiFactorX = dpiX / 96.0;
+            var dpiFactorY = dpiY / 96.0;
+
+            var hwnd = new WindowInteropHelper(window).Handle;
+
+            var x = monitor.X + ((monitor.Width - (window.Width * dpiFactorX)) / 2);
+            var y = monitor.Y + ((monitor.Height - (window.Height * dpiFactorY)) / 2);
+
+            NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
         }
 
         public static string GetSelectedItem()
@@ -90,8 +104,12 @@ namespace WinQuickLook
                     {
                         fileName = GetSelectedItemCore(webBrowserApp);
 
+                        Marshal.FinalReleaseComObject(webBrowserApp);
+
                         break;
                     }
+
+                    Marshal.FinalReleaseComObject(webBrowserApp);
                 }
             }
 
