@@ -14,7 +14,7 @@
     <PackageReference Include="AvalonEdit" Version="6.0.0-netcore3p4alpha1">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview5" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview6" />
     <PackageReference Include="PdfiumViewer" Version="2.13.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
