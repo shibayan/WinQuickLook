@@ -1,7 +1,7 @@
 WinQuickLook
 ================
 
-[![Build status](https://ci.appveyor.com/api/projects/status/8ct3i49pyfs7puy8?svg=true)](https://ci.appveyor.com/project/shibayan/winquicklook)
+[![Build Status](https://dev.azure.com/shibayan/WinQuickLook/_apis/build/status/Build%20WinQuickLook?branchName=master)](https://dev.azure.com/shibayan/WinQuickLook/_build/latest?definitionId=27&branchName=master)
 [![License](https://img.shields.io/github/license/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
 
 "Quick Look" like Windows Explorer file viewer.
