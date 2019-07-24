@@ -8,8 +8,19 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.1.0'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    verbosityRestore: Normal
+
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
     configuration: '$(buildConfiguration)'
     restoreNugetPackages: true
+    msbuildArguments: '/v:m'
