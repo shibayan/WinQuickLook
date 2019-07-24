@@ -1,0 +1,25 @@
+trigger:
+- master
+
+variables:
+  buildConfiguration: Release
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.1.0'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    verbosityRestore: Normal
+
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.csproj'
+    configuration: '$(buildConfiguration)'
+    msbuildArguments: '/v:m'
