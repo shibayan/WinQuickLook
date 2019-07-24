@@ -20,7 +20,6 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: '**/*.csproj'
     configuration: '$(buildConfiguration)'
-    restoreNugetPackages: true
     msbuildArguments: '/v:m'
