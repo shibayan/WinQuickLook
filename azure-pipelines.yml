@@ -18,8 +18,13 @@ steps:
     restoreSolution: '**/*.sln'
     verbosityRestore: Normal
 
+- task: DownloadSecureFile@1
+  name: signingCertificate
+  inputs:
+    secureFile: 'WinQuickLook.Package_TemporaryKey.pfx'
+
 - task: MSBuild@1
   inputs:
-    solution: '**/*.csproj'
+    solution: '**/*.sln'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/v:m'
+    msbuildArguments: '/v:m /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCertificate.secureFilePath)"'
