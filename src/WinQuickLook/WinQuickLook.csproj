@@ -7,14 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Platforms>x86;x64</Platforms>
     <Platform>x64</Platform>
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.0-netcore3p4alpha1">
-      <NoWarn>NU1701</NoWarn>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview6" />
+    <PackageReference Include="AvalonEdit" Version="6.0.0-preview1" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview6.4" />
     <PackageReference Include="PdfiumViewer" Version="2.13.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
@@ -24,34 +21,9 @@
 
   <ItemGroup>
     <Reference Include="Windows">
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd</HintPath>
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd</HintPath>
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Controls\AudioFileViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\GenericFileViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\VideoFileViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="QuickLookWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
 </Project>
