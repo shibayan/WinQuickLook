@@ -8,18 +8,13 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- task: NuGetToolInstaller@1
+- task: UseDotNet@2
   inputs:
-    versionSpec: '5.1.0'
+    packageType: 'sdk'
+    version: '3.0.100-preview7-012821'
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    verbosityRestore: Normal
-
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.csproj'
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '/v:m'
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '-c $(buildConfiguration)'

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinQuickLook", "WinQuickLook\WinQuickLook.csproj", "{8A8234C5-2D4D-4E7F-A9DD-4A9EB2C698E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook", "WinQuickLook\WinQuickLook.csproj", "{8A8234C5-2D4D-4E7F-A9DD-4A9EB2C698E4}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WinQuickLook.Package", "WinQuickLook.Package\WinQuickLook.Package.wapproj", "{BDF91474-DB8C-45F6-8025-8142102510A5}"
 EndProject
