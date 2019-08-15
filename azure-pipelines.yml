@@ -3,6 +3,8 @@ trigger:
 
 variables:
   buildConfiguration: Release
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  NUGET_XMLDOC_MODE: skip
 
 pool:
   vmImage: 'windows-2019'
@@ -11,7 +13,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.0.100-preview7-012821'
+    version: '3.0.100-preview8-013656'
 
 - task: DotNetCoreCLI@2
   inputs:
