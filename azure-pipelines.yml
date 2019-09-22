@@ -13,7 +13,8 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.0.100-preview8-013656'
+    version: '3.0.x'
+    includePreviewVersions: true
 
 - task: DotNetCoreCLI@2
   inputs:
