@@ -8,8 +8,7 @@ WinQuickLook
 
 ## Requirements
 
-- .NET Framework 4.7.2
-- Windows 10 Version 1803 or later
+- Windows 10 Version 1903 or later
 
 ## Usage
 
