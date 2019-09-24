@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Windows;
 
+using Windows.ApplicationModel;
+
 namespace WinQuickLook
 {
     public partial class NotifyIconWrapper : Component
@@ -20,17 +22,17 @@ namespace WinQuickLook
 
             contextMenuStrip1.Opening += async (sender, e) =>
             {
-                var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("WinQuickLookTask");
+                var startupTask = await StartupTask.GetAsync("WinQuickLookTask");
 
-                toolStripMenuItem2.Checked = startupTask.State == Windows.ApplicationModel.StartupTaskState.Enabled;
+                toolStripMenuItem2.Checked = startupTask.State == StartupTaskState.Enabled;
             };
 
             toolStripMenuItem1.Click += (sender, e) => Application.Current.Shutdown();
             toolStripMenuItem2.Click += async (sender, e) =>
             {
-                var startupTask = await Windows.ApplicationModel.StartupTask.GetAsync("WinQuickLookTask");
+                var startupTask = await StartupTask.GetAsync("WinQuickLookTask");
 
-                if (startupTask.State == Windows.ApplicationModel.StartupTaskState.Enabled)
+                if (startupTask.State == StartupTaskState.Enabled)
                 {
                     startupTask.Disable();
 
@@ -40,7 +42,7 @@ namespace WinQuickLook
                 {
                     var state = await startupTask.RequestEnableAsync();
 
-                    toolStripMenuItem2.Checked = state == Windows.ApplicationModel.StartupTaskState.Enabled;
+                    toolStripMenuItem2.Checked = state == StartupTaskState.Enabled;
                 }
             };
         }

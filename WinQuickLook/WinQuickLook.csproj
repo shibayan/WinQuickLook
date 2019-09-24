@@ -14,20 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.0-rc1" />
+    <PackageReference Include="AvalonEdit" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview7.1" />
     <PackageReference Include="PdfiumViewer" Version="2.13.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="PdfiumViewer.Native.x86.no_v8-no_xfa" Version="2018.4.8.256" />
     <PackageReference Include="PdfiumViewer.Native.x86_64.no_v8-no_xfa" Version="2018.4.8.256" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Windows">
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
 
 </Project>
