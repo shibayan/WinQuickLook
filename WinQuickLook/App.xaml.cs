@@ -1,6 +1,10 @@
 ﻿using System.Threading;
 using System.Windows;
 
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
 using WinQuickLook.Interop;
 
 namespace WinQuickLook
@@ -19,6 +23,8 @@ namespace WinQuickLook
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            AppCenter.Start("a49cb0c4-9884-4d72-bf96-ccd0e2c4bbe1", typeof(Analytics), typeof(Crashes));
 
             if (!_mutex.WaitOne(0, false))
             {

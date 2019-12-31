@@ -2,8 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-
-using Microsoft.Toolkit.Wpf.UI.Controls;
+using System.Windows.Controls;
 
 namespace WinQuickLook.Handlers
 {
@@ -30,14 +29,14 @@ namespace WinQuickLook.Handlers
             var maxWidth = SystemParameters.WorkArea.Width - 100;
             var maxHeight = SystemParameters.WorkArea.Height - 100;
 
-            var webView = new WebView();
+            var webView = new WebBrowser();
 
             webView.BeginInit();
             webView.Width = maxWidth / 2;
             webView.Height = maxHeight / 2;
             webView.EndInit();
 
-            webView.Loaded += (sender, e) => ((WebView)sender).Navigate(url.Substring(4));
+            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url.Substring(4));
 
             return webView;
         }
