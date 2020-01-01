@@ -2,22 +2,22 @@ trigger:
 - master
 
 variables:
-  buildConfiguration: Release
+  BuildConfiguration: Release
+  DotNetSdkVersion: 3.1.x
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   NUGET_XMLDOC_MODE: skip
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-latest'
 
 steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.0.x'
-    includePreviewVersions: true
+    version: '$(DotNetSdkVersion)'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '-c $(buildConfiguration)'
+    arguments: '-c $(BuildConfiguration)'
