@@ -12,15 +12,14 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'WinQuickLook.Package_StoreKey.pfx'
+
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '$(DotNetSdkVersion)'
-
-- task: DownloadSecureFile@1
-  name: signingCert
-  inputs:
-    secureFile: 'WinQuickLook.Package_StoreKey.pfx'
 
 - task: MSBuild@1
   inputs:
@@ -35,7 +34,7 @@ steps:
       /p:UapAppxPackageBuildMode=CI
       /p:AppxPackageSigningEnabled=true
       /p:PackageCertificateThumbprint=""
-      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+      /p:PackageCertificateKeyFile="$(Build.SourcesDirectory)/WinQuickLook.Package_StoreKey.pfx"'
     restoreNugetPackages: true
 
 - publish: packed
