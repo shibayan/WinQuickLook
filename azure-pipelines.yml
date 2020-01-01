@@ -2,11 +2,13 @@ trigger:
 - master
 
 variables:
-  BuildConfiguration: Release
-  DotNetSdkVersion: 3.1.x
-  BundlePlatforms: x86|x64
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  NUGET_XMLDOC_MODE: skip
+- group: Secrets
+- name: BuildConfiguration
+  value: Release
+- name: DotNetSdkVersion
+  value: 3.1.x
+- name: BundlePlatforms
+  value: x86|x64
 
 pool:
   vmImage: 'windows-latest'
@@ -35,7 +37,8 @@ steps:
       /p:UapAppxPackageBuildMode=CI
       /p:AppxPackageSigningEnabled=true
       /p:PackageCertificateThumbprint=""
-      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+      /p:PackageCertificatePassword="$(PfxPassword)"
     restoreNugetPackages: true
 
 - publish: packed
