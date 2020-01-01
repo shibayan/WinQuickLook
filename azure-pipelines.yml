@@ -4,6 +4,7 @@ trigger:
 variables:
   BuildConfiguration: Release
   DotNetSdkVersion: 3.1.x
+  BundlePlatforms: x86|x64
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   NUGET_XMLDOC_MODE: skip
 
@@ -16,8 +17,23 @@ steps:
     packageType: 'sdk'
     version: '$(DotNetSdkVersion)'
 
-- task: DotNetCoreCLI@2
+- task: DownloadSecureFile@1
+  name: signingCert
   inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '-c $(BuildConfiguration)'
+    secureFile: 'WinQuickLook.Package_StoreKey.pfx'
+
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.wapproj'
+    configuration: 'Release'
+    msbuildArguments: |
+      /p:Configuration=Release
+      /p:UapAppxPackageBuildMode=StoreUpload
+      /p:AppxBundlePlatforms="$(BundlePlatforms)"
+      /p:AppxPackageDir="$(Build.SourcesDirectory)/packed"
+      /p:AppxBundle=Always
+      /p:UapAppxPackageBuildMode=CI
+      /p:AppxPackageSigningEnabled=true
+      /p:PackageCertificateThumbprint=""
+      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+    restoreNugetPackages: true
