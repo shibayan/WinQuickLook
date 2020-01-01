@@ -37,3 +37,6 @@ steps:
       /p:PackageCertificateThumbprint=""
       /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
     restoreNugetPackages: true
+
+- publish: packed
+  artifact: msix
