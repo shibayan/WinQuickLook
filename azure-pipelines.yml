@@ -13,8 +13,9 @@ pool:
 
 steps:
 - task: DownloadSecureFile@1
+  name: signingCert
   inputs:
-    secureFile: 'WinQuickLook.Package_StoreKey.pfx'
+    secureFile: 'WinQuickLook.pfx'
 
 - task: UseDotNet@2
   inputs:
@@ -34,7 +35,7 @@ steps:
       /p:UapAppxPackageBuildMode=CI
       /p:AppxPackageSigningEnabled=true
       /p:PackageCertificateThumbprint=""
-      /p:PackageCertificateKeyFile="$(Build.SourcesDirectory)/WinQuickLook.Package_StoreKey.pfx"'
+      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
     restoreNugetPackages: true
 
 - publish: packed
