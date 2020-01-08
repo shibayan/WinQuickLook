@@ -7,5 +7,5 @@ pool:
 steps:
 - task: DownloadSecureFile@1
   inputs:
-    secureFile: Test.pfx
+    secureFile: ecdsa-certificate.pfx
   name: singingCert
