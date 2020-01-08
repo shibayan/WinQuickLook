@@ -7,5 +7,5 @@ pool:
 steps:
 - task: DownloadSecureFile@1
   inputs:
-    secureFile: 'Tatsuro Shibamura_TemporaryKey.pfx'
+    secureFile: 'WinQuickLook.pfx'
   name: singingCert
