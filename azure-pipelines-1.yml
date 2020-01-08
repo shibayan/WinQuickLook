@@ -1,0 +1,11 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'Tatsuro Shibamura_TemporaryKey.pfx'
+  name: singingCert
