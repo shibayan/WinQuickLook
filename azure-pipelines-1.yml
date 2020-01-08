@@ -7,5 +7,5 @@ pool:
 steps:
 - task: DownloadSecureFile@1
   inputs:
-    secureFile: 'WinQuickLook.pfx'
+    secureFile: Test.pfx
   name: singingCert
