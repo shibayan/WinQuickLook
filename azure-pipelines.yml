@@ -39,17 +39,7 @@ steps:
   inputs:
     solution: '**/*.wapproj'
     configuration: 'Release'
-    msbuildArguments: |
-      /p:Configuration=Release
-      /p:UapAppxPackageBuildMode=StoreUpload
-      /p:AppxBundlePlatforms="$(BundlePlatforms)"
-      /p:AppxPackageDir="$(Build.SourcesDirectory)/packed"
-      /p:AppxBundle=Always
-      /p:UapAppxPackageBuildMode=CI
-      /p:AppxPackageSigningEnabled=true
-      /p:PackageCertificateThumbprint=""
-      /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-      /p:PackageCertificatePassword="$(PfxPassword)"
+    msbuildArguments: /p:Configuration=Release /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundlePlatforms="$(BundlePlatforms)" /p:AppxPackageDir="$(Build.SourcesDirectory)/packed" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=CI /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(PfxPassword)"
 
 - publish: packed
   artifact: msix
