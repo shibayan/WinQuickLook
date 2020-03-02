@@ -126,11 +126,16 @@ namespace WinQuickLook
         {
             if (_previewHandler != null)
             {
-                _previewHandler.Unload();
+                try
+                {
+                    _previewHandler.Unload();
 
-                Marshal.FinalReleaseComObject(_previewHandler);
-
-                _previewHandler = null;
+                    Marshal.FinalReleaseComObject(_previewHandler);
+                }
+                finally
+                {
+                    _previewHandler = null;
+                }
             }
         }
     }
