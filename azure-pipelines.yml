@@ -20,9 +20,10 @@ variables:
   value: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 
 stages:
-- stage: Build_For_Test
+- stage: Build
   jobs:
   - job: Build_For_Test
+    condition: ne(variables['IsGitHubTag'], true)
     pool:
       vmImage: 'windows-latest'
     steps:
@@ -47,10 +48,8 @@ stages:
         solution: '**/*.csproj'
         configuration: $(BuildConfiguration)
 
-- stage: Build_For_Store
-  condition: and(succeeded(), eq(variables['IsGitHubTag'], true))
-  jobs:
   - job: Build_For_Store
+    condition: eq(variables['IsGitHubTag'], true)
     pool:
       vmImage: 'windows-latest'
     steps:
