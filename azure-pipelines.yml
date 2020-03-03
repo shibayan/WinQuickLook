@@ -31,10 +31,12 @@ stages:
       inputs:
         packageType: 'sdk'
         version: $(DotNetSdkVersion)
+      displayName: 'Install .NET Core SDK $(DotNetSdkVersion)'
 
     - task: NuGetToolInstaller@1
       inputs:
         versionSpec: $(NuGetCliVersion)
+      displayName: 'Install NuGet CLI $(NuGetCliVersion)'
 
     - task: NuGetCommand@2
       inputs:
@@ -42,11 +44,13 @@ stages:
         restoreSolution: '**/*.sln'
         feedsToUse: 'select'
         verbosityRestore: 'Normal'
+      displayName: Restore NuGet Packages
 
     - task: MSBuild@1
       inputs:
         solution: '**/*.csproj'
         configuration: $(BuildConfiguration)
+      displayName: Build Application
 
   - job: Build_For_Store
     condition: eq(variables['IsGitHubTag'], true)
@@ -57,8 +61,10 @@ stages:
       name: signingCert
       inputs:
         secureFile: 'WinQuickLook.pfx'
+      displayName: 'Download Signing Certificate'
 
     - powershell: 'echo "##vso[task.setvariable variable=ApplicationVersion]$($env:Build_SourceBranchName.Substring(1))"'
+      displayName: 'Set ApplicationVersion'
 
     - powershell: |
         [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
@@ -67,15 +73,18 @@ stages:
         $xName = [System.Xml.Linq.XName]"{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
         $doc.Root.Element($xName).Attribute("Version").Value = "$(ApplicationVersion).0";
         $doc.Save($path)
+      displayName: 'Update Package Manifest'
 
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
         version: $(DotNetSdkVersion)
+      displayName: 'Install .NET Core SDK $(DotNetSdkVersion)'
 
     - task: NuGetToolInstaller@1
       inputs:
         versionSpec: $(NuGetCliVersion)
+      displayName: 'Install NuGet CLI $(NuGetCliVersion)'
 
     - task: NuGetCommand@2
       inputs:
@@ -83,6 +92,7 @@ stages:
         restoreSolution: '**/*.sln'
         feedsToUse: 'select'
         verbosityRestore: 'Normal'
+      displayName: Restore NuGet Packages
 
     - task: MSBuild@1
       inputs:
@@ -96,7 +106,10 @@ stages:
                            /p:AppxPackageSigningEnabled=true
                            /p:PackageCertificateThumbprint=""
                            /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-                           /p:PackageCertificatePassword="$(PfxPassword)"'
+                           /p:PackageCertificatePassword="$(PfxPassword)"
+                           /verbosity:minimal'
+      displayName: Build MSIX Package
 
     - publish: packed
       artifact: msix
+      displayName: Publish MSIX
