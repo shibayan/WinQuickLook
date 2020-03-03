@@ -59,7 +59,14 @@ stages:
         secureFile: 'WinQuickLook.pfx'
 
     - powershell: 'echo "##vso[task.setvariable variable=ApplicationVersion]$($env:Build_SourceBranchName.Substring(1))"'
-      displayName: 'Set ApplicationVersion'
+
+    - powershell: |
+        [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
+        $path = "WinQuickLook.Package/package.appxmanifest"
+        $doc = [System.Xml.Linq.XDocument]::Load($path)
+        $xName = [System.Xml.Linq.XName]"{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
+        $doc.Root.Element($xName).Attribute("Version").Value = "$(ApplicationVersion).0";
+        $doc.Save($path)
 
     - task: UseDotNet@2
       inputs:
@@ -81,7 +88,15 @@ stages:
       inputs:
         solution: '**/*.sln'
         configuration: $(BuildConfiguration)
-        msbuildArguments: /p:Version="$(ApplicationVersion)" /p:UapAppxPackageBuildMode=CI /p:AppxBundlePlatforms="$(BundlePlatforms)" /p:AppxPackageDir="$(Build.SourcesDirectory)/packed" /p:AppxBundle=Always /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(PfxPassword)"
+        msbuildArguments: '/p:Version="$(ApplicationVersion)"
+                           /p:UapAppxPackageBuildMode=CI
+                           /p:AppxBundlePlatforms="$(BundlePlatforms)"
+                           /p:AppxPackageDir="$(Build.SourcesDirectory)/packed"
+                           /p:AppxBundle=Always
+                           /p:AppxPackageSigningEnabled=true
+                           /p:PackageCertificateThumbprint=""
+                           /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+                           /p:PackageCertificatePassword="$(PfxPassword)"'
 
     - publish: packed
       artifact: msix
