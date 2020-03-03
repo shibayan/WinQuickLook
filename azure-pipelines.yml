@@ -1,5 +1,10 @@
 trigger:
-- master
+  branches:
+    include:
+    - master
+  tags:
+    include:
+    - v*
 
 variables:
 - group: Secrets
@@ -7,39 +12,77 @@ variables:
   value: Release
 - name: DotNetSdkVersion
   value: 3.1.x
+- name: NuGetCliVersion
+  value: 5.x
 - name: BundlePlatforms
   value: x86|x64
+- name: IsGitHubTag
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 
-pool:
-  vmImage: 'windows-latest'
+stages:
+- stage: Build_For_Test
+  jobs:
+  - job: Build_For_Test
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: $(DotNetSdkVersion)
 
-steps:
-- task: DownloadSecureFile@1
-  name: signingCert
-  inputs:
-    secureFile: 'WinQuickLook.pfx'
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: $(NuGetCliVersion)
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '$(DotNetSdkVersion)'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
+        verbosityRestore: 'Normal'
 
-- task: NuGetToolInstaller@1
-  inputs:
-    versionSpec: '5.x'
+    - task: MSBuild@1
+      inputs:
+        solution: '**/*.csproj'
+        configuration: $(BuildConfiguration)
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    verbosityRestore: 'Normal'
+- stage: Build_For_Store
+  condition: and(succeeded(), eq(variables['IsGitHubTag'], true))
+  jobs:
+  - job: Build_For_Store
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DownloadSecureFile@1
+      name: signingCert
+      inputs:
+        secureFile: 'WinQuickLook.pfx'
 
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.wapproj'
-    configuration: 'Release'
-    msbuildArguments: /p:Configuration=Release /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundlePlatforms="$(BundlePlatforms)" /p:AppxPackageDir="$(Build.SourcesDirectory)/packed" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=CI /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(PfxPassword)"
+    - powershell: 'echo "##vso[task.setvariable variable=ApplicationVersion]$($env:Build_SourceBranchName.Substring(1))"'
+      displayName: 'Set ApplicationVersion'
 
-- publish: packed
-  artifact: msix
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: $(DotNetSdkVersion)
+
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: $(NuGetCliVersion)
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
+        verbosityRestore: 'Normal'
+
+    - task: MSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        configuration: $(BuildConfiguration)
+        msbuildArguments: /p:Version="$(ApplicationVersion)" /p:UapAppxPackageBuildMode=CI /p:AppxBundlePlatforms="$(BundlePlatforms)" /p:AppxPackageDir="$(Build.SourcesDirectory)/packed" /p:AppxBundle=Always /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(PfxPassword)"
+
+    - publish: packed
+      artifact: msix
