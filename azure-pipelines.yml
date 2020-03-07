@@ -99,7 +99,7 @@ stages:
         solution: '**/*.sln'
         configuration: $(BuildConfiguration)
         msbuildArguments: '/p:Version="$(ApplicationVersion)"
-                           /p:UapAppxPackageBuildMode=CI
+                           /p:UapAppxPackageBuildMode=StoreUpload
                            /p:AppxBundlePlatforms="$(BundlePlatforms)"
                            /p:AppxPackageDir="$(Build.SourcesDirectory)/packed"
                            /p:AppxBundle=Always
