@@ -1,9 +1,11 @@
 ﻿using System.Threading;
 using System.Windows;
 
+#if !DEBUG
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+#endif
 
 using WinQuickLook.Interop;
 
@@ -24,7 +26,9 @@ namespace WinQuickLook
         {
             base.OnStartup(e);
 
+#if !DEBUG
             AppCenter.Start("a49cb0c4-9884-4d72-bf96-ccd0e2c4bbe1", typeof(Analytics), typeof(Crashes));
+#endif
 
             if (!_mutex.WaitOne(0, false))
             {
