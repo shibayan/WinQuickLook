@@ -15,13 +15,13 @@ namespace WinQuickLook.Controls
         private bool _isSeeking;
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        
+
         public Uri Source
         {
             get => (Uri)GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
-        
+
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(Uri), typeof(AudioFileViewer), new PropertyMetadata(null));
 
@@ -30,7 +30,7 @@ namespace WinQuickLook.Controls
             get => (BitmapSource)GetValue(ThumbnailProperty);
             set => SetValue(ThumbnailProperty, value);
         }
-        
+
         public static readonly DependencyProperty ThumbnailProperty =
             DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(AudioFileViewer), new PropertyMetadata(null));
 
@@ -79,7 +79,7 @@ namespace WinQuickLook.Controls
                 slider.Value = mediaElement.Position.TotalSeconds;
             }
         }
-        
+
         private void Slider_DragStarted(object sender, RoutedEventArgs e)
         {
             _isSeeking = true;

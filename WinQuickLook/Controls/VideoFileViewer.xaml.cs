@@ -23,7 +23,7 @@ namespace WinQuickLook.Controls
 
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(Uri), typeof(VideoFileViewer), new PropertyMetadata(null));
-        
+
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
             if (!mediaElement.NaturalDuration.HasTimeSpan)
