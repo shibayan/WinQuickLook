@@ -10,6 +10,9 @@ namespace WinQuickLook.Interop
 
         public const int MAX_PATH = 260;
 
+        public const int GWL_STYLE = -16;
+        public const int WS_SYSMENU = 0x00080000;
+
         public const int GWL_EXSTYLE = -20;
         public const int WS_EX_NOACTIVATE = 0x8000000;
 

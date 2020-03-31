@@ -6,7 +6,7 @@ using PdfiumViewer;
 
 namespace WinQuickLook.Handlers
 {
-    public class PdfPreviewHandler : IQuickLookPreviewHandler
+    public class PdfPreviewHandler : IPreviewHandler
     {
         public bool CanOpen(string fileName)
         {

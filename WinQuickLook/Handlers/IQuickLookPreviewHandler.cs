@@ -2,7 +2,7 @@
 
 namespace WinQuickLook.Handlers
 {
-    public interface IQuickLookPreviewHandler
+    public interface IPreviewHandler
     {
         bool CanOpen(string fileName);
         FrameworkElement GetElement(string fileName);

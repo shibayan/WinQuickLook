@@ -8,7 +8,7 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public abstract class PreviewHandlerBase : IQuickLookPreviewHandler
+    public abstract class PreviewHandlerBase : IPreviewHandler
     {
         public abstract bool CanOpen(string fileName);
         public abstract FrameworkElement GetElement(string fileName);

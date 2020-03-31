@@ -48,7 +48,7 @@ namespace WinQuickLook.Handlers
 
         private static readonly IList<string> _supportFormats = new[]
         {
-            ".txt", ".log", ".md", ".markdown", ".xml", ".config", ".gitignore", ".gitattributes"
+            ".txt", ".log", ".md", ".markdown", ".xml", ".yml", ".yaml", ".config", ".gitignore", ".gitattributes", ".sh", ".bat", ".cmd"
         };
 
         private static Encoding DetectEncoding(byte[] contents)

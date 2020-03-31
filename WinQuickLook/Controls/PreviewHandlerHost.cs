@@ -7,7 +7,7 @@ using Microsoft.Win32;
 
 using WinQuickLook.Interop;
 
-namespace WinQuickLook
+namespace WinQuickLook.Controls
 {
     public class PreviewHandlerHost : Control
     {

@@ -2,13 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 
-using WinQuickLook.Interop;
-
-namespace WinQuickLook
+namespace WinQuickLook.Interop
 {
     public static class WinExplorerHelper
     {
@@ -23,14 +19,17 @@ namespace WinQuickLook
             {
                 return $"{length / (double)TeraByte:0.##} TB";
             }
+
             if (length >= GigaByte)
             {
                 return $"{length / (double)GigaByte:0.##} GB";
             }
+
             if (length >= MegaByte)
             {
                 return $"{length / (double)MegaByte:0.##} MB";
             }
+
             if (length >= KiroByte)
             {
                 return $"{length / (double)KiroByte:0.##} KB";
@@ -39,33 +38,22 @@ namespace WinQuickLook
             return $"{length} B";
         }
 
-        public static void SetWindowLocation(Window window)
+        public static string GetAssocName(string fileName)
         {
-            var foregroundHwnd = NativeMethods.GetForegroundWindow();
+            int pcchOut = 0;
 
-            var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
+            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, null, ref pcchOut);
 
-            var monitorInfo = new MONITORINFO
+            if (pcchOut == 0)
             {
-                cbSize = Marshal.SizeOf<MONITORINFO>()
-            };
+                return null;
+            }
 
-            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+            var pszOut = new StringBuilder(pcchOut);
 
-            var monitor = new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
-                monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
+            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
 
-            NativeMethods.GetDpiForMonitor(hMonitor, Consts.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
-
-            var dpiFactorX = dpiX / 96.0;
-            var dpiFactorY = dpiY / 96.0;
-
-            var hwnd = new WindowInteropHelper(window).Handle;
-
-            var x = monitor.X + ((monitor.Width - (window.Width * dpiFactorX)) / 2);
-            var y = monitor.Y + ((monitor.Height - (window.Height * dpiFactorY)) / 2);
-
-            NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
+            return pszOut.ToString();
         }
 
         public static string GetSelectedItem()
