@@ -8,6 +8,12 @@ namespace WinQuickLook.Handlers
 {
     public class SyntaxHighlightPreviewHandler : PreviewHandlerBase
     {
+        public SyntaxHighlightPreviewHandler()
+        {
+            HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".ts" }, HighlightingManager.Instance.GetDefinitionByExtension(".js"));
+            HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".vue" }, HighlightingManager.Instance.GetDefinitionByExtension(".html"));
+        }
+
         public override bool CanOpen(string fileName)
         {
             if (!File.Exists(fileName))

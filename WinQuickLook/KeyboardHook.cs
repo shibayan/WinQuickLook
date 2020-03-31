@@ -33,11 +33,10 @@ namespace WinQuickLook
                 return;
             }
 
-            using (var process = Process.GetCurrentProcess())
-            using (var module = process.MainModule)
-            {
-                _hook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
-            }
+            using var process = Process.GetCurrentProcess();
+            using var module = process.MainModule;
+
+            _hook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
         }
 
         public void Stop()

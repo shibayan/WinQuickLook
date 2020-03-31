@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
@@ -13,6 +12,8 @@ using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
 using WinQuickLook.Interop;
+
+using IPreviewHandler = WinQuickLook.Handlers.IPreviewHandler;
 
 namespace WinQuickLook
 {
@@ -24,9 +25,9 @@ namespace WinQuickLook
         }
 
         private FileInfo _fileInfo;
-        private IQuickLookPreviewHandler _handler;
+        private IPreviewHandler _handler;
 
-        private static readonly IQuickLookPreviewHandler[] _handlers =
+        private static readonly IPreviewHandler[] _handlers =
         {
             new SyntaxHighlightPreviewHandler(),
             new TextPreviewHandler(),
@@ -54,7 +55,9 @@ namespace WinQuickLook
         {
             base.OnSourceInitialized(e);
 
-            WinExplorerHelper.SetWindowLocation(this);
+            SetBlurEffect();
+
+            SetWindowLocation();
         }
 
         public bool HideIfVisible()
@@ -92,7 +95,7 @@ namespace WinQuickLook
 
             _fileInfo = new FileInfo(fileName);
 
-            WinExplorerHelper.SetWindowLocation(this);
+            SetWindowLocation();
 
             SetAssocName(fileName);
         }
@@ -130,11 +133,6 @@ namespace WinQuickLook
             PreviewHost = null;
         }
 
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            SetBlurEffect();
-        }
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (PreviewHost is Image image && image.StretchDirection != StretchDirection.Both)
@@ -169,17 +167,15 @@ namespace WinQuickLook
 
         private void SetBlurEffect()
         {
-            WindowStyle = WindowStyle.None;
-
             var theme = PlatformHelper.GetWindowsTheme();
 
-            Foreground = theme == WindowsTheme.Light ? Brushes.Black : Brushes.White;
+            Foreground = theme == WindowsTheme.Light ? Brushes.Black : Brushes.LightGray;
 
             var accentPolicy = new ACCENTPOLICY
             {
                 nAccentState = 3,
                 nFlags = 2,
-                nColor = theme == WindowsTheme.Light ? 0x90FFFFFF : 0x90000000
+                nColor = theme == WindowsTheme.Light ? 0xC0FFFFFF : 0xC0000000
             };
 
             var accentPolicySize = Marshal.SizeOf(accentPolicy);
@@ -194,31 +190,58 @@ namespace WinQuickLook
                 pData = accentPolicyPtr
             };
 
-            var interopHelper = new WindowInteropHelper(this);
+            var hwnd = new WindowInteropHelper(this).Handle;
 
-            NativeMethods.SetWindowCompositionAttribute(interopHelper.Handle, ref winCompatData);
+            NativeMethods.SetWindowCompositionAttribute(hwnd, ref winCompatData);
 
             Marshal.FreeHGlobal(accentPolicyPtr);
+
+            var style = NativeMethods.GetWindowLong(hwnd, Consts.GWL_STYLE);
+            NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~Consts.WS_SYSMENU);
         }
 
         private void SetAssocName(string fileName)
         {
-            int pcchOut = 0;
+            var assocName = WinExplorerHelper.GetAssocName(fileName);
 
-            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, null, ref pcchOut);
-
-            if (pcchOut == 0)
+            if (string.IsNullOrEmpty(assocName))
             {
                 open.Visibility = Visibility.Collapsed;
-                return;
             }
+            else
+            {
+                open.ToolTip = string.Format(Properties.Resources.OpenButtonText, assocName);
+                open.Visibility = Visibility.Visible;
+            }
+        }
 
-            var pszOut = new StringBuilder(pcchOut);
+        private void SetWindowLocation()
+        {
+            var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
-            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
+            var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
 
-            open.ToolTip = string.Format(Properties.Resources.OpenButtonText, pszOut);
-            open.Visibility = Visibility.Visible;
+            var monitorInfo = new MONITORINFO
+            {
+                cbSize = Marshal.SizeOf<MONITORINFO>()
+            };
+
+            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+            var monitor = new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
+                monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
+
+            NativeMethods.GetDpiForMonitor(hMonitor, Consts.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
+
+            var dpiFactorX = dpiX / 96.0;
+            var dpiFactorY = dpiY / 96.0;
+
+            var hwnd = new WindowInteropHelper(this).Handle;
+
+            var x = monitor.X + ((monitor.Width - (Width * dpiFactorX)) / 2);
+            var y = monitor.Y + ((monitor.Height - (Height * dpiFactorY)) / 2);
+
+            NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
         }
     }
 }

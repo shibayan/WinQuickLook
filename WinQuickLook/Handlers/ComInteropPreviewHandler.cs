@@ -3,9 +3,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
+using WinQuickLook.Controls;
+
 namespace WinQuickLook.Handlers
 {
-    public class ComInteropPreviewHandler : IQuickLookPreviewHandler
+    public class ComInteropPreviewHandler : IPreviewHandler
     {
         public bool CanOpen(string fileName)
         {

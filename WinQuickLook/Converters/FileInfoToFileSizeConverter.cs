@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Data;
 
+using WinQuickLook.Interop;
+
 namespace WinQuickLook.Converters
 {
     [ValueConversion(typeof(FileSystemInfo), typeof(string))]
@@ -16,9 +18,7 @@ namespace WinQuickLook.Converters
                 case null:
                     return DependencyProperty.UnsetValue;
                 case FileInfo fileInfo:
-                    var length = fileInfo.Length;
-
-                    return WinExplorerHelper.GetSizeFormat(length);
+                    return WinExplorerHelper.GetSizeFormat(fileInfo.Length);
                 case DirectoryInfo directoryInfo:
                     int count = directoryInfo.GetFiles().Length + directoryInfo.GetDirectories().Length;
 

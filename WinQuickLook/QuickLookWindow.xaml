@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        x:Name="window" MinWidth="300" MinHeight="250" Background="Transparent"
+        x:Name="window" d:DesignWidth="500" d:DesignHeight="300" MinWidth="300" MinHeight="250" Background="Transparent" WindowStyle="None"
         ShowActivated="False" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True" FocusVisualStyle="{x:Null}"
-        Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged" SourceInitialized="Window_SourceInitialized">
+        Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </Window.Resources>
