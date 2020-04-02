@@ -20,7 +20,7 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen BackgroundColor="#00137F" Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen BackgroundColor="#007AB7" Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
         <desktop:Extension Category="windows.startupTask" Executable="WinQuickLook\WinQuickLook.exe" EntryPoint="Windows.FullTrustApplication">

@@ -17,6 +17,8 @@ namespace WinQuickLook
 
         private void InitializeContextMenus()
         {
+            notifyIcon1.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Icon.ico", UriKind.Relative)).Stream);
+
             toolStripMenuItem2.Text = Properties.Resources.AutoStartText;
             toolStripMenuItem1.Text = Properties.Resources.ExitText;
 
