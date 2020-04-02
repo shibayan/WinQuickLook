@@ -25,8 +25,8 @@ namespace WinQuickLook.Handlers
 
             NativeMethods.DeleteObject(bitmap);
 
-            Marshal.ReleaseComObject(imageFactory);
-            Marshal.ReleaseComObject(shellItem);
+            Marshal.FinalReleaseComObject(imageFactory);
+            Marshal.FinalReleaseComObject(shellItem);
 
             return image;
         }
