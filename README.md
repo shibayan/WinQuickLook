@@ -1,4 +1,4 @@
-WinQuickLook
+WinQuickLook <img align="right" src="https://raw.githubusercontent.com/shibayan/WinQuickLook/master/WinQuickLook.Package/Assets/Square44x44Logo.scale-200.png">
 ================
 
 [![Build Status](https://dev.azure.com/shibayan/WinQuickLook/_apis/build/status/Build%20WinQuickLook?branchName=master)](https://dev.azure.com/shibayan/WinQuickLook/_build/latest?definitionId=27&branchName=master)
