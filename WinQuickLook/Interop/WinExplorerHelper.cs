@@ -112,7 +112,7 @@ namespace WinQuickLook.Interop
 
         private static string GetSelectedItemCore(IWebBrowserApp webBrowserApp)
         {
-            var serviceProvider = webBrowserApp.QueryInterface<Interop.IServiceProvider>();
+            var serviceProvider = webBrowserApp.QueryInterface<IServiceProvider>();
 
             var shellBrowser = serviceProvider.QueryService<IShellBrowser>(SID.STopLevelBrowser);
 

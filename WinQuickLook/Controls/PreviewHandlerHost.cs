@@ -38,31 +38,30 @@ namespace WinQuickLook.Controls
                 return Guid.Empty;
             }
 
-            using (var extensionKey = Registry.ClassesRoot.OpenSubKey(extension))
+            using var extensionKey = Registry.ClassesRoot.OpenSubKey(extension);
+
+            if (extensionKey == null)
             {
-                if (extensionKey == null)
-                {
-                    return Guid.Empty;
-                }
-
-                var subKey = extensionKey.OpenSubKey(PreviewHandlerSubKey);
-
-                if (subKey != null)
-                {
-                    return new Guid(Convert.ToString(subKey.GetValue(null)));
-                }
-
-                var className = Convert.ToString(extensionKey.GetValue(null));
-
-                subKey = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
-
-                if (subKey != null)
-                {
-                    return new Guid(Convert.ToString(subKey.GetValue(null)));
-                }
-
                 return Guid.Empty;
             }
+
+            using var previewHandlerSubKey = extensionKey.OpenSubKey(PreviewHandlerSubKey);
+
+            if (previewHandlerSubKey != null)
+            {
+                return new Guid(Convert.ToString(previewHandlerSubKey.GetValue(null)));
+            }
+
+            var className = Convert.ToString(extensionKey.GetValue(null));
+
+            using var classNameSubKey = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
+
+            if (classNameSubKey != null)
+            {
+                return new Guid(Convert.ToString(classNameSubKey.GetValue(null)));
+            }
+
+            return Guid.Empty;
         }
 
         public bool Open(string fileName)
