@@ -61,7 +61,7 @@ namespace WinQuickLook.Properties {
         }
         
         /// <summary>
-        ///   Auto Start に類似しているローカライズされた文字列を検索します。
+        ///   Launch on Login に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AutoStartText {
             get {

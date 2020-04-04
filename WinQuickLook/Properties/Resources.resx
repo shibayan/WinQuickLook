@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoStartText" xml:space="preserve">
-    <value>Auto Start</value>
+    <value>Launch on Login</value>
   </data>
   <data name="ExitText" xml:space="preserve">
     <value>Exit</value>
