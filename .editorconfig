@@ -170,11 +170,11 @@ indent_size = 2
 indent_size = 2
 
 # Xml files
-[*.{xml,stylecop,resx,ruleset}]
+[*.{xml,stylecop,resx,ruleset,resw}]
 indent_size = 2
 
 # Xml config files
-[*.{props,targets,config,nuspec}]
+[*.{props,targets,config,nuspec,appxmanifest}]
 indent_size = 2
 
 # Shell scripts
