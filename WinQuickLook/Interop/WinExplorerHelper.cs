@@ -78,6 +78,8 @@ namespace WinQuickLook.Interop
                 {
                     fileName = GetSelectedItemCore(webBrowserApp);
                 }
+
+                Marshal.FinalReleaseComObject(webBrowserApp);
             }
             else
             {
@@ -134,7 +136,9 @@ namespace WinQuickLook.Interop
             Marshal.FreeCoTaskMem(pidl);
 
             Marshal.FinalReleaseComObject(shellFolder);
+            Marshal.FinalReleaseComObject(persistFolder2);
             Marshal.FinalReleaseComObject(folderView);
+            Marshal.FinalReleaseComObject(shellView);
             Marshal.FinalReleaseComObject(shellBrowser);
             Marshal.FinalReleaseComObject(serviceProvider);
 

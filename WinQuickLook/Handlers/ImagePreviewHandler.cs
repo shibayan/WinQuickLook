@@ -18,7 +18,9 @@ namespace WinQuickLook.Handlers
 
             try
             {
-                BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+                using var stream = File.OpenRead(fileName);
+
+                BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
 
                 return true;
             }
