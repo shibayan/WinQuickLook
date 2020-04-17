@@ -3,7 +3,7 @@
   <Identity Name="63945shiba-yan.WinQuickLook" Publisher="CN=E08B54D9-23EA-473D-8731-192043D7D2BB" Version="1.0.0.0" />
   <Properties>
     <DisplayName>WinQuickLook</DisplayName>
-    <PublisherDisplayName>shibayan</PublisherDisplayName>
+    <PublisherDisplayName>Tatsuro Shibamura</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
