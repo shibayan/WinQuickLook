@@ -110,6 +110,6 @@ stages:
                            /verbosity:minimal'
       displayName: Build MSIX Package
 
-    - publish: packed
+    - publish: 'packed/WinQuickLook.Package_$(ApplicationVersion).0_x86_x64_bundle.msixupload'
       artifact: msix
       displayName: Publish MSIX
