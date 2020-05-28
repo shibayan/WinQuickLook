@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Win32;
 
 using WinQuickLook.Interop;
@@ -92,7 +93,17 @@ namespace WinQuickLook.Controls
 
             var type = Type.GetTypeFromCLSID(clsid);
 
+            if (type == null)
+            {
+                return null;
+            }
+
             var previewHandler = (IPreviewHandler)Activator.CreateInstance(type);
+
+            if (previewHandler == null)
+            {
+                return null;
+            }
 
             var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
 
@@ -114,9 +125,18 @@ namespace WinQuickLook.Controls
                 return previewHandler;
             }
 
-            previewHandler.Unload();
-
-            Marshal.FinalReleaseComObject(previewHandler);
+            try
+            {
+                previewHandler.Unload();
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                Marshal.FinalReleaseComObject(previewHandler);
+            }
 
             return null;
         }
@@ -128,11 +148,15 @@ namespace WinQuickLook.Controls
                 try
                 {
                     _previewHandler.Unload();
-
-                    Marshal.FinalReleaseComObject(_previewHandler);
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
                 }
                 finally
                 {
+                    Marshal.FinalReleaseComObject(_previewHandler);
+
                     _previewHandler = null;
                 }
             }
