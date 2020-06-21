@@ -150,7 +150,7 @@ namespace WinQuickLook
         {
             try
             {
-                Process.Start(_fileInfo.FullName);
+                Process.Start(new ProcessStartInfo(_fileInfo.FullName) { UseShellExecute = true });
 
                 HideIfVisible();
             }
