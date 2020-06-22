@@ -30,12 +30,12 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
             var bitmap = GetImage(fileName);
 
-            var maxWidth = (SystemParameters.WorkArea.Width - 100) / 2;
-            var maxHeight = (SystemParameters.WorkArea.Height - 100) / 2;
+            var maxWidth = (maxSize.Width - 100) / 2;
+            var maxHeight = (maxSize.Height - 100) / 2;
 
             var scaleFactor = 1.0;
 
@@ -47,17 +47,21 @@ namespace WinQuickLook.Handlers
                 scaleFactor = subWidth > subHeight ? maxWidth / bitmap.PixelWidth : maxHeight / bitmap.PixelHeight;
             }
 
+            var requestSize = new Size
+            {
+                Width = Math.Min(bitmap.PixelWidth, (int)(bitmap.PixelWidth * scaleFactor)),
+                Height = Math.Min(bitmap.PixelHeight, (int)(bitmap.PixelHeight * scaleFactor))
+            };
+
             var image = new Image();
 
             image.BeginInit();
             image.Stretch = Stretch.Uniform;
             image.StretchDirection = StretchDirection.DownOnly;
             image.Source = bitmap;
-            image.Width = Math.Min(bitmap.PixelWidth, (int)(bitmap.PixelWidth * scaleFactor));
-            image.Height = Math.Min(bitmap.PixelHeight, (int)(bitmap.PixelHeight * scaleFactor));
             image.EndInit();
 
-            return image;
+            return (image, requestSize);
         }
 
         private static BitmapSource GetImage(string fileName)

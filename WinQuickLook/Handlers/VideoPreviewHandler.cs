@@ -16,10 +16,16 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
+
+            var requestSize = new Size
+            {
+                Width = maxWidth / 2,
+                Height = maxHeight / 2
+            };
 
             var videoViewer = new VideoFileViewer();
 
@@ -29,7 +35,7 @@ namespace WinQuickLook.Handlers
             videoViewer.Height = maxHeight / 2;
             videoViewer.EndInit();
 
-            return videoViewer;
+            return (videoViewer, requestSize);
         }
 
         private static readonly IList<string> _supportFormats = new[]

@@ -19,10 +19,16 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
+
+            var requestSize = new Size
+            {
+                Width = maxWidth / 1.5,
+                Height = maxHeight / 1.5
+            };
 
             var previewHandlerHost = new PreviewHandlerHost();
 
@@ -30,13 +36,11 @@ namespace WinQuickLook.Handlers
 
             windowsFormsHost.BeginInit();
             windowsFormsHost.Child = previewHandlerHost;
-            windowsFormsHost.Width = maxWidth / 1.5;
-            windowsFormsHost.Height = maxHeight / 1.5;
             windowsFormsHost.EndInit();
 
             previewHandlerHost.Open(fileName);
 
-            return windowsFormsHost;
+            return (windowsFormsHost, requestSize);
         }
     }
 }

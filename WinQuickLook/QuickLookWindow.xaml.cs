@@ -80,18 +80,14 @@ namespace WinQuickLook
 
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var element = _handler.GetElement(fileName);
+            var monitor = GetCurrentMonitorInfo();
+
+            var (element, requestSize) = _handler.GetViewer(fileName, monitor.Size);
 
             PreviewHost = element;
 
-            if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
-            {
-                Width = Math.Max(element.Width + 4 + 2 + 2 + 2, MinWidth);
-                Height = Math.Max(element.Height + 40 + 4 + 2 + 2 + 2, MinHeight);
-
-                element.Width = double.NaN;
-                element.Height = double.NaN;
-            }
+            Width = Math.Max(requestSize.Width + 4 + 2 + 2 + 2, MinWidth);
+            Height = Math.Max(requestSize.Height + 40 + 4 + 2 + 2 + 2, MinHeight);
 
             _fileInfo = new FileInfo(fileName);
 
@@ -213,6 +209,25 @@ namespace WinQuickLook
                 open.ToolTip = string.Format(Properties.Resources.OpenButtonText, assocName);
                 open.Visibility = Visibility.Visible;
             }
+        }
+
+        private Rect GetCurrentMonitorInfo()
+        {
+            var foregroundHwnd = NativeMethods.GetForegroundWindow();
+
+            var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
+
+            var monitorInfo = new MONITORINFO
+            {
+                cbSize = Marshal.SizeOf<MONITORINFO>()
+            };
+
+            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+            var monitor = new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
+                monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
+
+            return monitor;
         }
 
         private void SetWindowLocation()

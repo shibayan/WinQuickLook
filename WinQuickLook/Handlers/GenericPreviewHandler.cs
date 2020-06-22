@@ -12,13 +12,13 @@ namespace WinQuickLook.Handlers
             return true;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
+            var requestSize = new Size(500, 280);
+
             var fileViewer = new GeneficFileViewer();
 
             fileViewer.BeginInit();
-            fileViewer.Width = 500;
-            fileViewer.Height = 280;
             fileViewer.Thumbnail = GetThumbnail(fileName);
 
             if (File.Exists(fileName))
@@ -32,7 +32,7 @@ namespace WinQuickLook.Handlers
 
             fileViewer.EndInit();
 
-            return fileViewer;
+            return (fileViewer, requestSize);
         }
     }
 }

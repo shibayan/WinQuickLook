@@ -16,18 +16,18 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
+            var requestSize = new Size(300, 300);
+
             var audioViewer = new AudioFileViewer();
 
             audioViewer.BeginInit();
-            audioViewer.Width = 300;
-            audioViewer.Height = 300;
             audioViewer.Source = new Uri(fileName, UriKind.Absolute);
             audioViewer.Thumbnail = GetThumbnail(fileName);
             audioViewer.EndInit();
 
-            return audioViewer;
+            return (audioViewer, requestSize);
         }
 
         private static readonly IList<string> _supportFormats = new[]

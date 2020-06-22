@@ -20,19 +20,23 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
 
             var contents = File.ReadAllBytes(fileName);
             var encoding = DetectEncoding(contents);
 
+            var requestSize = new Size
+            {
+                Width = maxWidth / 2,
+                Height = maxHeight / 2
+            };
+
             var textBox = new TextBox();
 
             textBox.BeginInit();
-            textBox.Width = maxWidth / 2;
-            textBox.Height = maxHeight / 2;
             textBox.Text = encoding.GetString(contents);
             textBox.IsReadOnly = true;
             textBox.IsReadOnlyCaretVisible = false;
@@ -43,7 +47,7 @@ namespace WinQuickLook.Handlers
             textBox.BorderThickness = new Thickness(0);
             textBox.EndInit();
 
-            return textBox;
+            return (textBox, requestSize);
         }
 
         private static readonly IList<string> _supportFormats = new[]

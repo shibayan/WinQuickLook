@@ -22,9 +22,15 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
             var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+
+            var requestSize = new Size
+            {
+                Width = bitmap.Frames[0].PixelWidth,
+                Height = bitmap.Frames[0].PixelHeight
+            };
 
             var mediaElement = new MediaElement();
 
@@ -32,8 +38,6 @@ namespace WinQuickLook.Handlers
             mediaElement.Source = new Uri(fileName, UriKind.Absolute);
             mediaElement.LoadedBehavior = MediaState.Play;
             mediaElement.UnloadedBehavior = MediaState.Manual;
-            mediaElement.Width = bitmap.Frames[0].PixelWidth;
-            mediaElement.Height = bitmap.Frames[0].PixelHeight;
             mediaElement.MediaOpened += (_, __) => mediaElement.Play();
             mediaElement.MediaEnded += (_, __) =>
             {
@@ -42,7 +46,7 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return mediaElement;
+            return (mediaElement, requestSize);
         }
     }
 }

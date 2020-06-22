@@ -15,21 +15,22 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
+
+            var requestSize = new Size
+            {
+                Width = maxWidth / 2,
+                Height = maxHeight / 2
+            };
 
             var webBrowser = new WebBrowser();
 
-            webBrowser.BeginInit();
-            webBrowser.Width = maxWidth / 2;
-            webBrowser.Height = maxHeight / 2;
-            webBrowser.EndInit();
-
             webBrowser.Navigate(new Uri(fileName, UriKind.Absolute));
 
-            return webBrowser;
+            return (webBrowser, requestSize);
         }
 
         private static readonly IList<string> _supportFormats = new[]

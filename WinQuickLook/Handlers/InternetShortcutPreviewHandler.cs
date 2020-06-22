@@ -15,7 +15,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
             var content = File.ReadAllLines(fileName);
 
@@ -23,22 +23,23 @@ namespace WinQuickLook.Handlers
 
             if (url == null)
             {
-                return null;
+                return (null, default);
             }
 
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
+
+            var requestSize = new Size
+            {
+                Width = maxWidth / 2,
+                Height = maxHeight / 2
+            };
 
             var webView = new WebBrowser();
 
-            webView.BeginInit();
-            webView.Width = maxWidth / 2;
-            webView.Height = maxHeight / 2;
-            webView.EndInit();
-
             webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url.Substring(4));
 
-            return webView;
+            return (webView, requestSize);
         }
 
         private static readonly IList<string> _supportFormats = new[]

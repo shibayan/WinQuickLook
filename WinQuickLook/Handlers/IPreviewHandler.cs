@@ -5,6 +5,7 @@ namespace WinQuickLook.Handlers
     public interface IPreviewHandler
     {
         bool CanOpen(string fileName);
-        FrameworkElement GetElement(string fileName);
+
+        (FrameworkElement, Size) GetViewer(string fileName, Size maxSize);
     }
 }

@@ -24,27 +24,29 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var maxWidth = maxSize.Width - 100;
+            var maxHeight = maxSize.Height - 100;
+
+            var requestSize = new Size
+            {
+                Width = maxWidth / 2,
+                Height = maxHeight / 2
+            };
 
             var avalonEdit = new ICSharpCode.AvalonEdit.TextEditor();
 
             avalonEdit.BeginInit();
-
-            avalonEdit.Width = maxWidth / 2;
-            avalonEdit.Height = maxHeight / 2;
             avalonEdit.FontFamily = new FontFamily("Consolas");
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
             avalonEdit.ShowLineNumbers = true;
             avalonEdit.Load(fileName);
             avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName));
-
             avalonEdit.EndInit();
 
-            return avalonEdit;
+            return (avalonEdit, requestSize);
         }
     }
 }

@@ -11,7 +11,8 @@ namespace WinQuickLook.Handlers
     public abstract class PreviewHandlerBase : IPreviewHandler
     {
         public abstract bool CanOpen(string fileName);
-        public abstract FrameworkElement GetElement(string fileName);
+
+        public abstract (FrameworkElement, Size) GetViewer(string fileName, Size maxSize);
 
         protected static BitmapSource GetThumbnail(string fileName)
         {
