@@ -57,7 +57,7 @@ namespace WinQuickLook
 
             SetBlurEffect();
 
-            SetWindowLocation();
+            MoveWindowCentering();
         }
 
         public bool HideIfVisible()
@@ -80,18 +80,18 @@ namespace WinQuickLook
 
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var monitor = GetCurrentMonitorInfo();
+            var monitorSize = GetCurrentMonitorSize();
 
-            var (element, requestSize) = _handler.GetViewer(fileName, monitor.Size);
+            var (element, requestSize) = _handler.GetViewer(fileName, monitorSize);
 
             PreviewHost = element;
 
-            Width = Math.Max(requestSize.Width + 4 + 2 + 2 + 2, MinWidth);
-            Height = Math.Max(requestSize.Height + 40 + 4 + 2 + 2 + 2, MinHeight);
+            Width = Math.Max(requestSize.Width + 10, MinWidth);
+            Height = Math.Max(requestSize.Height + 40 + 5, MinHeight);
 
             _fileInfo = new FileInfo(fileName);
 
-            SetWindowLocation();
+            MoveWindowCentering();
 
             SetAssocName(fileName);
         }
@@ -211,7 +211,7 @@ namespace WinQuickLook
             }
         }
 
-        private Rect GetCurrentMonitorInfo()
+        private Size GetCurrentMonitorSize()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
@@ -224,13 +224,10 @@ namespace WinQuickLook
 
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
 
-            var monitor = new Rect(monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.y,
-                monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
-
-            return monitor;
+            return new Size(monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
         }
 
-        private void SetWindowLocation()
+        private void MoveWindowCentering()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 

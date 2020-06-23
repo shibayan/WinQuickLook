@@ -16,7 +16,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var requestSize = new Size(300, 300);
 

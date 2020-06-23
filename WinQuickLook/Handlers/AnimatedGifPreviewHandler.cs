@@ -22,7 +22,7 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
 

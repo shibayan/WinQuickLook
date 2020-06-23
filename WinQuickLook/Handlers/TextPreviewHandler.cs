@@ -20,10 +20,10 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
-            var maxWidth = maxSize.Width - 100;
-            var maxHeight = maxSize.Height - 100;
+            var maxWidth = monitorSize.Width - 100;
+            var maxHeight = monitorSize.Height - 100;
 
             var contents = File.ReadAllBytes(fileName);
             var encoding = DetectEncoding(contents);

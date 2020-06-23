@@ -12,7 +12,7 @@ namespace WinQuickLook.Handlers
             return true;
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var requestSize = new Size(500, 280);
 

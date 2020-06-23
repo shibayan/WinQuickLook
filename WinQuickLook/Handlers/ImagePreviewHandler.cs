@@ -30,12 +30,12 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var bitmap = GetImage(fileName);
 
-            var maxWidth = (maxSize.Width - 100) / 2;
-            var maxHeight = (maxSize.Height - 100) / 2;
+            var maxWidth = (monitorSize.Width - 100) / 2;
+            var maxHeight = (monitorSize.Height - 100) / 2;
 
             var scaleFactor = 1.0;
 

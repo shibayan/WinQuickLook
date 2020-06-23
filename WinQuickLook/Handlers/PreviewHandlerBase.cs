@@ -12,7 +12,7 @@ namespace WinQuickLook.Handlers
     {
         public abstract bool CanOpen(string fileName);
 
-        public abstract (FrameworkElement, Size) GetViewer(string fileName, Size maxSize);
+        public abstract (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize);
 
         protected static BitmapSource GetThumbnail(string fileName)
         {

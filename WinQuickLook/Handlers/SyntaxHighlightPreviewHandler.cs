@@ -24,10 +24,10 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size maxSize)
+        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
-            var maxWidth = maxSize.Width - 100;
-            var maxHeight = maxSize.Height - 100;
+            var maxWidth = monitorSize.Width - 100;
+            var maxHeight = monitorSize.Height - 100;
 
             var requestSize = new Size
             {
@@ -42,8 +42,8 @@ namespace WinQuickLook.Handlers
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
             avalonEdit.ShowLineNumbers = true;
-            avalonEdit.Load(fileName);
             avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName));
+            avalonEdit.Load(fileName);
             avalonEdit.EndInit();
 
             return (avalonEdit, requestSize);
