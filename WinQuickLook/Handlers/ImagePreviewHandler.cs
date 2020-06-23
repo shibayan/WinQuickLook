@@ -30,27 +30,14 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName)
         {
             var bitmap = GetImage(fileName);
 
-            var maxWidth = (monitorSize.Width - 100) / 2;
-            var maxHeight = (monitorSize.Height - 100) / 2;
-
-            var scaleFactor = 1.0;
-
-            if (maxWidth < bitmap.PixelWidth || maxHeight < bitmap.PixelHeight)
-            {
-                var subWidth = bitmap.PixelWidth - maxWidth;
-                var subHeight = bitmap.PixelHeight - maxHeight;
-
-                scaleFactor = subWidth > subHeight ? maxWidth / bitmap.PixelWidth : maxHeight / bitmap.PixelHeight;
-            }
-
             var requestSize = new Size
             {
-                Width = Math.Min(bitmap.PixelWidth, (int)(bitmap.PixelWidth * scaleFactor)),
-                Height = Math.Min(bitmap.PixelHeight, (int)(bitmap.PixelHeight * scaleFactor))
+                Width = bitmap.PixelWidth,
+                Height = bitmap.PixelHeight
             };
 
             var image = new Image();

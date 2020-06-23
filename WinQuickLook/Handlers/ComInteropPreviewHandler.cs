@@ -19,15 +19,12 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName)
         {
-            var maxWidth = monitorSize.Width - 100;
-            var maxHeight = monitorSize.Height - 100;
-
             var requestSize = new Size
             {
-                Width = maxWidth / 1.5,
-                Height = maxHeight / 1.5
+                Width = 1200,
+                Height = 900
             };
 
             var previewHandlerHost = new PreviewHandlerHost();

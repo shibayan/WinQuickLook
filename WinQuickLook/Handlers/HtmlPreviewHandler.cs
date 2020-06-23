@@ -15,15 +15,12 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName)
         {
-            var maxWidth = monitorSize.Width - 100;
-            var maxHeight = monitorSize.Height - 100;
-
             var requestSize = new Size
             {
-                Width = maxWidth / 2,
-                Height = maxHeight / 2
+                Width = 1200,
+                Height = 900
             };
 
             var webBrowser = new WebBrowser();

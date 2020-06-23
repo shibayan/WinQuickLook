@@ -58,7 +58,7 @@ namespace WinQuickLook
 
             SetBlurEffect();
 
-            MoveWindowCentering();
+            MoveWindowCentering(new Size(300, 250));
         }
 
         public bool HideIfVisible()
@@ -79,20 +79,15 @@ namespace WinQuickLook
         {
             CleanupHost();
 
+            _fileInfo = new FileInfo(fileName);
+
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var monitorSize = GetCurrentMonitorSize();
-
-            var (element, requestSize) = _handler.GetViewer(fileName, monitorSize);
+            var (element, requestSize) = _handler.GetViewer(fileName);
 
             PreviewHost = element;
 
-            Width = Math.Max(requestSize.Width + 10, MinWidth);
-            Height = Math.Max(requestSize.Height + 40 + 5, MinHeight);
-
-            _fileInfo = new FileInfo(fileName);
-
-            MoveWindowCentering();
+            MoveWindowCentering(requestSize);
 
             SetAssocName(fileName);
         }
@@ -212,23 +207,7 @@ namespace WinQuickLook
             }
         }
 
-        private Size GetCurrentMonitorSize()
-        {
-            var foregroundHwnd = NativeMethods.GetForegroundWindow();
-
-            var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
-
-            var monitorInfo = new MONITORINFO
-            {
-                cbSize = Marshal.SizeOf<MONITORINFO>()
-            };
-
-            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
-
-            return new Size(monitorInfo.rcMonitor.cx - monitorInfo.rcMonitor.x, monitorInfo.rcMonitor.cy - monitorInfo.rcMonitor.y);
-        }
-
-        private void MoveWindowCentering()
+        private void MoveWindowCentering(Size requestSize)
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
@@ -249,10 +228,13 @@ namespace WinQuickLook
             var dpiFactorX = dpiX / 96.0;
             var dpiFactorY = dpiY / 96.0;
 
-            var hwnd = new WindowInteropHelper(this).Handle;
+            Width = Math.Max(requestSize.Width + 10, MinWidth);
+            Height = Math.Max(requestSize.Height + 40 + 5, MinHeight);
 
             var x = monitor.X + ((monitor.Width - (Width * dpiFactorX)) / 2);
             var y = monitor.Y + ((monitor.Height - (Height * dpiFactorY)) / 2);
+
+            var hwnd = new WindowInteropHelper(this).Handle;
 
             NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
         }
