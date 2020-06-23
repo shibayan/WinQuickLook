@@ -7,9 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Handlers
 {
-    public class ImagePreviewHandler : PreviewHandlerBase
+    public class ImagePreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -30,7 +30,7 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var bitmap = GetImage(fileName);
 

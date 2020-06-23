@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Data;
 
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook.Converters

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 using IPreviewHandler = WinQuickLook.Handlers.IPreviewHandler;

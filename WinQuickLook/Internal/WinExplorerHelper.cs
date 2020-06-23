@@ -3,7 +3,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WinQuickLook.Interop
+using WinQuickLook.Interop;
+
+using IServiceProvider = WinQuickLook.Interop.IServiceProvider;
+
+namespace WinQuickLook.Internal
 {
     public static class WinExplorerHelper
     {

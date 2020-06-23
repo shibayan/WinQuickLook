@@ -6,9 +6,9 @@ using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Handlers
 {
-    public class AnimatedGifPreviewHandler : PreviewHandlerBase
+    public class AnimatedGifPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
@@ -22,7 +22,7 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
 

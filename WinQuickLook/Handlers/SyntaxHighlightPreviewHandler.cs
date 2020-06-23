@@ -6,7 +6,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 
 namespace WinQuickLook.Handlers
 {
-    public class SyntaxHighlightPreviewHandler : PreviewHandlerBase
+    public class SyntaxHighlightPreviewHandler : IPreviewHandler
     {
         public SyntaxHighlightPreviewHandler()
         {
@@ -14,7 +14,7 @@ namespace WinQuickLook.Handlers
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".vue" }, HighlightingManager.Instance.GetDefinitionByExtension(".html"));
         }
 
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -24,7 +24,7 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var maxWidth = monitorSize.Width - 100;
             var maxHeight = monitorSize.Height - 100;

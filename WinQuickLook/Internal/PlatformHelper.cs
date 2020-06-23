@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace WinQuickLook.Interop
+namespace WinQuickLook.Internal
 {
     internal static class PlatformHelper
     {

@@ -6,16 +6,16 @@ using System.Windows.Controls;
 
 namespace WinQuickLook.Handlers
 {
-    public class InternetShortcutPreviewHandler : PreviewHandlerBase
+    public class InternetShortcutPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
+        public (FrameworkElement, Size) GetViewer(string fileName, Size monitorSize)
         {
             var content = File.ReadAllLines(fileName);
 
