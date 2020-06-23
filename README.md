@@ -6,6 +6,8 @@ WinQuickLook <img align="right" src="https://raw.githubusercontent.com/shibayan/
 
 "Quick Look" like Windows Explorer file viewer.
 
+<a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q?cid=storebadge&ocid=badge"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
+
 ## Requirements
 
 - Windows 10 Version 1903 or later
