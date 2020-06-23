@@ -359,8 +359,7 @@ namespace WinQuickLook.Interop
 
         void EnumCodePages([In] uint grfFlags, [In] ushort LangId, [Out] out IntPtr ppEnumCodePage);
 
-        void GetCharsetInfo(
-            /* [in] */ [In, MarshalAs(UnmanagedType.BStr)] string Charset, [Out] out IntPtr pCharsetInfo);
+        void GetCharsetInfo([In, MarshalAs(UnmanagedType.BStr)] string Charset, [Out] out IntPtr pCharsetInfo);
 
         void IsConvertible([In] uint dwSrcEncoding, [In] uint dwDstEncoding);
 

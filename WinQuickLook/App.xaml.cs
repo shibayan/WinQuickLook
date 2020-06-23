@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Windows;
 
-using WinQuickLook.Internal;
 #if !DEBUG
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 #endif
 
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook
