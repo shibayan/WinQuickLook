@@ -26,8 +26,12 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="playButton" Content="&#xE768;" Style="{StaticResource PlayerButtonStyle}" Margin="0,0,10,0" Visibility="Collapsed" Grid.Column="0" Click="PlayButton_Click" />
                 <Button x:Name="pauseButton" Content="&#xE769;" Style="{StaticResource PlayerButtonStyle}" Margin="0,0,10,0" Grid.Column="0" Click="PauseButton_Click" />
-                <Slider x:Name="slider" Value="0" Minimum="0" SmallChange="1" LargeChange="1" Grid.Column="1" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted" />
-                <TextBlock x:Name="duration" Foreground="White" Text="00:00" Margin="5,0,0,0" Grid.Column="2" />
+                <Slider x:Name="slider" Value="0" Minimum="0" SmallChange="1" LargeChange="1" Grid.Column="1" IsMoveToPointEnabled="True" ValueChanged="Slider_ValueChanged" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted" />
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="2">
+                    <TextBlock x:Name="position" Foreground="White" Text="00:00" />
+                    <TextBlock Foreground="White" Text="/" Margin="2,0,2,0" />
+                    <TextBlock x:Name="duration" Foreground="White" Text="00:00" />
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>
