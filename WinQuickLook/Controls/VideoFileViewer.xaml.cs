@@ -12,6 +12,7 @@ namespace WinQuickLook.Controls
         }
 
         private bool _isSeeking;
+        private bool _isValueChanged;
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
@@ -66,8 +67,14 @@ namespace WinQuickLook.Controls
         {
             if (!_isSeeking)
             {
+                _isValueChanged = true;
+
                 slider.Value = mediaElement.Position.TotalSeconds;
             }
+
+            var timeSpan = mediaElement.Position;
+
+            position.Text = $"{(int)timeSpan.TotalMinutes:D2}:{timeSpan.Seconds:D2}";
         }
 
         private void Slider_DragStarted(object sender, RoutedEventArgs e)
@@ -80,6 +87,16 @@ namespace WinQuickLook.Controls
             _isSeeking = false;
 
             mediaElement.Position = TimeSpan.FromSeconds(slider.Value);
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!_isValueChanged)
+            {
+                mediaElement.Position = TimeSpan.FromSeconds(e.NewValue);
+            }
+
+            _isValueChanged = false;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
