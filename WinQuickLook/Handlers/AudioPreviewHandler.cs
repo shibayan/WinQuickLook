@@ -17,9 +17,9 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var requestSize = new Size(300, 300);
+            var requestSize = new Size(400, 400);
 
             var audioViewer = new AudioFileViewer();
 
@@ -28,7 +28,7 @@ namespace WinQuickLook.Handlers
             audioViewer.Thumbnail = ImagingHelper.GetThumbnail(fileName);
             audioViewer.EndInit();
 
-            return (audioViewer, requestSize);
+            return (audioViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

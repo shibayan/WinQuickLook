@@ -138,4 +138,7 @@
   <data name="OpenButtonText" xml:space="preserve">
     <value>Open with {0}</value>
   </data>
+  <data name="PageCountText" xml:space="preserve">
+    <value>{0} pages</value>
+  </data>
 </root>

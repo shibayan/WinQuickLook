@@ -4,6 +4,8 @@ using System.Windows.Media;
 
 using ICSharpCode.AvalonEdit.Highlighting;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
     public class SyntaxHighlightPreviewHandler : IPreviewHandler
@@ -24,7 +26,7 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size
             {
@@ -43,7 +45,7 @@ namespace WinQuickLook.Handlers
             avalonEdit.Load(fileName);
             avalonEdit.EndInit();
 
-            return (avalonEdit, requestSize);
+            return (avalonEdit, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

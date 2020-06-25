@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
@@ -16,7 +17,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size
             {
@@ -30,7 +31,7 @@ namespace WinQuickLook.Handlers
             videoViewer.Source = new Uri(fileName, UriKind.Absolute);
             videoViewer.EndInit();
 
-            return (videoViewer, requestSize);
+            return (videoViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

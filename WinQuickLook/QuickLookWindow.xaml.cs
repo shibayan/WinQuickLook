@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
 using WinQuickLook.Internal;
@@ -25,7 +24,7 @@ namespace WinQuickLook
             InitializeComponent();
         }
 
-        private FileInfo _fileInfo;
+        private string _fileName;
         private IPreviewHandler _handler;
 
         private static readonly IPreviewHandler[] _handlers =
@@ -56,7 +55,7 @@ namespace WinQuickLook
         {
             base.OnSourceInitialized(e);
 
-            SetBlurEffect();
+            InitializeWindowStyle();
         }
 
         public bool HideIfVisible()
@@ -67,7 +66,6 @@ namespace WinQuickLook
             }
 
             Hide();
-
             CleanupHost();
 
             return true;
@@ -77,27 +75,16 @@ namespace WinQuickLook
         {
             CleanupHost();
 
-            _fileInfo = new FileInfo(fileName);
-
+            _fileName = fileName;
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var (element, requestSize) = _handler.GetViewer(fileName);
+            var (element, requestSize, metadata) = _handler.GetViewer(fileName);
 
             PreviewHost = element;
 
-            SetAssocName(fileName);
+            Title = $"{Path.GetFileName(fileName)}{(metadata == null ? "" : $" ({metadata})")}";
 
-            if (element is Image image)
-            {
-                var bitmap = (BitmapSource)image.Source;
-
-                Title = $"{_fileInfo.Name} ({bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetSizeFormat(_fileInfo.Length)})";
-            }
-            else
-            {
-                Title = _fileInfo.Name;
-            }
-
+            SetAssociatedAppName(fileName);
             MoveWindowCentering(requestSize);
 
             Topmost = true;
@@ -137,7 +124,7 @@ namespace WinQuickLook
         {
             try
             {
-                Process.Start(new ProcessStartInfo(_fileInfo.FullName) { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo(_fileName) { UseShellExecute = true });
 
                 HideIfVisible();
             }
@@ -152,7 +139,7 @@ namespace WinQuickLook
             HideIfVisible();
         }
 
-        private void SetBlurEffect()
+        private void InitializeWindowStyle()
         {
             var theme = PlatformHelper.GetWindowsTheme();
 
@@ -187,7 +174,7 @@ namespace WinQuickLook
             NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~Consts.WS_SYSMENU);
         }
 
-        private void SetAssocName(string fileName)
+        private void SetAssociatedAppName(string fileName)
         {
             var assocName = WinExplorerHelper.GetAssocName(fileName);
 

@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
     public class AnimatedGifPreviewHandler : IPreviewHandler
@@ -22,7 +24,7 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
 
@@ -46,7 +48,7 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return (mediaElement, requestSize);
+            return (mediaElement, requestSize, $"{bitmap.Frames[0].PixelWidth}x{bitmap.Frames[0].PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

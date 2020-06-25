@@ -15,16 +15,18 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var content = File.ReadAllLines(fileName);
 
-            var url = content.FirstOrDefault(x => x.StartsWith("URL"));
+            var urlEntry = content.FirstOrDefault(x => x.StartsWith("URL"));
 
-            if (url == null)
+            if (urlEntry == null)
             {
-                return (null, default);
+                return (null, default, null);
             }
+
+            var url = urlEntry.Substring(4);
 
             var requestSize = new Size
             {
@@ -34,9 +36,9 @@ namespace WinQuickLook.Handlers
 
             var webView = new WebBrowser();
 
-            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url.Substring(4));
+            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url);
 
-            return (webView, requestSize);
+            return (webView, requestSize, url);
         }
 
         private static readonly IList<string> _supportFormats = new[]

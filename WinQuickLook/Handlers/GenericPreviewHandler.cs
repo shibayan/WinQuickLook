@@ -13,7 +13,7 @@ namespace WinQuickLook.Handlers
             return true;
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size(500, 280);
 
@@ -33,7 +33,7 @@ namespace WinQuickLook.Handlers
 
             fileViewer.EndInit();
 
-            return (fileViewer, requestSize);
+            return (fileViewer, requestSize, null);
         }
     }
 }

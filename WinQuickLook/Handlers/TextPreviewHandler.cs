@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
@@ -20,7 +21,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var contents = File.ReadAllBytes(fileName);
             var encoding = DetectEncoding(contents);
@@ -44,7 +45,7 @@ namespace WinQuickLook.Handlers
             textBox.BorderThickness = new Thickness(0);
             textBox.EndInit();
 
-            return (textBox, requestSize);
+            return (textBox, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

@@ -5,6 +5,7 @@ using System.Windows.Forms.Integration;
 using PdfiumViewer;
 
 using WinQuickLook.Extensions;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
@@ -17,7 +18,7 @@ namespace WinQuickLook.Handlers
             return extension == ".pdf";
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var pdfViewer = new PdfViewer();
 
@@ -33,7 +34,7 @@ namespace WinQuickLook.Handlers
             windowsFormsHost.Child = pdfViewer;
             windowsFormsHost.EndInit();
 
-            return (windowsFormsHost, requestSize);
+            return (windowsFormsHost, requestSize, $"{string.Format(Properties.Resources.PageCountText, document.PageCount)} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

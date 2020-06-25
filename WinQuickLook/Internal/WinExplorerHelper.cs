@@ -16,7 +16,12 @@ namespace WinQuickLook.Internal
         private const long MegaByte = 1024L * 1024;
         private const long KiroByte = 1024L;
 
-        public static object GetSizeFormat(long length)
+        public static string GetFileSize(string fileName)
+        {
+            return GetSizeFormat(new FileInfo(fileName).Length);
+        }
+
+        public static string GetSizeFormat(long length)
         {
             if (length >= TeraByte)
             {

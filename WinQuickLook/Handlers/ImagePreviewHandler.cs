@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
     public class ImagePreviewHandler : IPreviewHandler
@@ -30,7 +32,7 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var bitmap = GetImage(fileName);
 
@@ -48,7 +50,7 @@ namespace WinQuickLook.Handlers
             image.Source = bitmap;
             image.EndInit();
 
-            return (image, requestSize);
+            return (image, requestSize, $"{bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static BitmapSource GetImage(string fileName)

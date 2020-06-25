@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Forms.Integration;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
@@ -19,7 +20,7 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size
             {
@@ -37,7 +38,7 @@ namespace WinQuickLook.Handlers
 
             previewHandlerHost.Open(fileName);
 
-            return (windowsFormsHost, requestSize);
+            return (windowsFormsHost, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

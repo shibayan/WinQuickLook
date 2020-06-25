@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
     public class HtmlPreviewHandler : IPreviewHandler
@@ -15,7 +17,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size
             {
@@ -27,7 +29,7 @@ namespace WinQuickLook.Handlers
 
             webBrowser.Navigate(new Uri(fileName, UriKind.Absolute));
 
-            return (webBrowser, requestSize);
+            return (webBrowser, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

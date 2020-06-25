@@ -6,6 +6,6 @@ namespace WinQuickLook.Handlers
     {
         bool CanOpen(string fileName);
 
-        (FrameworkElement, Size) GetViewer(string fileName);
+        (FrameworkElement, Size, string) GetViewer(string fileName);
     }
 }
