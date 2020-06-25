@@ -4,11 +4,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
-    public class AnimatedGifPreviewHandler : PreviewHandlerBase
+    public class AnimatedGifPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
@@ -22,9 +24,15 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+
+            var requestSize = new Size
+            {
+                Width = bitmap.Frames[0].PixelWidth,
+                Height = bitmap.Frames[0].PixelHeight
+            };
 
             var mediaElement = new MediaElement();
 
@@ -32,8 +40,6 @@ namespace WinQuickLook.Handlers
             mediaElement.Source = new Uri(fileName, UriKind.Absolute);
             mediaElement.LoadedBehavior = MediaState.Play;
             mediaElement.UnloadedBehavior = MediaState.Manual;
-            mediaElement.Width = bitmap.Frames[0].PixelWidth;
-            mediaElement.Height = bitmap.Frames[0].PixelHeight;
             mediaElement.MediaOpened += (_, __) => mediaElement.Play();
             mediaElement.MediaEnded += (_, __) =>
             {
@@ -42,7 +48,7 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return mediaElement;
+            return (mediaElement, requestSize, $"{bitmap.Frames[0].PixelWidth}x{bitmap.Frames[0].PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

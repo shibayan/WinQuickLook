@@ -4,32 +4,34 @@ using System.IO;
 using System.Windows;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class VideoPreviewHandler : PreviewHandlerBase
+    public class VideoPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var videoViewer = new VideoFileViewer();
 
             videoViewer.BeginInit();
             videoViewer.Source = new Uri(fileName, UriKind.Absolute);
-            videoViewer.Width = maxWidth / 2;
-            videoViewer.Height = maxHeight / 2;
             videoViewer.EndInit();
 
-            return videoViewer;
+            return (videoViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

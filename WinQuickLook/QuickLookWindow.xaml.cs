@@ -8,9 +8,9 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using WinQuickLook.Handlers;
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 using IPreviewHandler = WinQuickLook.Handlers.IPreviewHandler;
@@ -24,7 +24,7 @@ namespace WinQuickLook
             InitializeComponent();
         }
 
-        private FileInfo _fileInfo;
+        private string _fileName;
         private IPreviewHandler _handler;
 
         private static readonly IPreviewHandler[] _handlers =
@@ -55,9 +55,7 @@ namespace WinQuickLook
         {
             base.OnSourceInitialized(e);
 
-            SetBlurEffect();
-
-            SetWindowLocation();
+            InitializeWindowStyle();
         }
 
         public bool HideIfVisible()
@@ -68,7 +66,6 @@ namespace WinQuickLook
             }
 
             Hide();
-
             CleanupHost();
 
             return true;
@@ -78,44 +75,21 @@ namespace WinQuickLook
         {
             CleanupHost();
 
+            _fileName = fileName;
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var element = _handler.GetElement(fileName);
+            var (element, requestSize, metadata) = _handler.GetViewer(fileName);
 
             PreviewHost = element;
 
-            if (!double.IsNaN(element.Width) && !double.IsNaN(element.Height))
-            {
-                Width = Math.Max(element.Width + 4 + 2 + 2 + 2, MinWidth);
-                Height = Math.Max(element.Height + 40 + 4 + 2 + 2 + 2, MinHeight);
+            Title = $"{Path.GetFileName(fileName)}{(metadata == null ? "" : $" ({metadata})")}";
 
-                element.Width = double.NaN;
-                element.Height = double.NaN;
-            }
-
-            _fileInfo = new FileInfo(fileName);
-
-            SetWindowLocation();
-
-            SetAssocName(fileName);
-        }
-
-        public new void Show()
-        {
-            if (PreviewHost is Image image)
-            {
-                var bitmap = (BitmapSource)image.Source;
-
-                Title = $"{_fileInfo.Name} ({bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetSizeFormat(_fileInfo.Length)})";
-            }
-            else
-            {
-                Title = _fileInfo.Name;
-            }
+            SetAssociatedAppName(fileName);
+            MoveWindowCentering(requestSize);
 
             Topmost = true;
 
-            base.Show();
+            Show();
 
             Topmost = false;
         }
@@ -150,7 +124,7 @@ namespace WinQuickLook
         {
             try
             {
-                Process.Start(new ProcessStartInfo(_fileInfo.FullName) { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo(_fileName) { UseShellExecute = true });
 
                 HideIfVisible();
             }
@@ -165,7 +139,7 @@ namespace WinQuickLook
             HideIfVisible();
         }
 
-        private void SetBlurEffect()
+        private void InitializeWindowStyle()
         {
             var theme = PlatformHelper.GetWindowsTheme();
 
@@ -200,7 +174,7 @@ namespace WinQuickLook
             NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~Consts.WS_SYSMENU);
         }
 
-        private void SetAssocName(string fileName)
+        private void SetAssociatedAppName(string fileName)
         {
             var assocName = WinExplorerHelper.GetAssocName(fileName);
 
@@ -215,16 +189,13 @@ namespace WinQuickLook
             }
         }
 
-        private void SetWindowLocation()
+        private void MoveWindowCentering(Size requestSize)
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();
 
             var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
 
-            var monitorInfo = new MONITORINFO
-            {
-                cbSize = Marshal.SizeOf<MONITORINFO>()
-            };
+            var monitorInfo = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
 
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
 
@@ -236,10 +207,16 @@ namespace WinQuickLook
             var dpiFactorX = dpiX / 96.0;
             var dpiFactorY = dpiY / 96.0;
 
-            var hwnd = new WindowInteropHelper(this).Handle;
+            var minWidthOrHeight = Math.Min(monitor.Width, monitor.Height) * 0.8;
+            var scaleFactor = Math.Min(minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height), 1.0);
+
+            Width = Math.Max(Math.Round(requestSize.Width * scaleFactor) + 10, MinWidth);
+            Height = Math.Max(Math.Round(requestSize.Height * scaleFactor) + 40 + 5, MinHeight);
 
             var x = monitor.X + ((monitor.Width - (Width * dpiFactorX)) / 2);
             var y = monitor.Y + ((monitor.Height - (Height * dpiFactorY)) / 2);
+
+            var hwnd = new WindowInteropHelper(this).Handle;
 
             NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
         }

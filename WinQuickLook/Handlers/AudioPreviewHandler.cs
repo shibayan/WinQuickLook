@@ -4,30 +4,31 @@ using System.IO;
 using System.Windows;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class AudioPreviewHandler : PreviewHandlerBase
+    public class AudioPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
+            var requestSize = new Size(400, 400);
+
             var audioViewer = new AudioFileViewer();
 
             audioViewer.BeginInit();
-            audioViewer.Width = 300;
-            audioViewer.Height = 300;
             audioViewer.Source = new Uri(fileName, UriKind.Absolute);
-            audioViewer.Thumbnail = GetThumbnail(fileName);
+            audioViewer.Thumbnail = ImagingHelper.GetThumbnail(fileName);
             audioViewer.EndInit();
 
-            return audioViewer;
+            return (audioViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

@@ -1,12 +1,15 @@
-﻿using System.Threading;
+﻿using System.Text;
+using System.Threading;
 using System.Windows;
 
+using WinQuickLook.Extensions;
 #if !DEBUG
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 #endif
 
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook
@@ -25,6 +28,8 @@ namespace WinQuickLook
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 #if !DEBUG
             AppCenter.Start("a49cb0c4-9884-4d72-bf96-ccd0e2c4bbe1", typeof(Analytics), typeof(Crashes));
@@ -53,6 +58,9 @@ namespace WinQuickLook
             };
 
             _keyboardHook.Start();
+
+            // Preloading Window
+            _quickLookWindow.Preload();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -84,7 +92,6 @@ namespace WinQuickLook
             _currentItem = selectedItem;
 
             _quickLookWindow.Open(selectedItem);
-            _quickLookWindow.Show();
         }
 
         private void ChangeQuickLook()
@@ -104,7 +111,6 @@ namespace WinQuickLook
             _currentItem = selectedItem;
 
             _quickLookWindow.Open(selectedItem);
-            _quickLookWindow.Show();
         }
 
         private void CancelQuickLook()

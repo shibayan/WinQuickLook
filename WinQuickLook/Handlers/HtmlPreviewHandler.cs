@@ -4,32 +4,32 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
-    public class HtmlPreviewHandler : PreviewHandlerBase
+    public class HtmlPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var webBrowser = new WebBrowser();
 
-            webBrowser.BeginInit();
-            webBrowser.Width = maxWidth / 2;
-            webBrowser.Height = maxHeight / 2;
-            webBrowser.EndInit();
-
             webBrowser.Navigate(new Uri(fileName, UriKind.Absolute));
 
-            return webBrowser;
+            return (webBrowser, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

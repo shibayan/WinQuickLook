@@ -138,4 +138,7 @@
   <data name="OpenButtonText" xml:space="preserve">
     <value>用 {0} 打开</value>
   </data>
+  <data name="PageCountText" xml:space="preserve">
+    <value>{0} 页数</value>
+  </data>
 </root>

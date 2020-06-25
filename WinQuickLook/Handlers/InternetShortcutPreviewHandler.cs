@@ -6,39 +6,39 @@ using System.Windows.Controls;
 
 namespace WinQuickLook.Handlers
 {
-    public class InternetShortcutPreviewHandler : PreviewHandlerBase
+    public class InternetShortcutPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var content = File.ReadAllLines(fileName);
 
-            var url = content.FirstOrDefault(x => x.StartsWith("URL"));
+            var urlEntry = content.FirstOrDefault(x => x.StartsWith("URL"));
 
-            if (url == null)
+            if (urlEntry == null)
             {
-                return null;
+                return (null, default, null);
             }
 
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var url = urlEntry.Substring(4);
+
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var webView = new WebBrowser();
 
-            webView.BeginInit();
-            webView.Width = maxWidth / 2;
-            webView.Height = maxHeight / 2;
-            webView.EndInit();
+            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url);
 
-            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url.Substring(4));
-
-            return webView;
+            return (webView, requestSize, url);
         }
 
         private static readonly IList<string> _supportFormats = new[]

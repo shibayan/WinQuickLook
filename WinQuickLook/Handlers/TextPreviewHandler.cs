@@ -7,32 +7,34 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public class TextPreviewHandler : PreviewHandlerBase
+    public class TextPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             var extension = (Path.GetExtension(fileName) ?? "").ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
-
             var contents = File.ReadAllBytes(fileName);
             var encoding = DetectEncoding(contents);
+
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var textBox = new TextBox();
 
             textBox.BeginInit();
-            textBox.Width = maxWidth / 2;
-            textBox.Height = maxHeight / 2;
             textBox.Text = encoding.GetString(contents);
             textBox.IsReadOnly = true;
             textBox.IsReadOnlyCaretVisible = false;
@@ -43,7 +45,7 @@ namespace WinQuickLook.Handlers
             textBox.BorderThickness = new Thickness(0);
             textBox.EndInit();
 
-            return textBox;
+            return (textBox, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

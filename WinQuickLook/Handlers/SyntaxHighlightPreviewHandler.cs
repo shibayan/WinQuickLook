@@ -4,9 +4,11 @@ using System.Windows.Media;
 
 using ICSharpCode.AvalonEdit.Highlighting;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
-    public class SyntaxHighlightPreviewHandler : PreviewHandlerBase
+    public class SyntaxHighlightPreviewHandler : IPreviewHandler
     {
         public SyntaxHighlightPreviewHandler()
         {
@@ -14,7 +16,7 @@ namespace WinQuickLook.Handlers
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".vue" }, HighlightingManager.Instance.GetDefinitionByExtension(".html"));
         }
 
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -24,27 +26,26 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var avalonEdit = new ICSharpCode.AvalonEdit.TextEditor();
 
             avalonEdit.BeginInit();
-
-            avalonEdit.Width = maxWidth / 2;
-            avalonEdit.Height = maxHeight / 2;
             avalonEdit.FontFamily = new FontFamily("Consolas");
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
             avalonEdit.ShowLineNumbers = true;
-            avalonEdit.Load(fileName);
             avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName));
-
+            avalonEdit.Load(fileName);
             avalonEdit.EndInit();
 
-            return avalonEdit;
+            return (avalonEdit, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

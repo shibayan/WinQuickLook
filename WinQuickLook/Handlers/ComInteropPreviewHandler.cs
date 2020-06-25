@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Forms.Integration;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
@@ -19,10 +20,13 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var maxWidth = SystemParameters.WorkArea.Width - 100;
-            var maxHeight = SystemParameters.WorkArea.Height - 100;
+            var requestSize = new Size
+            {
+                Width = 1200,
+                Height = 900
+            };
 
             var previewHandlerHost = new PreviewHandlerHost();
 
@@ -30,13 +34,11 @@ namespace WinQuickLook.Handlers
 
             windowsFormsHost.BeginInit();
             windowsFormsHost.Child = previewHandlerHost;
-            windowsFormsHost.Width = maxWidth / 1.5;
-            windowsFormsHost.Height = maxHeight / 1.5;
             windowsFormsHost.EndInit();
 
             previewHandlerHost.Open(fileName);
 
-            return windowsFormsHost;
+            return (windowsFormsHost, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

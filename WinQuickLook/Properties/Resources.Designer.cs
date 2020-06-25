@@ -122,5 +122,14 @@ namespace WinQuickLook.Properties {
                 return ResourceManager.GetString("OpenButtonText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   {0} pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PageCountText {
+            get {
+                return ResourceManager.GetString("PageCountText", resourceCulture);
+            }
+        }
     }
 }

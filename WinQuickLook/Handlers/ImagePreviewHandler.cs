@@ -5,11 +5,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using WinQuickLook.Internal;
+
 namespace WinQuickLook.Handlers
 {
-    public class ImagePreviewHandler : PreviewHandlerBase
+    public class ImagePreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -30,22 +32,15 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var bitmap = GetImage(fileName);
 
-            var maxWidth = (SystemParameters.WorkArea.Width - 100) / 2;
-            var maxHeight = (SystemParameters.WorkArea.Height - 100) / 2;
-
-            var scaleFactor = 1.0;
-
-            if (maxWidth < bitmap.PixelWidth || maxHeight < bitmap.PixelHeight)
+            var requestSize = new Size
             {
-                var subWidth = bitmap.PixelWidth - maxWidth;
-                var subHeight = bitmap.PixelHeight - maxHeight;
-
-                scaleFactor = subWidth > subHeight ? maxWidth / bitmap.PixelWidth : maxHeight / bitmap.PixelHeight;
-            }
+                Width = bitmap.PixelWidth,
+                Height = bitmap.PixelHeight
+            };
 
             var image = new Image();
 
@@ -53,11 +48,9 @@ namespace WinQuickLook.Handlers
             image.Stretch = Stretch.Uniform;
             image.StretchDirection = StretchDirection.DownOnly;
             image.Source = bitmap;
-            image.Width = Math.Min(bitmap.PixelWidth, (int)(bitmap.PixelWidth * scaleFactor));
-            image.Height = Math.Min(bitmap.PixelHeight, (int)(bitmap.PixelHeight * scaleFactor));
             image.EndInit();
 
-            return image;
+            return (image, requestSize, $"{bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static BitmapSource GetImage(string fileName)

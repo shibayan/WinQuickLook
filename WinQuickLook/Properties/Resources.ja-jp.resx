@@ -138,4 +138,7 @@
   <data name="OpenButtonText" xml:space="preserve">
     <value>{0} で開く</value>
   </data>
+  <data name="PageCountText" xml:space="preserve">
+    <value>{0} ページ</value>
+  </data>
 </root>

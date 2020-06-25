@@ -3,7 +3,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WinQuickLook.Interop
+using WinQuickLook.Interop;
+
+using IServiceProvider = WinQuickLook.Interop.IServiceProvider;
+
+namespace WinQuickLook.Internal
 {
     public static class WinExplorerHelper
     {
@@ -12,7 +16,12 @@ namespace WinQuickLook.Interop
         private const long MegaByte = 1024L * 1024;
         private const long KiroByte = 1024L;
 
-        public static object GetSizeFormat(long length)
+        public static string GetFileSize(string fileName)
+        {
+            return GetSizeFormat(new FileInfo(fileName).Length);
+        }
+
+        public static string GetSizeFormat(long length)
         {
             if (length >= TeraByte)
             {

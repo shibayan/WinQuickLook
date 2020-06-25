@@ -2,24 +2,25 @@
 using System.Windows;
 
 using WinQuickLook.Controls;
+using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class GenericPreviewHandler : PreviewHandlerBase
+    public class GenericPreviewHandler : IPreviewHandler
     {
-        public override bool CanOpen(string fileName)
+        public bool CanOpen(string fileName)
         {
             return true;
         }
 
-        public override FrameworkElement GetElement(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
+            var requestSize = new Size(500, 280);
+
             var fileViewer = new GeneficFileViewer();
 
             fileViewer.BeginInit();
-            fileViewer.Width = 500;
-            fileViewer.Height = 280;
-            fileViewer.Thumbnail = GetThumbnail(fileName);
+            fileViewer.Thumbnail = ImagingHelper.GetThumbnail(fileName);
 
             if (File.Exists(fileName))
             {
@@ -32,7 +33,7 @@ namespace WinQuickLook.Handlers
 
             fileViewer.EndInit();
 
-            return fileViewer;
+            return (fileViewer, requestSize, null);
         }
     }
 }

@@ -6,14 +6,11 @@ using System.Windows.Media.Imaging;
 
 using WinQuickLook.Interop;
 
-namespace WinQuickLook.Handlers
+namespace WinQuickLook.Internal
 {
-    public abstract class PreviewHandlerBase : IPreviewHandler
+    internal class ImagingHelper
     {
-        public abstract bool CanOpen(string fileName);
-        public abstract FrameworkElement GetElement(string fileName);
-
-        protected static BitmapSource GetThumbnail(string fileName)
+        public static BitmapSource GetThumbnail(string fileName)
         {
             NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
 
