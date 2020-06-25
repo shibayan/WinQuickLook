@@ -208,13 +208,7 @@ namespace WinQuickLook
             var dpiFactorY = dpiY / 96.0;
 
             var minWidthOrHeight = Math.Min(monitor.Width, monitor.Height) * 0.8;
-
-            var scaleFactor = minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height);
-
-            if (scaleFactor > 1.0)
-            {
-                scaleFactor = 1.0;
-            }
+            var scaleFactor = Math.Min(minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height), 1.0);
 
             Width = Math.Max(Math.Round(requestSize.Width * scaleFactor) + 10, MinWidth);
             Height = Math.Max(Math.Round(requestSize.Height * scaleFactor) + 40 + 5, MinHeight);
