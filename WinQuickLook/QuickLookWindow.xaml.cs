@@ -57,8 +57,6 @@ namespace WinQuickLook
             base.OnSourceInitialized(e);
 
             SetBlurEffect();
-
-            MoveWindowCentering(new Size(300, 250));
         }
 
         public bool HideIfVisible()
@@ -87,14 +85,9 @@ namespace WinQuickLook
 
             PreviewHost = element;
 
-            MoveWindowCentering(requestSize);
-
             SetAssocName(fileName);
-        }
 
-        public new void Show()
-        {
-            if (PreviewHost is Image image)
+            if (element is Image image)
             {
                 var bitmap = (BitmapSource)image.Source;
 
@@ -105,9 +98,11 @@ namespace WinQuickLook
                 Title = _fileInfo.Name;
             }
 
+            MoveWindowCentering(requestSize);
+
             Topmost = true;
 
-            base.Show();
+            Show();
 
             Topmost = false;
         }
@@ -213,10 +208,7 @@ namespace WinQuickLook
 
             var hMonitor = NativeMethods.MonitorFromWindow(foregroundHwnd, Consts.MONITOR_DEFAULTTOPRIMARY);
 
-            var monitorInfo = new MONITORINFO
-            {
-                cbSize = Marshal.SizeOf<MONITORINFO>()
-            };
+            var monitorInfo = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
 
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
 
@@ -228,8 +220,17 @@ namespace WinQuickLook
             var dpiFactorX = dpiX / 96.0;
             var dpiFactorY = dpiY / 96.0;
 
-            Width = Math.Max(requestSize.Width + 10, MinWidth);
-            Height = Math.Max(requestSize.Height + 40 + 5, MinHeight);
+            var minWidthOrHeight = Math.Min(monitor.Width, monitor.Height) * 0.8;
+
+            var scaleFactor = minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height);
+
+            if (scaleFactor > 1.0)
+            {
+                scaleFactor = 1.0;
+            }
+
+            Width = Math.Max(Math.Round(requestSize.Width * scaleFactor) + 10, MinWidth);
+            Height = Math.Max(Math.Round(requestSize.Height * scaleFactor) + 40 + 5, MinHeight);
 
             var x = monitor.X + ((monitor.Width - (Width * dpiFactorX)) / 2);
             var y = monitor.Y + ((monitor.Height - (Height * dpiFactorY)) / 2);

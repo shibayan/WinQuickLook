@@ -4,6 +4,8 @@ using System.Windows.Forms.Integration;
 
 using PdfiumViewer;
 
+using WinQuickLook.Extensions;
+
 namespace WinQuickLook.Handlers
 {
     public class PdfPreviewHandler : IPreviewHandler
@@ -23,11 +25,7 @@ namespace WinQuickLook.Handlers
 
             pdfViewer.Document = document;
 
-            var requestSize = new Size
-            {
-                Width = document.PageSizes[0].Width,
-                Height = document.PageSizes[0].Height
-            };
+            var requestSize = document.GetPageSize();
 
             var windowsFormsHost = new WindowsFormsHost();
 
