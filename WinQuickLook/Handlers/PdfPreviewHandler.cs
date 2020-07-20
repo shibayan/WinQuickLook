@@ -34,7 +34,7 @@ namespace WinQuickLook.Handlers
             windowsFormsHost.Child = pdfViewer;
             windowsFormsHost.EndInit();
 
-            return (windowsFormsHost, requestSize, $"{string.Format(Properties.Resources.PageCountText, document.PageCount)} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (windowsFormsHost, requestSize, $"{string.Format(Strings.Resources.PageCountText, document.PageCount)} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

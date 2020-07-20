@@ -22,7 +22,7 @@ namespace WinQuickLook.Converters
                 case DirectoryInfo directoryInfo:
                     int count = directoryInfo.GetFiles().Length + directoryInfo.GetDirectories().Length;
 
-                    return string.Format(Properties.Resources.FileItemCount, count);
+                    return string.Format(Strings.Resources.FileItemCount, count);
             }
 
             return DependencyProperty.UnsetValue;

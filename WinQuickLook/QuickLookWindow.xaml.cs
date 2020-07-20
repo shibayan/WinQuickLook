@@ -130,7 +130,7 @@ namespace WinQuickLook
             }
             catch
             {
-                MessageBox.Show(Properties.Resources.OpenButtonErrorMessage, "WinQuickLook");
+                MessageBox.Show(Strings.Resources.OpenButtonErrorMessage, "WinQuickLook");
             }
         }
 
@@ -184,7 +184,7 @@ namespace WinQuickLook
             }
             else
             {
-                open.ToolTip = string.Format(Properties.Resources.OpenButtonText, assocName);
+                open.ToolTip = string.Format(Strings.Resources.OpenButtonText, assocName);
                 open.Visibility = Visibility.Visible;
             }
         }

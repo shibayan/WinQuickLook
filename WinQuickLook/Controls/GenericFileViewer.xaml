@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:WinQuickLook.Converters"
-             xmlns:properties="clr-namespace:WinQuickLook.Properties"
+             xmlns:properties="clr-namespace:WinQuickLook.Strings"
              xmlns:gl="clr-namespace:System.Globalization;assembly=System.Runtime"
              mc:Ignorable="d"
              d:DesignHeight="280" d:DesignWidth="500" x:Name="userControl">

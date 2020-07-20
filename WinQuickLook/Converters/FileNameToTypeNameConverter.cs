@@ -18,7 +18,7 @@ namespace WinQuickLook.Converters
 
             if (Directory.Exists(fileName))
             {
-                return Properties.Resources.FileTypeDirectory;
+                return Strings.Resources.FileTypeDirectory;
             }
 
             var sfi = new SHFILEINFO();
