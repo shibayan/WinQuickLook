@@ -18,7 +18,7 @@ namespace WinQuickLook
     {
         private Mutex _mutex = new Mutex(false, "WinQuickLook");
 
-        private KeyboardHook _keyboardHook;
+        private MessageHook _messageHook;
         private NotifyIconWrapper _notifyIcon;
 
         private readonly QuickLookWindow _quickLookWindow = new QuickLookWindow();
@@ -61,14 +61,14 @@ namespace WinQuickLook
             _notifyIcon = new NotifyIconWrapper();
             _notifyIcon.Click += (_, __) => { _quickLookWindow?.Activate(); };
 
-            _keyboardHook = new KeyboardHook(Current.Dispatcher)
+            _messageHook = new MessageHook(Current.Dispatcher)
             {
                 PerformAction = PerformQuickLook,
                 ChangeAction = ChangeQuickLook,
                 CancelAction = CancelQuickLook
             };
 
-            _keyboardHook.Start();
+            _messageHook.Start();
 
             // Preloading Window
             _quickLookWindow.Preload();
@@ -80,7 +80,7 @@ namespace WinQuickLook
 
             _quickLookWindow.Close();
 
-            _keyboardHook?.Dispose();
+            _messageHook?.Dispose();
             _notifyIcon?.Dispose();
 
             _mutex?.ReleaseMutex();

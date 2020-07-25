@@ -8,13 +8,14 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook
 {
-    public class KeyboardHook : IDisposable
+    public class MessageHook : IDisposable
     {
-        public KeyboardHook(Dispatcher dispatcher)
+        public MessageHook(Dispatcher dispatcher)
         {
             Dispatcher = dispatcher;
 
             _keyboardHookProc = KeyboardHookProc;
+            _mouseHookProc = MouseHookProc;
         }
 
         public Dispatcher Dispatcher { get; }
@@ -23,12 +24,32 @@ namespace WinQuickLook
         public Action ChangeAction { get; set; }
         public Action CancelAction { get; set; }
 
-        private IntPtr _hook;
-        private readonly NativeMethods.LowLevelKeyboardProc _keyboardHookProc;
+        private IntPtr _keyboardHook;
+        private readonly NativeMethods.LowLevelHookProc _keyboardHookProc;
+
+        private IntPtr _mouseHook;
+        private readonly NativeMethods.LowLevelHookProc _mouseHookProc;
 
         public void Start()
         {
-            if (_hook != IntPtr.Zero)
+            StartKeyboardHook();
+            StartMouseHook();
+        }
+
+        public void Stop()
+        {
+            StopKeyboardHook();
+            StopMouseHook();
+        }
+
+        public void Dispose()
+        {
+            Stop();
+        }
+
+        private void StartKeyboardHook()
+        {
+            if (_keyboardHook != IntPtr.Zero)
             {
                 return;
             }
@@ -36,22 +57,17 @@ namespace WinQuickLook
             using var process = Process.GetCurrentProcess();
             using var module = process.MainModule;
 
-            _hook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
+            _keyboardHook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
         }
 
-        public void Stop()
+        private void StopKeyboardHook()
         {
-            if (_hook != IntPtr.Zero)
+            if (_keyboardHook != IntPtr.Zero)
             {
-                NativeMethods.UnhookWindowsHookEx(_hook);
+                NativeMethods.UnhookWindowsHookEx(_keyboardHook);
 
-                _hook = IntPtr.Zero;
+                _keyboardHook = IntPtr.Zero;
             }
-        }
-
-        public void Dispose()
-        {
-            Stop();
         }
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
@@ -79,7 +95,40 @@ namespace WinQuickLook
                 }
             }
 
-            return NativeMethods.CallNextHookEx(_hook, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(_keyboardHook, nCode, wParam, lParam);
+        }
+
+        private void StartMouseHook()
+        {
+            if (_mouseHook != IntPtr.Zero)
+            {
+                return;
+            }
+
+            using var process = Process.GetCurrentProcess();
+            using var module = process.MainModule;
+
+            _mouseHook = NativeMethods.SetWindowsHookEx(Consts.WH_MOUSE_LL, _mouseHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
+        }
+
+        private void StopMouseHook()
+        {
+            if (_mouseHook != IntPtr.Zero)
+            {
+                NativeMethods.UnhookWindowsHookEx(_mouseHook);
+
+                _mouseHook = IntPtr.Zero;
+            }
+        }
+
+        private IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            if (nCode == Consts.HC_ACTION && wParam == (IntPtr)Consts.WM_LBUTTONDOWN)
+            {
+                Dispatcher.InvokeAsync(ChangeAction);
+            }
+
+            return NativeMethods.CallNextHookEx(_mouseHook, nCode, wParam, lParam);
         }
 
         private static bool IsNotModifierKeys()
