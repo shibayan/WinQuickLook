@@ -2,13 +2,13 @@
 using System.Threading;
 using System.Windows;
 
-using WinQuickLook.Extensions;
 #if !DEBUG
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 #endif
 
+using WinQuickLook.Extensions;
 using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
@@ -28,6 +28,17 @@ namespace WinQuickLook
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            NativeMethods.DwmIsCompositionEnabled(out var isDwmEnabled);
+
+            if (!isDwmEnabled)
+            {
+                MessageBox.Show(Strings.Resources.DwmDisabledErrorMessage, "WinQuickLook");
+
+                Current.Shutdown();
+
+                return;
+            }
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
