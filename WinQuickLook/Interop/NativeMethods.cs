@@ -9,7 +9,7 @@ namespace WinQuickLook.Interop
     internal static class NativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        public delegate IntPtr LowLevelHookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
@@ -18,13 +18,13 @@ namespace WinQuickLook.Interop
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(int hookType, LowLevelKeyboardProc hookDelegate, IntPtr module, uint threadId);
+        public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelHookProc lpfn, IntPtr hmod, uint dwThreadId);
 
         [DllImport("user32.dll")]
-        public static extern bool UnhookWindowsHookEx(IntPtr hook);
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr CallNextHookEx(IntPtr hook, int nCode, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
