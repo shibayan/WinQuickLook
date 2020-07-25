@@ -120,6 +120,9 @@
   <data name="AutoStartText" xml:space="preserve">
     <value>Launch on Login</value>
   </data>
+  <data name="DwmDisabledErrorMessage" xml:space="preserve">
+    <value>Applications cannot be launched because Desktop Composition (DWM) is disabled.</value>
+  </data>
   <data name="ExitText" xml:space="preserve">
     <value>Exit</value>
   </data>

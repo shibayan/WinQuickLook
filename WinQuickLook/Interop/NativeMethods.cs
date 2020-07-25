@@ -70,6 +70,9 @@ namespace WinQuickLook.Interop
         [DllImport("dwmapi.dll")]
         public static extern int DwmGetColorizationColor([Out] out uint pcrColorization, [Out] out bool pfOpaqueBlend);
 
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmIsCompositionEnabled(out bool pfEnabled);
+
         [DllImport("user32.dll")]
         public static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
 

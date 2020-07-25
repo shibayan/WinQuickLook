@@ -70,6 +70,15 @@ namespace WinQuickLook.Strings {
         }
         
         /// <summary>
+        ///   Applications cannot be launched because Desktop Composition (DWM) is disabled. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DwmDisabledErrorMessage {
+            get {
+                return ResourceManager.GetString("DwmDisabledErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Exit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExitText {

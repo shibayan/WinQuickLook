@@ -120,6 +120,9 @@
   <data name="AutoStartText" xml:space="preserve">
     <value>ログイン時に自動で開始する</value>
   </data>
+  <data name="DwmDisabledErrorMessage" xml:space="preserve">
+    <value>デスクトップコンポジション (DWM) が無効化されているためアプリケーションを起動できません。</value>
+  </data>
   <data name="ExitText" xml:space="preserve">
     <value>終了</value>
   </data>
