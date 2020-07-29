@@ -88,6 +88,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <PRIResource Include="Strings\de-de\Resources.resw" />
+    <PRIResource Include="Strings\es-es\Resources.resw" />
+    <PRIResource Include="Strings\ru-ru\Resources.resw" />
+    <PRIResource Include="Strings\pl-pl\Resources.resw" />
     <PRIResource Include="Strings\zh-cn\Resources.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw" />
     <PRIResource Include="Strings\ja-jp\Resources.resw" />
