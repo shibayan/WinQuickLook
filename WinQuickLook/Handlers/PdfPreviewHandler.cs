@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
@@ -18,7 +19,7 @@ namespace WinQuickLook.Handlers
             return extension == ".pdf";
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
             var pdfViewer = new PdfViewer();
 

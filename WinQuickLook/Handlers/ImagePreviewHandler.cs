@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,7 +23,7 @@ namespace WinQuickLook.Handlers
             {
                 using var stream = File.OpenRead(fileName);
 
-                BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+                BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
 
                 return true;
             }
@@ -32,9 +33,9 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var bitmap = GetImage(fileName);
+            var (bitmap, originalSize) = GetImage(fileName);
 
             var requestSize = new Size
             {
@@ -46,36 +47,51 @@ namespace WinQuickLook.Handlers
 
             image.BeginInit();
             image.Stretch = Stretch.Uniform;
-            image.StretchDirection = StretchDirection.DownOnly;
+            image.StretchDirection = StretchDirection.Both;
             image.Source = bitmap;
             image.EndInit();
 
-            return (image, requestSize, $"{bitmap.PixelWidth}x{bitmap.PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (image, requestSize, $"{originalSize.Width}x{originalSize.Height} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
 
-        private static BitmapSource GetImage(string fileName)
+        private static (BitmapSource, Size) GetImage(string fileName)
         {
+            var (scaledSize, originalSize) = GetScaledImageSize(fileName, 1200);
+
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.CreateOptions = BitmapCreateOptions.None;
+            bitmap.CacheOption = BitmapCacheOption.None;
+            bitmap.DecodePixelWidth = (int)scaledSize.Width;
+            bitmap.DecodePixelHeight = (int)scaledSize.Height;
             bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
             bitmap.EndInit();
 
             bitmap.Freeze();
 
-            if (Math.Abs(bitmap.DpiX - 96.0) < 0.1 && Math.Abs(bitmap.DpiY - 96.0) < 0.1)
+            return (bitmap, originalSize);
+        }
+
+        private static (Size, Size) GetScaledImageSize(string fileName, int maxSize)
+        {
+            using var stream = File.OpenRead(fileName);
+
+            var decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+
+            var width = decoder.Frames[0].PixelWidth;
+            var height = decoder.Frames[0].PixelHeight;
+
+            var originalSize = new Size(width, height);
+
+            if (width > maxSize || height > maxSize)
             {
-                return bitmap;
+                var scaleFactor = (double)maxSize / Math.Max(width, height);
+
+                return (new Size(width * scaleFactor, height * scaleFactor), originalSize);
             }
 
-            int stride = bitmap.PixelWidth * 4;
-            var pixels = new byte[stride * bitmap.PixelHeight];
-
-            bitmap.CopyPixels(pixels, stride, 0);
-
-            return BitmapSource.Create(bitmap.PixelWidth, bitmap.PixelHeight, 96.0, 96.0, bitmap.Format, bitmap.Palette, pixels, stride);
+            return (originalSize, originalSize);
         }
     }
 }

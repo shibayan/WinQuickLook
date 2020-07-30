@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
@@ -20,7 +21,7 @@ namespace WinQuickLook.Handlers
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
             var requestSize = new Size
             {

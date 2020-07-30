@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 
 using WinQuickLook.Controls;
@@ -13,7 +14,7 @@ namespace WinQuickLook.Handlers
             return true;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
             var requestSize = new Size(500, 280);
 
