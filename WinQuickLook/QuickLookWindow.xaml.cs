@@ -71,14 +71,14 @@ namespace WinQuickLook
             return true;
         }
 
-        public void Open(string fileName)
+        public async void Open(string fileName)
         {
             CleanupHost();
 
             _fileName = fileName;
             _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var (element, requestSize, metadata) = _handler.GetViewer(fileName);
+            var (element, requestSize, metadata) = await _handler.GetViewerAsync(fileName);
 
             PreviewHost = element;
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -26,7 +27,7 @@ namespace WinQuickLook.Handlers
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
             var requestSize = new Size
             {
