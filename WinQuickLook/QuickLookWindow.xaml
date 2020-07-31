@@ -4,32 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        x:Name="window" d:DesignWidth="500" d:DesignHeight="300" MinWidth="300" MinHeight="250" Background="Transparent" WindowStyle="None"
+        x:Name="window" d:DesignWidth="600" d:DesignHeight="400" MinWidth="300" MinHeight="250" Background="Transparent" WindowStyle="None"
         ShowActivated="False" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True" FocusVisualStyle="{x:Null}"
         Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <ResourceDictionary Source="Styles.xaml" />
     </Window.Resources>
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="40"
+        <WindowChrome CaptionHeight="44"
                       GlassFrameThickness="-1"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="44" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14" />
-        <Button x:Name="open" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
-                Margin="5,0,0,0" Padding="4" Grid.Row="0" Click="OpenButton_Click" Style="{StaticResource OpenButtonStyle}">
-            <TextBlock Text="&#xE78B;" FontSize="20" FontFamily="Segoe MDL2 Assets"/>
-        </Button>
-        <Button Visibility="Visible" HorizontalAlignment="Right" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
-                Margin="0,0,5,0" Padding="6" Grid.Row="0" Click="CloseButton_Click" Style="{StaticResource CloseButtonStyle}">
-            <TextBlock Text="&#xE711;" FontSize="14" FontFamily="Segoe MDL2 Assets"/>
-        </Button>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="0">
+            <Button x:Name="openWithListButton" WindowChrome.IsHitTestVisibleInChrome="True" Margin="8,0,0,0"
+                    Click="OpenWithListButton_Click" Style="{StaticResource OpenButtonStyle}">
+                <TextBlock Text="&#xE78B;" FontSize="20" FontFamily="Segoe MDL2 Assets"/>
+            </Button>
+            <Button x:Name="openWithButton" WindowChrome.IsHitTestVisibleInChrome="True" Margin="8,0,0,0"
+                    Click="OpenWithButton_Click" Style="{StaticResource OpenButtonStyle}">
+                <TextBlock Text="Open with Notepad" FontWeight="Bold" />
+            </Button>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="0">
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,11,0"
+                    Click="CloseButton_Click" Style="{StaticResource CloseButtonStyle}">
+                <TextBlock Text="&#xE711;" FontSize="10" FontWeight="Bold" FontFamily="Segoe MDL2 Assets"/>
+            </Button>
+        </StackPanel>
         <ContentPresenter Content="{Binding PreviewHost, ElementName=window}" Grid.Row="1" Margin="5,0,5,5" />
     </Grid>
 </Window>
