@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 using WinQuickLook.Controls;
 using WinQuickLook.Internal;
@@ -19,34 +18,23 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var tcs = new TaskCompletionSource<(FrameworkElement, Size, string)>();
+            using var tag = TagLib.File.Create(fileName);
 
-            var player = new MediaPlayer();
-
-            player.Open(new Uri(fileName, UriKind.Absolute));
-
-            player.MediaOpened += (sender, e) =>
+            var requestSize = new Size
             {
-                var requestSize = new Size
-                {
-                    Width = player.NaturalVideoWidth,
-                    Height = player.NaturalVideoHeight
-                };
-
-                var videoViewer = new VideoFileViewer();
-
-                videoViewer.BeginInit();
-                videoViewer.Source = new Uri(fileName, UriKind.Absolute);
-                videoViewer.EndInit();
-
-                tcs.SetResult((videoViewer, requestSize, $"{player.NaturalVideoWidth}x{player.NaturalVideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}"));
-
-                player.Close();
+                Width = tag.Properties.VideoWidth,
+                Height = tag.Properties.VideoHeight
             };
 
-            return tcs.Task;
+            var videoViewer = new VideoFileViewer();
+
+            videoViewer.BeginInit();
+            videoViewer.Source = new Uri(fileName, UriKind.Absolute);
+            videoViewer.EndInit();
+
+            return (videoViewer, requestSize, $"{tag.Properties.VideoWidth}x{tag.Properties.VideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]
