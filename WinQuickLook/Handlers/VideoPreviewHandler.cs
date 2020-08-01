@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 using WinQuickLook.Controls;
 using WinQuickLook.Internal;
@@ -18,21 +19,34 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var requestSize = new Size
+            var tcs = new TaskCompletionSource<(FrameworkElement, Size, string)>();
+
+            var player = new MediaPlayer();
+
+            player.Open(new Uri(fileName, UriKind.Absolute));
+
+            player.MediaOpened += (sender, e) =>
             {
-                Width = 1200,
-                Height = 900
+                var requestSize = new Size
+                {
+                    Width = player.NaturalVideoWidth,
+                    Height = player.NaturalVideoHeight
+                };
+
+                var videoViewer = new VideoFileViewer();
+
+                videoViewer.BeginInit();
+                videoViewer.Source = new Uri(fileName, UriKind.Absolute);
+                videoViewer.EndInit();
+
+                tcs.SetResult((videoViewer, requestSize, $"{player.NaturalVideoWidth}x{player.NaturalVideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}"));
+
+                player.Close();
             };
 
-            var videoViewer = new VideoFileViewer();
-
-            videoViewer.BeginInit();
-            videoViewer.Source = new Uri(fileName, UriKind.Absolute);
-            videoViewer.EndInit();
-
-            return (videoViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return tcs.Task;
         }
 
         private static readonly IList<string> _supportFormats = new[]

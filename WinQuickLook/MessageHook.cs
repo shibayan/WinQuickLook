@@ -33,7 +33,10 @@ namespace WinQuickLook
         public void Start()
         {
             StartKeyboardHook();
+
+#if !DEBUG
             StartMouseHook();
+#endif
         }
 
         public void Stop()

@@ -63,6 +63,20 @@ namespace WinQuickLook.Controls
             pauseButton.Visibility = Visibility.Collapsed;
         }
 
+        private void SkipBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newPosition = mediaElement.Position.Add(TimeSpan.FromSeconds(-10));
+
+            mediaElement.Position = newPosition;
+        }
+
+        private void SkipForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newPosition = mediaElement.Position.Add(TimeSpan.FromSeconds(30));
+
+            mediaElement.Position = newPosition;
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (!_isSeeking)
