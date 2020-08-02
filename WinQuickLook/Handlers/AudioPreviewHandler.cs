@@ -20,13 +20,16 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var requestSize = new Size(400, 400);
+            var requestSize = new Size(600, 300);
+
+            using var tag = TagLib.File.Create(fileName);
 
             var audioViewer = new AudioFileViewer();
 
             audioViewer.BeginInit();
             audioViewer.Source = new Uri(fileName, UriKind.Absolute);
             audioViewer.Thumbnail = ImagingHelper.GetThumbnail(fileName);
+            audioViewer.Metadata = tag.Tag;
             audioViewer.EndInit();
 
             return (audioViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");

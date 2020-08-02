@@ -35,6 +35,15 @@ namespace WinQuickLook.Controls
         public static readonly DependencyProperty ThumbnailProperty =
             DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(AudioFileViewer), new PropertyMetadata(null));
 
+        public TagLib.Tag Metadata
+        {
+            get { return (TagLib.Tag)GetValue(MetadataProperty); }
+            set { SetValue(MetadataProperty, value); }
+        }
+
+        public static readonly DependencyProperty MetadataProperty =
+            DependencyProperty.Register("Metadata", typeof(TagLib.Tag), typeof(AudioFileViewer), new PropertyMetadata(null));
+
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
             if (!mediaElement.NaturalDuration.HasTimeSpan)

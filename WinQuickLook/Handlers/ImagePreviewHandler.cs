@@ -77,10 +77,10 @@ namespace WinQuickLook.Handlers
         {
             using var stream = File.OpenRead(fileName);
 
-            var decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+            using var tag = TagLib.File.Create(fileName);
 
-            var width = decoder.Frames[0].PixelWidth;
-            var height = decoder.Frames[0].PixelHeight;
+            var width = tag.Properties.PhotoWidth;
+            var height = tag.Properties.PhotoHeight;
 
             var originalSize = new Size(width, height);
 

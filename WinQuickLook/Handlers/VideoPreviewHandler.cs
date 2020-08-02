@@ -20,10 +20,12 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
+            using var tag = TagLib.File.Create(fileName);
+
             var requestSize = new Size
             {
-                Width = 1200,
-                Height = 900
+                Width = tag.Properties.VideoWidth,
+                Height = tag.Properties.VideoHeight
             };
 
             var videoViewer = new VideoFileViewer();
@@ -32,7 +34,7 @@ namespace WinQuickLook.Handlers
             videoViewer.Source = new Uri(fileName, UriKind.Absolute);
             videoViewer.EndInit();
 
-            return (videoViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (videoViewer, requestSize, $"{tag.Properties.VideoWidth}x{tag.Properties.VideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
 
         private static readonly IList<string> _supportFormats = new[]

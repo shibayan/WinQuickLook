@@ -27,12 +27,12 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+            using var tag = TagLib.File.Create(fileName);
 
             var requestSize = new Size
             {
-                Width = bitmap.Frames[0].PixelWidth,
-                Height = bitmap.Frames[0].PixelHeight
+                Width = tag.Properties.PhotoWidth,
+                Height = tag.Properties.PhotoHeight
             };
 
             var mediaElement = new MediaElement();
@@ -49,7 +49,7 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return (mediaElement, requestSize, $"{bitmap.Frames[0].PixelWidth}x{bitmap.Frames[0].PixelHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (mediaElement, requestSize, $"{tag.Properties.PhotoWidth}x{tag.Properties.PhotoHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
         }
     }
 }

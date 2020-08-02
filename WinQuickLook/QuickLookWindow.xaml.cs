@@ -120,7 +120,12 @@ namespace WinQuickLook
             CleanupHost();
         }
 
-        private void OpenButton_Click(object sender, RoutedEventArgs e)
+
+        private void OpenWithListButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void OpenWithButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -137,6 +142,23 @@ namespace WinQuickLook
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             HideIfVisible();
+        }
+
+        private void SetAssociatedAppName(string fileName)
+        {
+            var assocName = WinExplorerHelper.GetAssocName(fileName);
+
+            if (string.IsNullOrEmpty(assocName))
+            {
+                openWithButton.Visibility = Visibility.Collapsed;
+                openWithListButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ((TextBlock)openWithButton.Content).Text = string.Format(Strings.Resources.OpenButtonText, assocName);
+
+                openWithButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void InitializeWindowStyle()
@@ -172,21 +194,6 @@ namespace WinQuickLook
 
             var style = NativeMethods.GetWindowLong(hwnd, Consts.GWL_STYLE);
             NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~Consts.WS_SYSMENU);
-        }
-
-        private void SetAssociatedAppName(string fileName)
-        {
-            var assocName = WinExplorerHelper.GetAssocName(fileName);
-
-            if (string.IsNullOrEmpty(assocName))
-            {
-                open.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                open.ToolTip = string.Format(Strings.Resources.OpenButtonText, assocName);
-                open.Visibility = Visibility.Visible;
-            }
         }
 
         private void MoveWindowCentering(Size requestSize)

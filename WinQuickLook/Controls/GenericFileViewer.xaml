@@ -7,7 +7,7 @@
              xmlns:properties="clr-namespace:WinQuickLook.Strings"
              xmlns:gl="clr-namespace:System.Globalization;assembly=System.Runtime"
              mc:Ignorable="d"
-             d:DesignHeight="280" d:DesignWidth="500" x:Name="userControl">
+             d:DesignHeight="290" d:DesignWidth="572" x:Name="userControl">
     <UserControl.Resources>
         <converters:FileInfoToFileSizeConverter x:Key="FileInfoToFileSizeConverter" />
         <converters:FileNameToTypeNameConverter x:Key="FileNameToTypeNameConverter" />
@@ -17,8 +17,8 @@
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
-        <Image Source="{Binding Thumbnail, ElementName=userControl}" Margin="15" Stretch="Uniform" Grid.Column="0" />
-        <StackPanel Orientation="Vertical" Margin="0,25,15,15" Grid.Column="1">
+        <Image Source="{Binding Thumbnail, ElementName=userControl}" Margin="15" Stretch="Uniform" Grid.Column="0" Width="256" Height="256" />
+        <StackPanel Orientation="Vertical" Margin="15" Grid.Column="1">
             <TextBlock Text="{Binding FileInfo.Name, ElementName=userControl}" FontSize="22" TextWrapping="Wrap" />
             <TextBlock Text="{Binding FileInfo.FullName, ElementName=userControl, Converter={StaticResource FileNameToTypeNameConverter}}" FontSize="16" Margin="0,20,0,0" TextWrapping="Wrap" />
             <TextBlock Text="{Binding FileInfo, ElementName=userControl, Converter={StaticResource FileInfoToFileSizeConverter}}" FontSize="16" Margin="0,15,0,0" />

@@ -16,7 +16,7 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var requestSize = new Size(500, 280);
+            var requestSize = new Size(572, 290);
 
             var fileViewer = new GeneficFileViewer();
 
