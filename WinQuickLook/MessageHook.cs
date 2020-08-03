@@ -65,12 +65,14 @@ namespace WinQuickLook
 
         private void StopKeyboardHook()
         {
-            if (_keyboardHook != IntPtr.Zero)
+            if (_keyboardHook == IntPtr.Zero)
             {
-                NativeMethods.UnhookWindowsHookEx(_keyboardHook);
-
-                _keyboardHook = IntPtr.Zero;
+                return;
             }
+
+            NativeMethods.UnhookWindowsHookEx(_keyboardHook);
+
+            _keyboardHook = IntPtr.Zero;
         }
 
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
@@ -116,12 +118,14 @@ namespace WinQuickLook
 
         private void StopMouseHook()
         {
-            if (_mouseHook != IntPtr.Zero)
+            if (_mouseHook == IntPtr.Zero)
             {
-                NativeMethods.UnhookWindowsHookEx(_mouseHook);
-
-                _mouseHook = IntPtr.Zero;
+                return;
             }
+
+            NativeMethods.UnhookWindowsHookEx(_mouseHook);
+
+            _mouseHook = IntPtr.Zero;
         }
 
         private IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam)
