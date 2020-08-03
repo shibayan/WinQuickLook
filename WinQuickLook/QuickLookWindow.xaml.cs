@@ -151,13 +151,14 @@ namespace WinQuickLook
             if (string.IsNullOrEmpty(assocName))
             {
                 openWithButton.Visibility = Visibility.Collapsed;
-                openWithListButton.Visibility = Visibility.Collapsed;
+                //openWithListButton.Visibility = Visibility.Collapsed;
             }
             else
             {
                 ((TextBlock)openWithButton.Content).Text = string.Format(Strings.Resources.OpenButtonText, assocName);
 
                 openWithButton.Visibility = Visibility.Visible;
+                //openWithListButton.Visibility = Visibility.Visible;
             }
         }
 

@@ -88,15 +88,17 @@ namespace WinQuickLook
 
         private void PerformQuickLook()
         {
+            if (_quickLookWindow.HideIfVisible())
+            {
+                _currentItem =  null;
+
+                return;
+            }
+
             var selectedItem = WinExplorerHelper.GetSelectedItem();
 
-            if (selectedItem == null || selectedItem == _currentItem)
+            if (selectedItem == null)
             {
-                if (_quickLookWindow.HideIfVisible())
-                {
-                    _currentItem = null;
-                }
-
                 return;
             }
 
@@ -127,6 +129,8 @@ namespace WinQuickLook
         private void CancelQuickLook()
         {
             _quickLookWindow.HideIfVisible();
+
+            _currentItem = null;
         }
     }
 }

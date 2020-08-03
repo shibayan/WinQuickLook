@@ -61,7 +61,7 @@ namespace WinQuickLook.Internal
 
             NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
 
-            return pszOut.ToString();
+            return pszOut.ToString().Trim();
         }
 
         public static string GetSelectedItem()
