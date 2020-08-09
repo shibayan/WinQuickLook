@@ -10,15 +10,10 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class ImagePreviewHandler : IPreviewHandler
+    public class ImageQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
-            if (!File.Exists(fileName))
-            {
-                return false;
-            }
-
             try
             {
                 using var stream = File.OpenRead(fileName);
@@ -47,11 +42,16 @@ namespace WinQuickLook.Handlers
 
             image.BeginInit();
             image.Stretch = Stretch.Uniform;
-            image.StretchDirection = StretchDirection.Both;
+            image.StretchDirection = StretchDirection.DownOnly;
             image.Source = bitmap;
             image.EndInit();
 
-            return (image, requestSize, $"{originalSize.Width}x{originalSize.Height} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (image, requestSize, FormatMetadata(originalSize, fileName));
+        }
+
+        private static string FormatMetadata(Size size, string fileName)
+        {
+            return $"{size.Width}x{size.Height} - {WinExplorerHelper.GetFileSize(fileName)}";
         }
 
         private static (BitmapSource, Size) GetImage(string fileName)
@@ -62,7 +62,7 @@ namespace WinQuickLook.Handlers
 
             bitmap.BeginInit();
             bitmap.CreateOptions = BitmapCreateOptions.None;
-            bitmap.CacheOption = BitmapCacheOption.None;
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.DecodePixelWidth = (int)scaledSize.Width;
             bitmap.DecodePixelHeight = (int)scaledSize.Height;
             bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
@@ -75,8 +75,6 @@ namespace WinQuickLook.Handlers
 
         private static (Size, Size) GetScaledImageSize(string fileName, int maxSize)
         {
-            using var stream = File.OpenRead(fileName);
-
             using var tag = TagLib.File.Create(fileName);
 
             var width = tag.Properties.PhotoWidth;

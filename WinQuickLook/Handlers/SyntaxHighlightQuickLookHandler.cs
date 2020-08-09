@@ -9,9 +9,9 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class SyntaxHighlightPreviewHandler : IPreviewHandler
+    public class SyntaxHighlightQuickLookHandler : IQuickLookHandler
     {
-        public SyntaxHighlightPreviewHandler()
+        public SyntaxHighlightQuickLookHandler()
         {
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".ts" }, HighlightingManager.Instance.GetDefinitionByExtension(".js"));
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".vue" }, HighlightingManager.Instance.GetDefinitionByExtension(".html"));
@@ -19,11 +19,6 @@ namespace WinQuickLook.Handlers
 
         public bool CanOpen(string fileName)
         {
-            if (!File.Exists(fileName))
-            {
-                return false;
-            }
-
             return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
         }
 
@@ -46,7 +41,7 @@ namespace WinQuickLook.Handlers
             avalonEdit.Load(fileName);
             avalonEdit.EndInit();
 
-            return (avalonEdit, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (avalonEdit, requestSize, WinExplorerHelper.GetFileSize(fileName));
         }
     }
 }

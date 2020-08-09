@@ -7,7 +7,7 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class GenericPreviewHandler : IPreviewHandler
+    public class GenericQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {

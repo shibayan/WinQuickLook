@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace WinQuickLook.Handlers
 {
-    public interface IPreviewHandler
+    public interface IQuickLookHandler
     {
         bool CanOpen(string fileName);
 

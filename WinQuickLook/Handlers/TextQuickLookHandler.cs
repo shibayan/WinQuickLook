@@ -13,7 +13,7 @@ using WinQuickLook.Interop;
 
 namespace WinQuickLook.Handlers
 {
-    public class TextPreviewHandler : IPreviewHandler
+    public class TextQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -24,7 +24,8 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var contents = File.ReadAllBytes(fileName);
+            var contents = await File.ReadAllBytesAsync(fileName);
+
             var encoding = DetectEncoding(contents);
 
             var requestSize = new Size
@@ -46,7 +47,7 @@ namespace WinQuickLook.Handlers
             textBox.BorderThickness = new Thickness(0);
             textBox.EndInit();
 
-            return (textBox, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (textBox, requestSize, WinExplorerHelper.GetFileSize(fileName));
         }
 
         private static readonly IList<string> _supportFormats = new[]

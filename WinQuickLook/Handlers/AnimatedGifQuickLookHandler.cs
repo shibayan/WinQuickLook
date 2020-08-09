@@ -9,7 +9,7 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class AnimatedGifPreviewHandler : IPreviewHandler
+    public class AnimatedGifQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -27,12 +27,12 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            using var tag = TagLib.File.Create(fileName);
+            using var file = TagLib.File.Create(fileName);
 
             var requestSize = new Size
             {
-                Width = tag.Properties.PhotoWidth,
-                Height = tag.Properties.PhotoHeight
+                Width = file.Properties.PhotoWidth,
+                Height = file.Properties.PhotoHeight
             };
 
             var mediaElement = new MediaElement();
@@ -49,7 +49,12 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return (mediaElement, requestSize, $"{tag.Properties.PhotoWidth}x{tag.Properties.PhotoHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (mediaElement, requestSize, FormatMetadata(file, fileName));
+        }
+
+        private static string FormatMetadata(TagLib.File file, string fileName)
+        {
+            return $"{file.Properties.PhotoWidth}x{file.Properties.PhotoHeight} - {WinExplorerHelper.GetFileSize(fileName)}";
         }
     }
 }

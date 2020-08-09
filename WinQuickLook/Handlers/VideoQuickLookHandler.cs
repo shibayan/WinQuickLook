@@ -9,7 +9,7 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class VideoPreviewHandler : IPreviewHandler
+    public class VideoQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -20,12 +20,12 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            using var tag = TagLib.File.Create(fileName);
+            using var file = TagLib.File.Create(fileName);
 
             var requestSize = new Size
             {
-                Width = tag.Properties.VideoWidth,
-                Height = tag.Properties.VideoHeight
+                Width = file.Properties.VideoWidth,
+                Height = file.Properties.VideoHeight
             };
 
             var videoViewer = new VideoFileViewer();
@@ -34,7 +34,12 @@ namespace WinQuickLook.Handlers
             videoViewer.Source = new Uri(fileName, UriKind.Absolute);
             videoViewer.EndInit();
 
-            return (videoViewer, requestSize, $"{tag.Properties.VideoWidth}x{tag.Properties.VideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}");
+            return (videoViewer, requestSize, FormatMetadata(file, fileName));
+        }
+
+        private static string FormatMetadata(TagLib.File file, string fileName)
+        {
+            return $"{file.Properties.VideoWidth}x{file.Properties.VideoHeight} - {WinExplorerHelper.GetFileSize(fileName)}";
         }
 
         private static readonly IList<string> _supportFormats = new[]
