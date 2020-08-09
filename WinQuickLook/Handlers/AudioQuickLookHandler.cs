@@ -9,7 +9,7 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class AudioPreviewHandler : IPreviewHandler
+    public class AudioQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -32,7 +32,7 @@ namespace WinQuickLook.Handlers
             audioViewer.Metadata = tag.Tag;
             audioViewer.EndInit();
 
-            return (audioViewer, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (audioViewer, requestSize, WinExplorerHelper.GetFileSize(fileName));
         }
 
         private static readonly IList<string> _supportFormats = new[]

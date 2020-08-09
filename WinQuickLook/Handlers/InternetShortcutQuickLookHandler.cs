@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace WinQuickLook.Handlers
 {
-    public class InternetShortcutPreviewHandler : IPreviewHandler
+    public class InternetShortcutQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -18,7 +18,7 @@ namespace WinQuickLook.Handlers
 
         public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
         {
-            var content = File.ReadAllLines(fileName);
+            var content = await File.ReadAllLinesAsync(fileName);
 
             var urlEntry = content.FirstOrDefault(x => x.StartsWith("URL"));
 

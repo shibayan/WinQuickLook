@@ -9,15 +9,10 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class ComInteropPreviewHandler : IPreviewHandler
+    public class ComInteropQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
-            if (!File.Exists(fileName))
-            {
-                return false;
-            }
-
             return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
         }
 
@@ -39,7 +34,7 @@ namespace WinQuickLook.Handlers
 
             previewHandlerHost.Open(fileName);
 
-            return (windowsFormsHost, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (windowsFormsHost, requestSize, WinExplorerHelper.GetFileSize(fileName));
         }
     }
 }

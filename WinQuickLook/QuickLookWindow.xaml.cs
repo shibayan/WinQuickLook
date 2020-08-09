@@ -13,8 +13,6 @@ using WinQuickLook.Handlers;
 using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
-using IPreviewHandler = WinQuickLook.Handlers.IPreviewHandler;
-
 namespace WinQuickLook
 {
     public partial class QuickLookWindow
@@ -25,22 +23,22 @@ namespace WinQuickLook
         }
 
         private string _fileName;
-        private IPreviewHandler _handler;
 
-        private static readonly IPreviewHandler[] _handlers =
+        private readonly IQuickLookHandler[] _fileHandlers =
         {
-            new SyntaxHighlightPreviewHandler(),
-            new TextPreviewHandler(),
-            new HtmlPreviewHandler(),
-            new InternetShortcutPreviewHandler(),
-            new PdfPreviewHandler(),
-            new VideoPreviewHandler(),
-            new AudioPreviewHandler(),
-            new AnimatedGifPreviewHandler(),
-            new ImagePreviewHandler(),
-            new ComInteropPreviewHandler(),
-            new GenericPreviewHandler()
+            new SyntaxHighlightQuickLookHandler(),
+            new TextQuickLookHandler(),
+            new HtmlQuickLookHandler(),
+            new InternetShortcutQuickLookHandler(),
+            new PdfQuickLookHandler(),
+            new VideoQuickLookHandler(),
+            new AudioQuickLookHandler(),
+            new AnimatedGifQuickLookHandler(),
+            new ImageQuickLookHandler(),
+            new ComInteropQuickLookHandler()
         };
+
+        private readonly IQuickLookHandler _genericHandler = new GenericQuickLookHandler();
 
         public FrameworkElement PreviewHost
         {
@@ -76,9 +74,15 @@ namespace WinQuickLook
             CleanupHost();
 
             _fileName = fileName;
-            _handler = _handlers.First(x => x.CanOpen(fileName));
 
-            var (element, requestSize, metadata) = await _handler.GetViewerAsync(fileName);
+            var handler = default(IQuickLookHandler);
+
+            if (File.Exists(fileName))
+            {
+                handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileName));
+            }
+
+            var (element, requestSize, metadata) = await (handler ?? _genericHandler).GetViewerAsync(fileName);
 
             PreviewHost = element;
 

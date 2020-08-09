@@ -9,7 +9,7 @@ using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
 {
-    public class HtmlPreviewHandler : IPreviewHandler
+    public class HtmlQuickLookHandler : IQuickLookHandler
     {
         public bool CanOpen(string fileName)
         {
@@ -30,7 +30,7 @@ namespace WinQuickLook.Handlers
 
             webBrowser.Navigate(new Uri(fileName, UriKind.Absolute));
 
-            return (webBrowser, requestSize, $"{WinExplorerHelper.GetFileSize(fileName)}");
+            return (webBrowser, requestSize, WinExplorerHelper.GetFileSize(fileName));
         }
 
         private static readonly IList<string> _supportFormats = new[]
