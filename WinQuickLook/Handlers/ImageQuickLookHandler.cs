@@ -75,21 +75,41 @@ namespace WinQuickLook.Handlers
 
         private static (Size, Size) GetScaledImageSize(string fileName, int maxSize)
         {
-            using var tag = TagLib.File.Create(fileName);
-
-            var width = tag.Properties.PhotoWidth;
-            var height = tag.Properties.PhotoHeight;
-
-            var originalSize = new Size(width, height);
-
-            if (width > maxSize || height > maxSize)
+            if (!TryGetImageSize(fileName, out var originalSize))
             {
-                var scaleFactor = (double)maxSize / Math.Max(width, height);
+                using var stream = File.OpenRead(fileName);
 
-                return (new Size(width * scaleFactor, height * scaleFactor), originalSize);
+                var decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+
+                originalSize = new Size(decoder.Frames[0].PixelWidth, decoder.Frames[0].PixelHeight);
+            }
+
+            if (originalSize.Width > maxSize || originalSize.Height > maxSize)
+            {
+                var scaleFactor = maxSize / Math.Max(originalSize.Width, originalSize.Height);
+
+                return (new Size(originalSize.Width * scaleFactor, originalSize.Height * scaleFactor), originalSize);
             }
 
             return (originalSize, originalSize);
+        }
+
+        private static bool TryGetImageSize(string fileName, out Size size)
+        {
+            try
+            {
+                using var tag = TagLib.File.Create(fileName);
+
+                size = new Size(tag.Properties.PhotoWidth, tag.Properties.PhotoHeight);
+
+                return true;
+            }
+            catch
+            {
+                size = default;
+
+                return false;
+            }
         }
     }
 }
