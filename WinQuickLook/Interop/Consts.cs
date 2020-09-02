@@ -7,12 +7,21 @@ namespace WinQuickLook.Interop
         public const int WH_KEYBOARD_LL = 13;
         public const int WH_MOUSE_LL = 14;
         public const int HC_ACTION = 0;
+
+        public const int HTCAPTION = 0x02;
+        public const int WM_NCRBUTTONDOWN = 0x00a4;
+        public const int WM_CONTEXTMENU = 0x007b;
         public const int WM_KEYDOWN = 0x0100;
+        public const int WM_SYSKEYDOWN = 0x0104;
         public const int WM_LBUTTONDOWN = 0x0201;
+
+        public const int VK_F4 = 0x73;
 
         public const int MAX_PATH = 260;
 
         public const int GWL_STYLE = -16;
+        public const int WS_MAXIMIZEBOX = 0x00010000;
+        public const int WS_MINIMIZEBOX = 0x00020000;
         public const int WS_SYSMENU = 0x00080000;
 
         public const int GWL_EXSTYLE = -20;

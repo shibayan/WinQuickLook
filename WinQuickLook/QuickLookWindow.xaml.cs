@@ -198,7 +198,25 @@ namespace WinQuickLook
             Marshal.FreeHGlobal(accentPolicyPtr);
 
             var style = NativeMethods.GetWindowLong(hwnd, Consts.GWL_STYLE);
-            NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~Consts.WS_SYSMENU);
+            NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~(Consts.WS_SYSMENU | Consts.WS_MINIMIZEBOX | Consts.WS_MAXIMIZEBOX));
+
+            var hwndSource = HwndSource.FromHwnd(hwnd);
+            hwndSource.AddHook(WndProc);
+        }
+
+        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case Consts.WM_SYSKEYDOWN:
+                    if (wParam.ToInt32() == Consts.VK_F4)
+                    {
+                        handled = true;
+                    }
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
         private void MoveWindowCentering(Size requestSize)
