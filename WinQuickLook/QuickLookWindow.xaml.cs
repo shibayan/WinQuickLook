@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Shell;
 
 using WinQuickLook.Handlers;
 using WinQuickLook.Internal;
@@ -202,6 +205,8 @@ namespace WinQuickLook
 
             var hwndSource = HwndSource.FromHwnd(hwnd);
             hwndSource.AddHook(WndProc);
+
+            DisableSystemMenu();
         }
 
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -249,6 +254,18 @@ namespace WinQuickLook
             var hwnd = new WindowInteropHelper(this).Handle;
 
             NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
+        }
+
+        private void DisableSystemMenu()
+        {
+            var type = typeof(WindowChrome).Assembly.GetType("System.Windows.Shell.WindowChromeWorker");
+            var method = type.GetMethod("GetWindowChromeWorker", BindingFlags.Public | BindingFlags.Static);
+            var field = type.GetField("_messageTable", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            var windowChromeWorker = (DependencyObject)method.Invoke(null, new object[] { this });
+            var messageTable = (IList)field.GetValue(windowChromeWorker);
+
+            messageTable.RemoveAt(5);
         }
     }
 }
