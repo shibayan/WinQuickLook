@@ -6,7 +6,14 @@ namespace WinQuickLook.Interop
     {
         public static TInterface QueryInterface<TInterface>(this IUnknown obj)
         {
-            return (TInterface)obj;
+            try
+            {
+                return (TInterface)obj;
+            }
+            catch
+            {
+                return default;
+            }
         }
 
         public static TInterface QueryService<TInterface>(this IServiceProvider serviceProvider, Guid guidService)
