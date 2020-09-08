@@ -12,6 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
 
+using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
 using WinQuickLook.Internal;
 using WinQuickLook.Interop;
@@ -40,8 +41,6 @@ namespace WinQuickLook
             new ImageQuickLookHandler(),
             new ComInteropQuickLookHandler()
         };
-
-        private readonly IQuickLookHandler _genericHandler = new GenericQuickLookHandler();
 
         public FrameworkElement PreviewHost
         {
@@ -85,7 +84,7 @@ namespace WinQuickLook
                 handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileName));
             }
 
-            var (element, requestSize, metadata) = await (handler ?? _genericHandler).GetViewerAsync(fileName);
+            var (element, requestSize, metadata) = await handler.GetViewerWithErrorAsync(fileName);
 
             PreviewHost = element;
 

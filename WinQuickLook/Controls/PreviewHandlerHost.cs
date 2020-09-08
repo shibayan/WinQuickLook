@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Win32;
 
 using WinQuickLook.Interop;
 
@@ -14,7 +14,7 @@ namespace WinQuickLook.Controls
     {
         private IPreviewHandler _previewHandler;
 
-        private const string PreviewHandlerSubKey = "shellex\\{8895b1c6-b41f-4c1c-a562-0d564250836f}";
+        private const string PreviewHandlerGuid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
 
         protected override void Dispose(bool disposing)
         {
@@ -32,37 +32,20 @@ namespace WinQuickLook.Controls
 
         public static Guid GetPreviewHandlerCLSID(string fileName)
         {
-            var extension = Path.GetExtension(fileName);
+            int pcchOut = 0;
 
-            if (string.IsNullOrEmpty(extension))
+            NativeMethods.AssocQueryString(ASSOCF.INIT_DEFAULTTOSTAR, ASSOCSTR.SHELLEXTENSION, Path.GetExtension(fileName), PreviewHandlerGuid, null, ref pcchOut);
+
+            if (pcchOut == 0)
             {
                 return Guid.Empty;
             }
 
-            using var extensionKey = Registry.ClassesRoot.OpenSubKey(extension);
+            var pszOut = new StringBuilder(pcchOut);
 
-            if (extensionKey == null)
-            {
-                return Guid.Empty;
-            }
+            NativeMethods.AssocQueryString(ASSOCF.INIT_DEFAULTTOSTAR, ASSOCSTR.SHELLEXTENSION, Path.GetExtension(fileName), PreviewHandlerGuid, pszOut, ref pcchOut);
 
-            using var previewHandlerSubKey = extensionKey.OpenSubKey(PreviewHandlerSubKey);
-
-            if (previewHandlerSubKey != null)
-            {
-                return new Guid(Convert.ToString(previewHandlerSubKey.GetValue(null)));
-            }
-
-            var className = Convert.ToString(extensionKey.GetValue(null));
-
-            using var classNameSubKey = Registry.ClassesRoot.OpenSubKey(className + PreviewHandlerSubKey);
-
-            if (classNameSubKey != null)
-            {
-                return new Guid(Convert.ToString(classNameSubKey.GetValue(null)));
-            }
-
-            return Guid.Empty;
+            return new Guid(pszOut.ToString());
         }
 
         public bool Open(string fileName)
