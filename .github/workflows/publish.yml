@@ -55,3 +55,9 @@ jobs:
                            /p:AppxPackageSigningEnabled=false
                            /p:PackageCertificateThumbprint=""
                            /verbosity:minimal
+
+    - name: Upload MSIX
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: packed\*.msixupload
