@@ -47,14 +47,16 @@ jobs:
 
     - name: Build application
       run: >
-        msbuild .\WinQuickLook.sln /p:Configuration=Release /p:Version="${{ steps.setup_version.outputs.VERSION }}"
-                           /p:UapAppxPackageBuildMode=StoreUpload
-                           /p:AppxBundlePlatforms="${{ env.BUNDLE_PLATFORMS }}"
-                           /p:AppxPackageDir=.\packed
-                           /p:AppxBundle=Always
-                           /p:AppxPackageSigningEnabled=false
-                           /p:PackageCertificateThumbprint=""
-                           /verbosity:minimal
+        msbuild .\WinQuickLook.sln
+        /p:Configuration=Release
+        /p:Version="${{ steps.setup_version.outputs.VERSION }}"
+        /p:UapAppxPackageBuildMode=StoreUpload
+        /p:AppxBundlePlatforms="${{ env.BUNDLE_PLATFORMS }}"
+        /p:AppxPackageDir=.\packed
+        /p:AppxBundle=Always
+        /p:AppxPackageSigningEnabled=false
+        /p:PackageCertificateThumbprint=""
+        /verbosity:minimal
 
     - name: Upload MSIX
       uses: actions/upload-artifact@v2
