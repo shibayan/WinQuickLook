@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  DOTNET_VERSION: 3.1.x
+  NUGET_CLI_VERSION: 5.x
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use .NET Core ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Use NuGet CLI ${{ env.NUGET_CLI_VERSION }}
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: ${{ env.NUGET_CLI_VERSION }}
+
+    - name: Use MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Restore NuGet packages
+      run: nuget restore
+
+    - name: Build application
+      run: msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
