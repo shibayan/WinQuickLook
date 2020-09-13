@@ -61,5 +61,5 @@ jobs:
     - name: Upload MSIX
       uses: actions/upload-artifact@v2
       with:
-        name: my-artifact
+        name: msix
         path: packed\*.msixupload
