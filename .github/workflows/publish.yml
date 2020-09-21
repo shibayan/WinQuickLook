@@ -52,7 +52,7 @@ jobs:
         /p:Version="${{ steps.setup_version.outputs.VERSION }}"
         /p:UapAppxPackageBuildMode=StoreUpload
         /p:AppxBundlePlatforms="${{ env.BUNDLE_PLATFORMS }}"
-        /p:AppxPackageDir=.\packed
+        /p:AppxPackageDir=..\packed
         /p:AppxBundle=Always
         /p:AppxPackageSigningEnabled=false
         /p:PackageCertificateThumbprint=""
