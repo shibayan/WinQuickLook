@@ -13,14 +13,18 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Platform)'=='x86'">
+    <DefineConstants>X86</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Resource Include="Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="PdfiumViewer" Version="2.13.0">
       <NoWarn>NU1701</NoWarn>
