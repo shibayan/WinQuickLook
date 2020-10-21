@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: 5.0.100-rc.1.20452.10
+  DOTNET_VERSION: 5.0.x
   NUGET_CLI_VERSION: 5.x
 
 jobs:
