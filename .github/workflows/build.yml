@@ -7,8 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: 3.1.x
-  NUGET_CLI_VERSION: 5.x
+  DOTNET_VERSION: 5.0.100-rc.2.20479.15
 
 jobs:
   build:
@@ -21,16 +20,8 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Use NuGet CLI ${{ env.NUGET_CLI_VERSION }}
-      uses: nuget/setup-nuget@v1
-      with:
-        nuget-version: ${{ env.NUGET_CLI_VERSION }}
-
-    - name: Use MSBuild
-      uses: microsoft/setup-msbuild@v1
-
     - name: Restore NuGet packages
-      run: nuget restore
+      run: dotnet restore
 
     - name: Build application
-      run: msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+      run: dotnet msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
