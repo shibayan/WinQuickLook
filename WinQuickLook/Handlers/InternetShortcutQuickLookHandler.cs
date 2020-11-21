@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+
+using Microsoft.Web.WebView2.Wpf;
 
 namespace WinQuickLook.Handlers
 {
@@ -35,11 +36,11 @@ namespace WinQuickLook.Handlers
                 Height = 900
             };
 
-            var webView = new WebBrowser();
+            var webView2 = new WebView2();
 
-            webView.Loaded += (sender, e) => ((WebBrowser)sender).Navigate(url);
+            webView2.Loaded += (sender, e) => ((WebView2)sender).CoreWebView2.Navigate(url);
 
-            return (webView, requestSize, url);
+            return (webView2, requestSize, url);
         }
 
         private static readonly IList<string> _supportFormats = new[]
