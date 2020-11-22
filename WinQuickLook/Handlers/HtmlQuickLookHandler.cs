@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
+
 using WinQuickLook.Internal;
 
 namespace WinQuickLook.Handlers
@@ -26,11 +29,26 @@ namespace WinQuickLook.Handlers
                 Height = 900
             };
 
-            var webBrowser = new WebBrowser();
+            try
+            {
+                CoreWebView2Environment.GetAvailableBrowserVersionString();
 
-            webBrowser.Navigate(new Uri(fileName, UriKind.Absolute));
+                var webView2 = new WebView2
+                {
+                    Source = new Uri(fileName, UriKind.Absolute)
+                };
 
-            return (webBrowser, requestSize, WinExplorerHelper.GetFileSize(fileName));
+                return (webView2, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            }
+            catch (EdgeNotFoundException)
+            {
+                var webBrowser = new WebBrowser
+                {
+                    Source = new Uri(fileName, UriKind.Absolute)
+                };
+
+                return (webBrowser, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            }
         }
 
         private static readonly IList<string> _supportFormats = new[]
