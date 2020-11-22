@@ -30,9 +30,9 @@ namespace WinQuickLook
 
         private readonly IQuickLookHandler[] _fileHandlers =
         {
+            new HtmlQuickLookHandler(),
             new SyntaxHighlightQuickLookHandler(),
             new TextQuickLookHandler(),
-            new HtmlQuickLookHandler(),
             new InternetShortcutQuickLookHandler(),
             new PdfQuickLookHandler(),
             new VideoQuickLookHandler(),
