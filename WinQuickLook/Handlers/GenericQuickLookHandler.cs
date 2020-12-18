@@ -27,7 +27,7 @@ namespace WinQuickLook.Handlers
             {
                 fileViewer.FileInfo = new FileInfo(fileName);
             }
-            else
+            else if (Directory.Exists(fileName))
             {
                 fileViewer.FileInfo = new DirectoryInfo(fileName);
             }

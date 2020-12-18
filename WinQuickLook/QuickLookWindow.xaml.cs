@@ -79,7 +79,7 @@ namespace WinQuickLook
 
             var handler = default(IQuickLookHandler);
 
-            if (File.Exists(fileName))
+            if (WinExplorerHelper.SafeFileExists(fileName))
             {
                 handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileName));
             }
