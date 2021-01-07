@@ -38,6 +38,7 @@ namespace WinQuickLook
             new VideoQuickLookHandler(),
             new AudioQuickLookHandler(),
             new AnimatedGifQuickLookHandler(),
+            new SvgQuickLookHandler(),
             new ImageQuickLookHandler(),
             new ComInteropQuickLookHandler()
         };
