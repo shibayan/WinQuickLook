@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoStartText" xml:space="preserve">
-    <value>登录时启动</value>
+    <value>Lançamento em Login</value>
   </data>
   <data name="DwmDisabledErrorMessage" xml:space="preserve">
-    <value>由于桌面合成(DWM)被禁用，应用程序无法启动。</value>
+    <value>As aplicações não podem ser lançadas porque a Desktop Composition (DWM) está desactivada.</value>
   </data>
   <data name="ExitText" xml:space="preserve">
-    <value>出口</value>
+    <value>Saída</value>
   </data>
   <data name="FileItemCount" xml:space="preserve">
-    <value>{0} 项目</value>
+    <value>{0} artigos</value>
   </data>
   <data name="FileTypeDirectory" xml:space="preserve">
-    <value>目录</value>
+    <value>Directório</value>
   </data>
   <data name="LastModifiedText" xml:space="preserve">
-    <value>最后修改 {0}</value>
+    <value>Última modificação {0}</value>
   </data>
   <data name="OpenButtonErrorMessage" xml:space="preserve">
-    <value>无法使用关联程序打开此文件。</value>
+    <value>Não é possível abrir este ficheiro com programa associado.</value>
   </data>
   <data name="OpenButtonText" xml:space="preserve">
-    <value>用 {0} 打开</value>
+    <value>Abrir com {0}</value>
   </data>
   <data name="PageCountText" xml:space="preserve">
-    <value>{0} 页数</value>
+    <value>{0} páginas</value>
   </data>
 </root>
