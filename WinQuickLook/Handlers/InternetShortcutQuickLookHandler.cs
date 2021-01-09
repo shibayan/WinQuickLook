@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
 namespace WinQuickLook.Handlers
@@ -17,9 +19,9 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
-            var content = await File.ReadAllLinesAsync(fileName);
+            var content = File.ReadAllLines(fileName);
 
             var urlEntry = content.FirstOrDefault(x => x.StartsWith("URL"));
 
@@ -36,11 +38,26 @@ namespace WinQuickLook.Handlers
                 Height = 900
             };
 
-            var webView2 = new WebView2();
+            try
+            {
+                CoreWebView2Environment.GetAvailableBrowserVersionString();
 
-            webView2.Loaded += (sender, e) => ((WebView2)sender).CoreWebView2.Navigate(url);
+                var webView2 = new WebView2
+                {
+                    Source = new Uri(url)
+                };
 
-            return (webView2, requestSize, url);
+                return (webView2, requestSize, url);
+            }
+            catch (EdgeNotFoundException)
+            {
+                var webBrowser = new WebBrowser
+                {
+                    Source = new Uri(url)
+                };
+
+                return (webBrowser, requestSize, url);
+            }
         }
 
         private static readonly IList<string> _supportFormats = new[]

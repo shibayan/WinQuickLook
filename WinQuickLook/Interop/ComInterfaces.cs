@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security;
 using System.Text;
 
@@ -346,63 +347,11 @@ namespace WinQuickLook.Interop
     }
 
     [ComImport]
-    [Guid("DCCFC164-2B38-11d2-B7EC-00C04F8F5D9A")]
+    [Guid("B824B49D-22AC-4161-AC8A-9916E8FA3F7F")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [SuppressUnmanagedCodeSecurity]
-    public interface IMultiLanguage2 : IUnknown
+    public interface IInitializeWithStream
     {
-        void GetNumberOfCodePageInfo([Out] out uint pcCodePage);
-
-        void GetCodePageInfo(uint uiCodePage, [In] ushort LangId, [Out] out IntPtr pCodePageInfo);
-
-        void GetFamilyCodePage([In] uint uiCodePage, [Out] out uint puiFamilyCodePage);
-
-        void EnumCodePages([In] uint grfFlags, [In] ushort LangId, [Out] out IntPtr ppEnumCodePage);
-
-        void GetCharsetInfo([In, MarshalAs(UnmanagedType.BStr)] string Charset, [Out] out IntPtr pCharsetInfo);
-
-        void IsConvertible([In] uint dwSrcEncoding, [In] uint dwDstEncoding);
-
-        void ConvertString([In, Out] ref uint pdwMode, [In] uint dwSrcEncoding, [In] uint dwDstEncoding, [In] IntPtr pSrcStr, [In, Out] ref uint pcSrcSize, [Out] IntPtr pDstStr, [In, Out] ref uint pcDstSize);
-
-        void ConvertStringToUnicode([In, Out] ref uint pdwMode, [In] uint dwEncoding, [In] IntPtr pSrcStr, [In, Out] ref uint pcSrcSize, [Out] IntPtr pDstStr, [In, Out] ref uint pcDstSize);
-
-        void ConvertStringFromUnicode([In, Out] ref uint pdwMode, [In] uint dwEncoding, [In] IntPtr pSrcStr, [In, Out] ref uint pcSrcSize, [Out] IntPtr pDstStr, [In, Out] ref uint pcDstSize);
-
-        void ConvertStringReset();
-
-        void GetRfc1766FromLcid([In] uint Locale, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstrRfc1766);
-
-        void GetLcidFromRfc1766([Out] out uint pLocale, [In, MarshalAs(UnmanagedType.BStr)] string bstrRfc1766);
-
-        void EnumRfc1766([In] ushort LangId, [Out] out IntPtr ppEnumRfc1766);
-
-        void GetRfc1766Info([In] uint Locale, [In] ushort LangId, [Out] IntPtr pRfc1766Info);
-
-        void CreateConvertCharset([In] uint uiSrcCodePage, [In] uint uiDstCodePage, [In] uint dwProperty, [Out] out IntPtr ppMLangConvertCharset);
-
-        void ConvertStringInIStream([In, Out] ref uint pdwMode, [In] uint dwFlag, [In] IntPtr lpFallBack, [In] uint dwSrcEncoding, [In] uint dwDstEncoding, [In] IntPtr pstmIn, [In] IntPtr pstmOut);
-
-        void ConvertStringToUnicodeEx([In, Out] ref uint pdwMode, [In] uint dwEncoding, [In] IntPtr pSrcStr, [In, Out] ref uint pcSrcSize, [Out] IntPtr pDstStr, [In, Out] ref uint pcDstSize, [In] uint dwFlag, [In] IntPtr lpFallBack);
-
-        void ConvertStringFromUnicodeEx([In, Out] ref uint pdwMode, [In] uint dwEncoding, [In] IntPtr pSrcStr, [In, Out] ref uint pcSrcSize, [Out] IntPtr pDstStr, [In, Out] ref uint pcDstSize, [In] uint dwFlag, [In] IntPtr lpFallBack);
-
-        void DetectCodepageInIStream([In] uint dwFlag, [In] uint dwPrefWinCodePage, [In] IntPtr pstmIn, [Out] out DetectEncodingInfo lpEncoding, [In, Out] ref int pnScores);
-
-        void DetectInputCodepage([In] uint dwFlag, [In] uint dwPrefWinCodePage, [In] IntPtr pSrcStr, [In, Out] ref int pcSrcSize, [Out] out DetectEncodingInfo lpEncoding, [In, Out] ref int pnScores);
-
-        void ValidateCodePage([In] uint uiCodePage, [In] IntPtr hwnd);
-
-        void GetCodePageDescription([In] uint uiCodePage, [In] uint lcid, [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpWideCharStr, [In] int cchWideChar);
-
-        void IsCodePageInstallable([In] uint uiCodePage);
-
-        void SetMimeDBSource([In] IntPtr dwSource);
-
-        void GetNumberOfScripts([Out] out uint pnScripts);
-
-        void EnumScripts([In] uint dwFlags, [In] ushort LangId, [Out] out IntPtr ppEnumScript);
-
-        void ValidateCodePageEx([In] uint uiCodePage, [In] IntPtr hwnd, [In] uint dwfIODControl);
+        void Initialize([In] IStream pstream, uint grfMode);
     }
 }

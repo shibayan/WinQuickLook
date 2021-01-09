@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WinQuickLook.Handlers
 {
@@ -7,6 +6,6 @@ namespace WinQuickLook.Handlers
     {
         bool CanOpen(string fileName);
 
-        Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName);
+        (FrameworkElement, Size, string) GetViewer(string fileName);
     }
 }

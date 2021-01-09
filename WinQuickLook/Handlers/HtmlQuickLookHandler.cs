@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -21,7 +20,7 @@ namespace WinQuickLook.Handlers
             return _supportFormats.Contains(extension);
         }
 
-        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var requestSize = new Size
             {

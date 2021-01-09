@@ -14,9 +14,19 @@ namespace WinQuickLook.Internal
         {
             NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
 
-            var imageFactory = shellItem.QueryInterface<IShellItemImageFactory>();
+            var imageFactory = shellItem?.QueryInterface<IShellItemImageFactory>();
+
+            if (imageFactory == null)
+            {
+                return null;
+            }
 
             imageFactory.GetImage(new SIZE(256, 256), SIIGBF.RESIZETOFIT, out var bitmap);
+
+            if (bitmap == IntPtr.Zero)
+            {
+                return null;
+            }
 
             var image = Imaging.CreateBitmapSourceFromHBitmap(bitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
