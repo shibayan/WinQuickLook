@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 
 using Microsoft.AppCenter.Crashes;
@@ -12,18 +11,18 @@ namespace WinQuickLook.Extensions
     {
         private static readonly IQuickLookHandler _genericHandler = new GenericQuickLookHandler();
 
-        public static async Task<(FrameworkElement, Size, string)> GetViewerWithErrorAsync(this IQuickLookHandler handler, string fileName)
+        public static (FrameworkElement, Size, string) GetViewerWithHandleError(this IQuickLookHandler handler, string fileName)
         {
             try
             {
-                return await (handler ?? _genericHandler).GetViewerAsync(fileName);
+                return (handler ?? _genericHandler).GetViewer(fileName);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
 
-            return await _genericHandler.GetViewerAsync(fileName);
+            return _genericHandler.GetViewer(fileName);
         }
     }
 }

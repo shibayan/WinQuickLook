@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -25,7 +24,7 @@ namespace WinQuickLook.Handlers
             return bitmap.Frames.Count > 1;
         }
 
-        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             using var file = TagLib.File.Create(fileName);
 
@@ -41,8 +40,8 @@ namespace WinQuickLook.Handlers
             mediaElement.Source = new Uri(fileName, UriKind.Absolute);
             mediaElement.LoadedBehavior = MediaState.Play;
             mediaElement.UnloadedBehavior = MediaState.Manual;
-            mediaElement.MediaOpened += (_, __) => mediaElement.Play();
-            mediaElement.MediaEnded += (_, __) =>
+            mediaElement.MediaOpened += (_, _) => mediaElement.Play();
+            mediaElement.MediaEnded += (_, _) =>
             {
                 mediaElement.Position = TimeSpan.FromMilliseconds(1);
                 mediaElement.Play();

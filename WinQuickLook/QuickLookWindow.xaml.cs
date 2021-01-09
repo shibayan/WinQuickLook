@@ -72,7 +72,7 @@ namespace WinQuickLook
             return true;
         }
 
-        public async void Open(string fileName)
+        public void Open(string fileName)
         {
             CleanupHost();
 
@@ -85,7 +85,7 @@ namespace WinQuickLook
                 handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileName));
             }
 
-            var (element, requestSize, metadata) = await handler.GetViewerWithErrorAsync(fileName);
+            var (element, requestSize, metadata) = handler.GetViewerWithHandleError(fileName);
 
             PreviewHost = element;
 
@@ -126,7 +126,6 @@ namespace WinQuickLook
         {
             CleanupHost();
         }
-
 
         private void OpenWithListButton_Click(object sender, RoutedEventArgs e)
         {

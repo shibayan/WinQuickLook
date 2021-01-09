@@ -88,38 +88,46 @@ namespace WinQuickLook.Controls
                 return null;
             }
 
-            var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
-
-            if (initializeWithFile != null)
-            {
-                initializeWithFile.Initialize(fileName, 0);
-
-                return previewHandler;
-            }
-
-            var initializeWithItem = previewHandler.QueryInterface<IInitializeWithItem>();
-
-            if (initializeWithItem != null)
-            {
-                NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
-
-                initializeWithItem.Initialize(shellItem, 0);
-
-                return previewHandler;
-            }
-
             try
             {
-                previewHandler.Unload();
+                var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
+
+                if (initializeWithFile != null)
+                {
+                    initializeWithFile.Initialize(fileName, 0);
+
+                    return previewHandler;
+                }
+
+                var initializeWithItem = previewHandler.QueryInterface<IInitializeWithItem>();
+
+                if (initializeWithItem != null)
+                {
+                    NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
+
+                    initializeWithItem.Initialize(shellItem, 0);
+
+                    return previewHandler;
+                }
+
+                var initializeWithStream = previewHandler.QueryInterface<IInitializeWithStream>();
+
+                if (initializeWithStream != null)
+                {
+                    initializeWithStream.Initialize(new ComStream(File.Open(fileName, FileMode.Open, FileAccess.Read)), 0);
+
+                    return previewHandler;
+                }
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
-            finally
-            {
-                Marshal.FinalReleaseComObject(previewHandler);
-            }
+
+            // 初期化できない場合はアンロードする
+            previewHandler.Unload();
+
+            Marshal.FinalReleaseComObject(previewHandler);
 
             return null;
         }

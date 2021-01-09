@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,7 +27,7 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public async Task<(FrameworkElement, Size, string)> GetViewerAsync(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(string fileName)
         {
             var (bitmap, originalSize) = GetImage(fileName);
 
