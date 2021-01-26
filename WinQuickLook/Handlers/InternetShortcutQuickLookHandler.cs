@@ -49,7 +49,7 @@ namespace WinQuickLook.Handlers
 
                 return (webView2, requestSize, url);
             }
-            catch (EdgeNotFoundException)
+            catch (WebView2RuntimeNotFoundException)
             {
                 var webBrowser = new WebBrowser
                 {

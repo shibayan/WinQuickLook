@@ -39,7 +39,7 @@ namespace WinQuickLook.Handlers
 
                 return (webView2, requestSize, WinExplorerHelper.GetFileSize(fileName));
             }
-            catch (EdgeNotFoundException)
+            catch (WebView2RuntimeNotFoundException)
             {
                 var webBrowser = new WebBrowser
                 {
