@@ -5,8 +5,8 @@ on:
     tags: [ v* ]
 
 env:
-  DOTNET_VERSION: 5.0.x
-  BUNDLE_PLATFORMS: x86|x64
+  DOTNET_VERSION: 6.0.100-preview.5.21302.13
+  BUNDLE_PLATFORMS: x86|x64|arm64
 
 jobs:
   publish:

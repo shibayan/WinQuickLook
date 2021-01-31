@@ -48,6 +48,8 @@ namespace WinQuickLook.Internal
         public void Dispose()
         {
             Stop();
+
+            GC.SuppressFinalize(this);
         }
 
         private void StartKeyboardHook()
