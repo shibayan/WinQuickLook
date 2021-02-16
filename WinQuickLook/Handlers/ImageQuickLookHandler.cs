@@ -59,12 +59,14 @@ namespace WinQuickLook.Handlers
 
             var bitmap = new BitmapImage();
 
+            using var stream = File.OpenRead(fileName);
+
             bitmap.BeginInit();
             bitmap.CreateOptions = BitmapCreateOptions.None;
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.DecodePixelWidth = (int)scaledSize.Width;
             bitmap.DecodePixelHeight = (int)scaledSize.Height;
-            bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
+            bitmap.StreamSource = stream;
             bitmap.EndInit();
 
             bitmap.Freeze();
