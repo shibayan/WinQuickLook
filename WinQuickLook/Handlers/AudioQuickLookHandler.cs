@@ -10,28 +10,28 @@ namespace WinQuickLook.Handlers
 {
     public class AudioQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var requestSize = new Size(600, 300);
 
-            using var tag = TagLib.File.Create(fileName);
+            using var tag = TagLib.File.Create(fileInfo.FullName);
 
             var audioViewer = new AudioFileViewer();
 
             audioViewer.BeginInit();
-            audioViewer.Source = new Uri(fileName, UriKind.Absolute);
-            audioViewer.Thumbnail = ImagingHelper.GetThumbnail(fileName);
+            audioViewer.Source = new Uri(fileInfo.FullName, UriKind.Absolute);
+            audioViewer.Thumbnail = ImagingHelper.GetThumbnail(fileInfo.FullName);
             audioViewer.Metadata = tag.Tag;
             audioViewer.EndInit();
 
-            return (audioViewer, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            return (audioViewer, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
         }
 
         private static readonly IList<string> _supportFormats = new[]

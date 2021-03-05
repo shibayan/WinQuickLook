@@ -9,14 +9,14 @@ namespace WinQuickLook.Handlers
 {
     public class TextQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var requestSize = new Size
             {
@@ -31,10 +31,10 @@ namespace WinQuickLook.Handlers
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
             avalonEdit.ShowLineNumbers = true;
-            avalonEdit.Load(fileName);
+            avalonEdit.Load(fileInfo.OpenRead());
             avalonEdit.EndInit();
 
-            return (avalonEdit, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            return (avalonEdit, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
         }
 
         private static readonly IList<string> _supportFormats = new[]

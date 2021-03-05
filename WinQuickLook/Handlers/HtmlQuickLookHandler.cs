@@ -13,14 +13,14 @@ namespace WinQuickLook.Handlers
 {
     public class HtmlQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var requestSize = new Size
             {
@@ -34,19 +34,19 @@ namespace WinQuickLook.Handlers
 
                 var webView2 = new WebView2
                 {
-                    Source = new Uri(fileName, UriKind.Absolute)
+                    Source = new Uri(fileInfo.FullName, UriKind.Absolute)
                 };
 
-                return (webView2, requestSize, WinExplorerHelper.GetFileSize(fileName));
+                return (webView2, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
             }
             catch (WebView2RuntimeNotFoundException)
             {
                 var webBrowser = new WebBrowser
                 {
-                    Source = new Uri(fileName, UriKind.Absolute)
+                    Source = new Uri(fileInfo.FullName, UriKind.Absolute)
                 };
 
-                return (webBrowser, requestSize, WinExplorerHelper.GetFileSize(fileName));
+                return (webBrowser, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
             }
         }
 

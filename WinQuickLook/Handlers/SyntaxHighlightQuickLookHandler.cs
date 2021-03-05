@@ -10,18 +10,18 @@ namespace WinQuickLook.Handlers
 {
     public class SyntaxHighlightQuickLookHandler : IQuickLookHandler
     {
-        public SyntaxHighlightQuickLookHandler()
+        static SyntaxHighlightQuickLookHandler()
         {
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".ts" }, HighlightingManager.Instance.GetDefinitionByExtension(".js"));
             HighlightingManager.Instance.RegisterHighlighting("Vue", new[] { ".vue" }, HighlightingManager.Instance.GetDefinitionByExtension(".html"));
         }
 
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            return HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName)) != null;
+            return HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension) != null;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var requestSize = new Size
             {
@@ -36,11 +36,11 @@ namespace WinQuickLook.Handlers
             avalonEdit.FontSize = 14;
             avalonEdit.IsReadOnly = true;
             avalonEdit.ShowLineNumbers = true;
-            avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(fileName));
-            avalonEdit.Load(fileName);
+            avalonEdit.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension);
+            avalonEdit.Load(fileInfo.OpenRead());
             avalonEdit.EndInit();
 
-            return (avalonEdit, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            return (avalonEdit, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
         }
     }
 }

@@ -90,7 +90,7 @@ namespace WinQuickLook
         {
             if (_quickLookWindow.HideIfVisible())
             {
-                _currentItem =  null;
+                _currentItem = null;
 
                 return;
             }
