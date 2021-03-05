@@ -12,16 +12,16 @@ namespace WinQuickLook.Handlers
 {
     public class InternetShortcutQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
-            var content = File.ReadAllLines(fileName);
+            var content = File.ReadAllLines(fileInfo.FullName);
 
             var urlEntry = content.FirstOrDefault(x => x.StartsWith("URL"));
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
@@ -9,12 +10,12 @@ namespace WinQuickLook.Handlers
 {
     public class ComInteropQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            return PreviewHandlerHost.GetPreviewHandlerCLSID(fileName) != Guid.Empty;
+            return PreviewHandlerHost.GetPreviewHandlerCLSID(fileInfo.FullName) != Guid.Empty;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var requestSize = new Size
             {
@@ -30,9 +31,9 @@ namespace WinQuickLook.Handlers
             windowsFormsHost.Child = previewHandlerHost;
             windowsFormsHost.EndInit();
 
-            previewHandlerHost.Open(fileName);
+            previewHandlerHost.Open(fileInfo.FullName);
 
-            return (windowsFormsHost, requestSize, WinExplorerHelper.GetFileSize(fileName));
+            return (windowsFormsHost, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
         }
     }
 }

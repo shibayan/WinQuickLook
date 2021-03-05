@@ -11,11 +11,11 @@ namespace WinQuickLook.Handlers
 {
     public class ImageQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
             try
             {
-                using var stream = File.OpenRead(fileName);
+                using var stream = fileInfo.OpenRead();
 
                 BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
 
@@ -27,9 +27,9 @@ namespace WinQuickLook.Handlers
             }
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
-            var (bitmap, originalSize) = GetImage(fileName);
+            var (bitmap, originalSize) = GetImage(fileInfo);
 
             var requestSize = new Size
             {
@@ -45,21 +45,21 @@ namespace WinQuickLook.Handlers
             image.Source = bitmap;
             image.EndInit();
 
-            return (image, requestSize, FormatMetadata(originalSize, fileName));
+            return (image, requestSize, FormatMetadata(originalSize, fileInfo));
         }
 
-        private static string FormatMetadata(Size size, string fileName)
+        private static string FormatMetadata(Size size, FileInfo fileInfo)
         {
-            return $"{size.Width}x{size.Height} - {WinExplorerHelper.GetFileSize(fileName)}";
+            return $"{size.Width}x{size.Height} - {WinExplorerHelper.GetSizeFormat(fileInfo.Length)}";
         }
 
-        private static (BitmapSource, Size) GetImage(string fileName)
+        private static (BitmapSource, Size) GetImage(FileInfo fileInfo)
         {
-            var (scaledSize, originalSize) = GetScaledImageSize(fileName, 1200);
+            var (scaledSize, originalSize) = GetScaledImageSize(fileInfo, 1200);
 
             var bitmap = new BitmapImage();
 
-            using var stream = File.OpenRead(fileName);
+            using var stream = fileInfo.OpenRead();
 
             bitmap.BeginInit();
             bitmap.CreateOptions = BitmapCreateOptions.None;
@@ -74,11 +74,11 @@ namespace WinQuickLook.Handlers
             return (bitmap, originalSize);
         }
 
-        private static (Size, Size) GetScaledImageSize(string fileName, int maxSize)
+        private static (Size, Size) GetScaledImageSize(FileInfo fileInfo, int maxSize)
         {
-            if (!TryGetImageSize(fileName, out var originalSize))
+            if (!TryGetImageSize(fileInfo, out var originalSize))
             {
-                using var stream = File.OpenRead(fileName);
+                using var stream = fileInfo.OpenRead();
 
                 var decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
 
@@ -95,11 +95,11 @@ namespace WinQuickLook.Handlers
             return (originalSize, originalSize);
         }
 
-        private static bool TryGetImageSize(string fileName, out Size size)
+        private static bool TryGetImageSize(FileInfo fileInfo, out Size size)
         {
             try
             {
-                using var tag = TagLib.File.Create(fileName);
+                using var tag = TagLib.File.Create(fileInfo.FullName);
 
                 size = new Size(tag.Properties.PhotoWidth, tag.Properties.PhotoHeight);
 

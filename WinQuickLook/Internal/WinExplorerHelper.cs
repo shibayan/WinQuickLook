@@ -16,11 +16,6 @@ namespace WinQuickLook.Internal
         private const long MegaByte = 1024L * 1024;
         private const long KiroByte = 1024L;
 
-        public static string GetFileSize(string fileName)
-        {
-            return GetSizeFormat(new FileInfo(fileName).Length);
-        }
-
         public static string GetSizeFormat(long length)
         {
             if (length >= TeraByte)
@@ -44,20 +39,6 @@ namespace WinQuickLook.Internal
             }
 
             return $"{length} B";
-        }
-
-        public static bool SafeFileExists(string fileName)
-        {
-            try
-            {
-                using var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         public static string GetAssocName(string fileName)

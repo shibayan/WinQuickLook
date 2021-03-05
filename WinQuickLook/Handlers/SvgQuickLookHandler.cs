@@ -15,16 +15,16 @@ namespace WinQuickLook.Handlers
 {
     public class SvgQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
-            var requestSize = GetScaledImageSize(fileName, 1200);
+            var requestSize = GetScaledImageSize(fileInfo, 1200);
 
             try
             {
@@ -32,25 +32,25 @@ namespace WinQuickLook.Handlers
 
                 var webView2 = new WebView2
                 {
-                    Source = new Uri(fileName, UriKind.Absolute)
+                    Source = new Uri(fileInfo.FullName, UriKind.Absolute)
                 };
 
-                return (webView2, requestSize, WinExplorerHelper.GetFileSize(fileName));
+                return (webView2, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
             }
             catch (WebView2RuntimeNotFoundException)
             {
                 var webBrowser = new WebBrowser
                 {
-                    Source = new Uri(fileName, UriKind.Absolute)
+                    Source = new Uri(fileInfo.FullName, UriKind.Absolute)
                 };
 
-                return (webBrowser, requestSize, WinExplorerHelper.GetFileSize(fileName));
+                return (webBrowser, requestSize, WinExplorerHelper.GetSizeFormat(fileInfo.Length));
             }
         }
 
-        private static Size GetImageSize(string fileName)
+        private static Size GetImageSize(FileInfo fileInfo)
         {
-            var document = XDocument.Load(fileName);
+            var document = XDocument.Load(fileInfo.FullName);
 
             var viewBox = document.Root.Attribute("viewBox");
             var width = document.Root.Attribute("width");
@@ -84,9 +84,9 @@ namespace WinQuickLook.Handlers
             return new Size(400, 400);
         }
 
-        private static Size GetScaledImageSize(string fileName, int maxSize)
+        private static Size GetScaledImageSize(FileInfo fileInfo, int maxSize)
         {
-            var originalSize = GetImageSize(fileName);
+            var originalSize = GetImageSize(fileInfo);
 
             if (originalSize.Width > maxSize || originalSize.Height > maxSize)
             {

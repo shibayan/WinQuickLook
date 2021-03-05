@@ -28,6 +28,8 @@ namespace WinQuickLook
 
         private string _fileName;
 
+        private readonly DirectoryQuickLookHandler _directoryHandler = new DirectoryQuickLookHandler();
+
         private readonly IQuickLookHandler[] _fileHandlers =
         {
             new HtmlQuickLookHandler(),
@@ -78,14 +80,28 @@ namespace WinQuickLook
 
             _fileName = fileName;
 
-            var handler = default(IQuickLookHandler);
+            FrameworkElement element;
+            Size requestSize;
+            string metadata;
 
-            if (WinExplorerHelper.SafeFileExists(fileName))
+            if (File.Exists(fileName))
             {
-                handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileName));
-            }
+                var fileInfo = new FileInfo(fileName);
 
-            var (element, requestSize, metadata) = handler.GetViewerWithHandleError(fileName);
+                var handler = _fileHandlers.FirstOrDefault(x => x.CanOpen(fileInfo));
+
+                (element, requestSize, metadata) = handler.GetViewerWithHandleError(fileInfo);
+            }
+            else if (Directory.Exists(fileName))
+            {
+                var directoryInfo = new DirectoryInfo(fileName);
+
+                (element, requestSize, metadata) = _directoryHandler.GetViewer(directoryInfo);
+            }
+            else
+            {
+                return;
+            }
 
             PreviewHost = element;
 

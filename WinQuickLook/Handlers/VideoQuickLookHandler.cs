@@ -10,16 +10,16 @@ namespace WinQuickLook.Handlers
 {
     public class VideoQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return _supportFormats.Contains(extension);
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
-            if (!TryGetVideoSize(fileName, out var requestSize))
+            if (!TryGetVideoSize(fileInfo.FullName, out var requestSize))
             {
                 requestSize = new Size();
             }
@@ -27,15 +27,15 @@ namespace WinQuickLook.Handlers
             var videoViewer = new VideoFileViewer();
 
             videoViewer.BeginInit();
-            videoViewer.Source = new Uri(fileName, UriKind.Absolute);
+            videoViewer.Source = new Uri(fileInfo.FullName, UriKind.Absolute);
             videoViewer.EndInit();
 
-            return (videoViewer, requestSize, FormatMetadata(requestSize, fileName));
+            return (videoViewer, requestSize, FormatMetadata(requestSize, fileInfo));
         }
 
-        private static string FormatMetadata(Size size, string fileName)
+        private static string FormatMetadata(Size size, FileInfo fileInfo)
         {
-            return $"{size.Width}x{size.Height} - {WinExplorerHelper.GetFileSize(fileName)}";
+            return $"{size.Width}x{size.Height} - {WinExplorerHelper.GetSizeFormat(fileInfo.Length)}";
         }
 
         private static bool TryGetVideoSize(string fileName, out Size size)

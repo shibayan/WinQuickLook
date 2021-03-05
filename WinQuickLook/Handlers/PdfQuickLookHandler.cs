@@ -11,18 +11,18 @@ namespace WinQuickLook.Handlers
 {
     public class PdfQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             return extension == ".pdf";
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
             var pdfViewer = new PdfViewer();
 
-            var document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileName)));
+            var document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileInfo.FullName)));
 
             pdfViewer.Document = document;
 
@@ -34,12 +34,12 @@ namespace WinQuickLook.Handlers
             windowsFormsHost.Child = pdfViewer;
             windowsFormsHost.EndInit();
 
-            return (windowsFormsHost, requestSize, FormatMetadata(document, fileName));
+            return (windowsFormsHost, requestSize, FormatMetadata(document, fileInfo));
         }
 
-        private static string FormatMetadata(PdfDocument document, string fileName)
+        private static string FormatMetadata(PdfDocument document, FileInfo fileInfo)
         {
-            return $"{string.Format(Strings.Resources.PageCountText, document.PageCount)} - {WinExplorerHelper.GetFileSize(fileName)}";
+            return $"{string.Format(Strings.Resources.PageCountText, document.PageCount)} - {WinExplorerHelper.GetSizeFormat(fileInfo.Length)}";
         }
     }
 }

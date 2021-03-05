@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 
 using Microsoft.AppCenter.Crashes;
@@ -9,20 +10,20 @@ namespace WinQuickLook.Extensions
 {
     internal static class QuickLookHandlerExtensions
     {
-        private static readonly IQuickLookHandler _genericHandler = new GenericQuickLookHandler();
+        private static readonly IQuickLookHandler _genericFileHandler = new GenericFileQuickLookHandler();
 
-        public static (FrameworkElement, Size, string) GetViewerWithHandleError(this IQuickLookHandler handler, string fileName)
+        public static (FrameworkElement, Size, string) GetViewerWithHandleError(this IQuickLookHandler handler, FileInfo fileInfo)
         {
             try
             {
-                return (handler ?? _genericHandler).GetViewer(fileName);
+                return (handler ?? _genericFileHandler).GetViewer(fileInfo);
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
 
-            return _genericHandler.GetViewer(fileName);
+            return _genericFileHandler.GetViewer(fileInfo);
         }
     }
 }

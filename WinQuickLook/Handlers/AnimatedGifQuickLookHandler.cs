@@ -10,23 +10,25 @@ namespace WinQuickLook.Handlers
 {
     public class AnimatedGifQuickLookHandler : IQuickLookHandler
     {
-        public bool CanOpen(string fileName)
+        public bool CanOpen(FileInfo fileInfo)
         {
-            var extension = (Path.GetExtension(fileName) ?? "").ToLower();
+            var extension = fileInfo.Extension.ToLower();
 
             if (extension != ".gif")
             {
                 return false;
             }
 
-            var bitmap = BitmapDecoder.Create(new Uri(fileName), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+            using var stream = fileInfo.OpenRead();
+
+            var bitmap = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
 
             return bitmap.Frames.Count > 1;
         }
 
-        public (FrameworkElement, Size, string) GetViewer(string fileName)
+        public (FrameworkElement, Size, string) GetViewer(FileInfo fileInfo)
         {
-            using var file = TagLib.File.Create(fileName);
+            using var file = TagLib.File.Create(fileInfo.FullName);
 
             var requestSize = new Size
             {
@@ -37,7 +39,7 @@ namespace WinQuickLook.Handlers
             var mediaElement = new MediaElement();
 
             mediaElement.BeginInit();
-            mediaElement.Source = new Uri(fileName, UriKind.Absolute);
+            mediaElement.Source = new Uri(fileInfo.FullName, UriKind.Absolute);
             mediaElement.LoadedBehavior = MediaState.Play;
             mediaElement.UnloadedBehavior = MediaState.Manual;
             mediaElement.MediaOpened += (_, _) => mediaElement.Play();
@@ -48,12 +50,12 @@ namespace WinQuickLook.Handlers
             };
             mediaElement.EndInit();
 
-            return (mediaElement, requestSize, FormatMetadata(file, fileName));
+            return (mediaElement, requestSize, FormatMetadata(file, fileInfo));
         }
 
-        private static string FormatMetadata(TagLib.File file, string fileName)
+        private static string FormatMetadata(TagLib.File file, FileInfo fileInfo)
         {
-            return $"{file.Properties.PhotoWidth}x{file.Properties.PhotoHeight} - {WinExplorerHelper.GetFileSize(fileName)}";
+            return $"{file.Properties.PhotoWidth}x{file.Properties.PhotoHeight} - {WinExplorerHelper.GetSizeFormat(fileInfo.Length)}";
         }
     }
 }
