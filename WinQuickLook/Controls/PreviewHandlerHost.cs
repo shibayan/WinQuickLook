@@ -4,8 +4,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-using Microsoft.AppCenter.Crashes;
-
 using WinQuickLook.Interop;
 
 namespace WinQuickLook.Controls
@@ -34,7 +32,7 @@ namespace WinQuickLook.Controls
         {
             int pcchOut = 0;
 
-            NativeMethods.AssocQueryString(ASSOCF.INIT_DEFAULTTOSTAR, ASSOCSTR.SHELLEXTENSION, Path.GetExtension(fileName), PreviewHandlerGuid, null, ref pcchOut);
+            NativeMethods.AssocQueryString(ASSOCF.NOTRUNCATE | ASSOCF.INIT_DEFAULTTOSTAR, ASSOCSTR.SHELLEXTENSION, Path.GetExtension(fileName), PreviewHandlerGuid, null, ref pcchOut);
 
             if (pcchOut == 0)
             {
@@ -45,7 +43,7 @@ namespace WinQuickLook.Controls
 
             NativeMethods.AssocQueryString(ASSOCF.INIT_DEFAULTTOSTAR, ASSOCSTR.SHELLEXTENSION, Path.GetExtension(fileName), PreviewHandlerGuid, pszOut, ref pcchOut);
 
-            return new Guid(pszOut.ToString());
+            return Guid.Parse(pszOut.ToString());
         }
 
         public bool Open(string fileName)
@@ -88,46 +86,45 @@ namespace WinQuickLook.Controls
                 return null;
             }
 
+            var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
+
+            if (initializeWithFile != null)
+            {
+                initializeWithFile.Initialize(fileName, 0);
+
+                return previewHandler;
+            }
+
+            var initializeWithItem = previewHandler.QueryInterface<IInitializeWithItem>();
+
+            if (initializeWithItem != null)
+            {
+                NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
+
+                initializeWithItem.Initialize(shellItem, 0);
+
+                return previewHandler;
+            }
+
+            var initializeWithStream = previewHandler.QueryInterface<IInitializeWithStream>();
+
+            if (initializeWithStream != null)
+            {
+                initializeWithStream.Initialize(new ComStream(File.Open(fileName, FileMode.Open, FileAccess.Read)), 0);
+
+                return previewHandler;
+            }
+
             try
             {
-                var initializeWithFile = previewHandler.QueryInterface<IInitializeWithFile>();
-
-                if (initializeWithFile != null)
-                {
-                    initializeWithFile.Initialize(fileName, 0);
-
-                    return previewHandler;
-                }
-
-                var initializeWithItem = previewHandler.QueryInterface<IInitializeWithItem>();
-
-                if (initializeWithItem != null)
-                {
-                    NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
-
-                    initializeWithItem.Initialize(shellItem, 0);
-
-                    return previewHandler;
-                }
-
-                var initializeWithStream = previewHandler.QueryInterface<IInitializeWithStream>();
-
-                if (initializeWithStream != null)
-                {
-                    initializeWithStream.Initialize(new ComStream(File.Open(fileName, FileMode.Open, FileAccess.Read)), 0);
-
-                    return previewHandler;
-                }
+                // 初期化できない場合はアンロードする
+                previewHandler.Unload();
             }
-            catch (Exception ex)
+            finally
             {
-                Crashes.TrackError(ex);
+
+                Marshal.FinalReleaseComObject(previewHandler);
             }
-
-            // 初期化できない場合はアンロードする
-            previewHandler.Unload();
-
-            Marshal.FinalReleaseComObject(previewHandler);
 
             return null;
         }
@@ -139,10 +136,6 @@ namespace WinQuickLook.Controls
                 try
                 {
                     _previewHandler.Unload();
-                }
-                catch (Exception ex)
-                {
-                    Crashes.TrackError(ex);
                 }
                 finally
                 {
