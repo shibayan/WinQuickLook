@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
-
-using Microsoft.AppCenter.Crashes;
 
 using WinQuickLook.Handlers;
 
@@ -18,12 +15,10 @@ namespace WinQuickLook.Extensions
             {
                 return (handler ?? _genericFileHandler).GetViewer(fileInfo);
             }
-            catch (Exception ex)
+            catch
             {
-                Crashes.TrackError(ex);
+                return _genericFileHandler.GetViewer(fileInfo);
             }
-
-            return _genericFileHandler.GetViewer(fileInfo);
         }
     }
 }
