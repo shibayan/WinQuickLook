@@ -16,12 +16,12 @@ namespace WinQuickLook
 {
     public partial class App
     {
-        private Mutex _mutex = new Mutex(false, "WinQuickLook");
+        private Mutex _mutex = new(false, "WinQuickLook");
 
         private MessageHook _messageHook;
         private NotifyIconWrapper _notifyIcon;
 
-        private readonly QuickLookWindow _quickLookWindow = new QuickLookWindow();
+        private readonly QuickLookWindow _quickLookWindow = new();
 
         private string _currentItem;
 

@@ -14,7 +14,7 @@ namespace WinQuickLook.Controls
         private bool _isSeeking;
         private bool _isValueChanged;
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _timer = new();
 
         public Uri Source
         {

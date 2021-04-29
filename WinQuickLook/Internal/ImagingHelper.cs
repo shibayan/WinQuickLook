@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using WinQuickLook.Interop;
@@ -10,7 +11,7 @@ namespace WinQuickLook.Internal
 {
     internal class ImagingHelper
     {
-        public static BitmapSource GetThumbnail(string fileName)
+        public static ImageSource GetThumbnail(string fileName)
         {
             NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
 

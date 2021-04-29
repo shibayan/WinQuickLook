@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace WinQuickLook.Controls
@@ -15,7 +15,7 @@ namespace WinQuickLook.Controls
         private bool _isSeeking;
         private bool _isValueChanged;
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _timer = new();
 
         public Uri Source
         {
@@ -26,14 +26,14 @@ namespace WinQuickLook.Controls
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(Uri), typeof(AudioFileViewer), new PropertyMetadata(null));
 
-        public BitmapSource Thumbnail
+        public ImageSource Thumbnail
         {
-            get => (BitmapSource)GetValue(ThumbnailProperty);
+            get => (ImageSource)GetValue(ThumbnailProperty);
             set => SetValue(ThumbnailProperty, value);
         }
 
         public static readonly DependencyProperty ThumbnailProperty =
-            DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(AudioFileViewer), new PropertyMetadata(null));
+            DependencyProperty.Register("Thumbnail", typeof(ImageSource), typeof(AudioFileViewer), new PropertyMetadata(null));
 
         public TagLib.Tag Metadata
         {

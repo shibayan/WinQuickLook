@@ -4,9 +4,9 @@ namespace WinQuickLook.Interop
 {
     public static class CLSID
     {
-        public static readonly Guid ShellWindows = new Guid("9BA05972-F6A8-11CF-A442-00A0C90A8F39");
-        public static readonly Guid ShellLink = new Guid("00021401-0000-0000-C000-000000000046");
-        public static readonly Guid MultiLanguage = new Guid("275c23e2-3747-11d0-9fea-00aa003f8646");
+        public static readonly Guid ShellWindows = new("9BA05972-F6A8-11CF-A442-00A0C90A8F39");
+        public static readonly Guid ShellLink = new("00021401-0000-0000-C000-000000000046");
+        public static readonly Guid MultiLanguage = new("275c23e2-3747-11d0-9fea-00aa003f8646");
 
         public static readonly Type ShellWindowsType = Type.GetTypeFromCLSID(ShellWindows);
         public static readonly Type ShellLinkType = Type.GetTypeFromCLSID(ShellLink);
@@ -15,7 +15,7 @@ namespace WinQuickLook.Interop
 
     public static class SID
     {
-        public static readonly Guid STopLevelBrowser = new Guid(0x4C96BE40, 0x915C, 0x11CF, 0x99, 0xD3, 0x00, 0xAA, 0x00, 0x4A, 0xE8, 0x37);
+        public static readonly Guid STopLevelBrowser = new(0x4C96BE40, 0x915C, 0x11CF, 0x99, 0xD3, 0x00, 0xAA, 0x00, 0x4A, 0xE8, 0x37);
     }
 
     [Flags]
