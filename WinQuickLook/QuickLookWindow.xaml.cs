@@ -28,7 +28,7 @@ namespace WinQuickLook
 
         private string _fileName;
 
-        private readonly DirectoryQuickLookHandler _directoryHandler = new DirectoryQuickLookHandler();
+        private readonly DirectoryQuickLookHandler _directoryHandler = new();
 
         private readonly IQuickLookHandler[] _fileHandlers =
         {

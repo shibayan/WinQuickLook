@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace WinQuickLook.Controls
 {
@@ -11,14 +11,14 @@ namespace WinQuickLook.Controls
             InitializeComponent();
         }
 
-        public BitmapSource Thumbnail
+        public ImageSource Thumbnail
         {
-            get => (BitmapSource)GetValue(ThumbnailProperty);
+            get => (ImageSource)GetValue(ThumbnailProperty);
             set => SetValue(ThumbnailProperty, value);
         }
 
         public static readonly DependencyProperty ThumbnailProperty =
-            DependencyProperty.Register("Thumbnail", typeof(BitmapSource), typeof(GeneficFileViewer), new PropertyMetadata(null));
+            DependencyProperty.Register("Thumbnail", typeof(ImageSource), typeof(GeneficFileViewer), new PropertyMetadata(null));
 
         public FileSystemInfo FileInfo
         {
