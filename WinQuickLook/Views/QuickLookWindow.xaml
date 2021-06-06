@@ -1,4 +1,4 @@
-﻿<Window x:Class="WinQuickLook.QuickLookWindow"
+﻿<Window x:Class="WinQuickLook.Views.QuickLookWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         ShowActivated="False" ShowInTaskbar="False" SnapsToDevicePixels="True" UseLayoutRounding="True" FocusVisualStyle="{x:Null}"
         Unloaded="Window_Unloaded" SizeChanged="Window_SizeChanged">
     <Window.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary Source="../Styles.xaml" />
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="44"

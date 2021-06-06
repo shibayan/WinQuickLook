@@ -4,7 +4,7 @@ using System.Windows;
 
 using Windows.ApplicationModel;
 
-namespace WinQuickLook
+namespace WinQuickLook.Controls
 {
     public partial class NotifyIconWrapper : Component
     {

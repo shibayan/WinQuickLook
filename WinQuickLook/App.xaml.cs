@@ -8,9 +8,11 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 #endif
 
+using WinQuickLook.Controls;
 using WinQuickLook.Extensions;
 using WinQuickLook.Internal;
 using WinQuickLook.Interop;
+using WinQuickLook.Views;
 
 namespace WinQuickLook
 {
