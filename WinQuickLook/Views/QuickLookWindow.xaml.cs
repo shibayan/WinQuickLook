@@ -17,7 +17,7 @@ using WinQuickLook.Handlers;
 using WinQuickLook.Internal;
 using WinQuickLook.Interop;
 
-namespace WinQuickLook
+namespace WinQuickLook.Views
 {
     public partial class QuickLookWindow
     {

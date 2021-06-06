@@ -6,7 +6,7 @@ using System.Windows.Threading;
 
 using WinQuickLook.Interop;
 
-namespace WinQuickLook
+namespace WinQuickLook.Internal
 {
     public class MessageHook : IDisposable
     {

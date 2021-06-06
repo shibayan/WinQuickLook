@@ -1,4 +1,4 @@
-﻿namespace WinQuickLook
+﻿namespace WinQuickLook.Controls
 {
     partial class NotifyIconWrapper
     {
