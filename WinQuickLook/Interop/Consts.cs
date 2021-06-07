@@ -115,4 +115,10 @@ namespace WinQuickLook.Interop
         APPICONREFERENCE,
         MAX
     }
+
+    public enum ASSOC_FILTER : uint
+    {
+        NONE = 0,
+        RECOMMENDED = 0x1
+    }
 }

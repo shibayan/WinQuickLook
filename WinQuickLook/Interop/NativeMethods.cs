@@ -40,6 +40,9 @@ namespace WinQuickLook.Interop
                                                               Guid riid, [Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex = 2)]
                                                               out IShellItem ppv);
 
+        [DllImport("shell32.dll")]
+        public static extern long SHAssocEnumHandlers([MarshalAs(UnmanagedType.LPTStr), In] string pszExtra, [In] ASSOC_FILTER afFilter, [MarshalAs(UnmanagedType.Interface), Out] out IEnumAssocHandlers ppEnumHandler);
+
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SHGetFileInfo([In, MarshalAs(UnmanagedType.LPTStr)] string pszPath, uint dwFileAttributes, [In, Out] ref SHFILEINFO psfi, int cbFileInfo, SHGFI uFlags);
 

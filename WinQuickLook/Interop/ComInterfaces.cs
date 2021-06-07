@@ -353,4 +353,38 @@ namespace WinQuickLook.Interop
     {
         void Initialize([In] IStream pstream, uint grfMode);
     }
+
+    [ComImport]
+    [Guid("f04061ac-1659-4a3f-a954-775aa57fc083")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
+    public interface IAssocHandler : IUnknown
+    {
+        int GetName([MarshalAs(UnmanagedType.LPWStr), Out] out string ppsz);
+        int GetUIName([MarshalAs(UnmanagedType.LPWStr), Out] out string ppsz);
+        int GetIconLocation([MarshalAs(UnmanagedType.LPWStr), Out] out string ppsz, [Out] out int pIndex);
+        int IsRecommended();
+        int MakeDefault([MarshalAs(UnmanagedType.LPWStr), In] string pszDescription);
+        int Invoke([MarshalAs(UnmanagedType.Interface), In] IDataObject pdo);
+        int CreateInvoker([MarshalAs(UnmanagedType.Interface), In] IDataObject pdo, [MarshalAs(UnmanagedType.Interface), Out] out IAssocHandlerInvoker ppInvoker);
+    }
+
+    [ComImport]
+    [Guid("92218cab-ecaa-4335-8133-807fd234c2ee")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
+    public interface IAssocHandlerInvoker : IUnknown
+    {
+        int SupportsSelection();
+        int Invoke();
+    }
+
+    [ComImport]
+    [Guid("973810ae-9599-4b88-9e4d-6ee98c9552da")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [SuppressUnmanagedCodeSecurity]
+    public interface IEnumAssocHandlers : IUnknown
+    {
+        int Next([In] ulong celt, [MarshalAs(UnmanagedType.Interface), Out] out IAssocHandler reglt, [Out] out ulong pceltFetched);
+    }
 }
