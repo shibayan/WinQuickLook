@@ -20,8 +20,5 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Restore NuGet packages
-      run: dotnet restore
-
     - name: Build application
       run: dotnet msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
