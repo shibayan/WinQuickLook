@@ -20,8 +20,11 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Restore NuGet packages
-      run: dotnet restore
+    - name: Install .NET Core format tool
+      run: dotnet tool update -g dotnet-format
 
     - name: Build application
-      run: dotnet msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+
+    - name: Lint C# code
+      run: dotnet format --check --verbosity detailed
