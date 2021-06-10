@@ -21,4 +21,4 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Build application
-      run: dotnet msbuild .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
