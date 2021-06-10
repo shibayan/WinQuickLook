@@ -20,5 +20,11 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
+    - name: Install .NET Core format tool
+      run: dotnet tool update -g dotnet-format
+
     - name: Build application
       run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+
+    - name: Lint C# code
+      run: dotnet format --check --verbosity detailed
