@@ -23,9 +23,18 @@
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Title, ElementName=window}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14" />
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="0">
-            <Button x:Name="openWithListButton" WindowChrome.IsHitTestVisibleInChrome="True" Margin="8,0,0,0"
-                    Click="OpenWithListButton_Click" Style="{StaticResource OpenButtonStyle}">
+            <Button x:Name="openWithListButton" WindowChrome.IsHitTestVisibleInChrome="True"
+                    Margin="8,0,0,0" Click="OpenWithListButton_Click" Style="{StaticResource OpenButtonStyle}">
                 <TextBlock Text="&#xE78B;" FontSize="20" FontFamily="Segoe MDL2 Assets"/>
+                <Button.ContextMenu>
+                    <ContextMenu Placement="Bottom">
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding}" />
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
+                    </ContextMenu>
+                </Button.ContextMenu>
             </Button>
             <Button x:Name="openWithButton" WindowChrome.IsHitTestVisibleInChrome="True" Margin="8,0,0,0"
                     Click="OpenWithButton_Click" Style="{StaticResource OpenButtonStyle}">

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -145,6 +146,10 @@ namespace WinQuickLook.Views
 
         private void OpenWithListButton_Click(object sender, RoutedEventArgs e)
         {
+            var contextMenu = openWithListButton.ContextMenu;
+
+            contextMenu.PlacementTarget = openWithListButton;
+            contextMenu.IsOpen = true;
         }
 
         private void OpenWithButton_Click(object sender, RoutedEventArgs e)
@@ -173,14 +178,27 @@ namespace WinQuickLook.Views
             if (string.IsNullOrEmpty(assocName))
             {
                 openWithButton.Visibility = Visibility.Collapsed;
-                //openWithListButton.Visibility = Visibility.Collapsed;
             }
             else
             {
                 ((TextBlock)openWithButton.Content).Text = string.Format(Strings.Resources.OpenButtonText, assocName);
 
                 openWithButton.Visibility = Visibility.Visible;
-                //openWithListButton.Visibility = Visibility.Visible;
+            }
+
+            var assocAppList = WinExplorerHelper.GetAssocAppList(fileName);
+
+            if (assocAppList.Count == 0)
+            {
+                openWithListButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var contextMenu = openWithListButton.ContextMenu;
+
+                contextMenu.ItemsSource = assocAppList;
+
+                openWithListButton.Visibility = Visibility.Visible;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -43,7 +44,7 @@ namespace WinQuickLook.Internal
 
         public static string GetAssocName(string fileName)
         {
-            int pcchOut = 0;
+            var pcchOut = 0;
 
             NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, null, ref pcchOut);
 
@@ -57,6 +58,32 @@ namespace WinQuickLook.Internal
             NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
 
             return pszOut.ToString().Trim();
+        }
+
+        public static IList<string> GetAssocAppList(string fileName)
+        {
+            var list = new List<string>();
+
+            NativeMethods.SHAssocEnumHandlers(Path.GetExtension(fileName), ASSOC_FILTER.RECOMMENDED, out var enumAssocHandlers);
+
+            while (enumAssocHandlers.Next(1, out var assocHandler, out _) == 0)
+            {
+                if (assocHandler == null)
+                {
+                    break;
+                }
+
+                assocHandler.GetUIName(out var uiName);
+                assocHandler.GetIconLocation(out var location, out var index);
+
+                list.Add(uiName);
+
+                Marshal.ReleaseComObject(assocHandler);
+            }
+
+            Marshal.ReleaseComObject(enumAssocHandlers);
+
+            return list;
         }
 
         public static string GetSelectedItem()
