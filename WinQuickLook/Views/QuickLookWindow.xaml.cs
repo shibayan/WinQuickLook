@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Forms.Integration;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
@@ -54,6 +54,8 @@ namespace WinQuickLook.Views
 
         public static readonly DependencyProperty PreviewHostProperty =
             DependencyProperty.Register(nameof(PreviewHost), typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
+
+        public static readonly RoutedUICommand OpenWithAssoc = new();
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -299,6 +301,20 @@ namespace WinQuickLook.Views
             var messageTable = (IList)field.GetValue(windowChromeWorker);
 
             messageTable.RemoveAt(5);
+        }
+
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                AssocHandlerHelper.Invoke((string)e.Parameter, _fileName);
+
+                HideIfVisible();
+            }
+            catch
+            {
+                MessageBox.Show(Strings.Resources.OpenButtonErrorMessage, "WinQuickLook");
+            }
         }
     }
 }

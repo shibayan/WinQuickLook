@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 
 using WinQuickLook.Interop;
 
+using IDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
+
 namespace WinQuickLook.Internal
 {
     internal static class AssocHandlerHelper
@@ -83,6 +85,40 @@ namespace WinQuickLook.Internal
             Marshal.ReleaseComObject(enumAssocHandlers);
 
             return list;
+        }
+
+        public static void Invoke(string appName, string fileName)
+        {
+            NativeMethods.SHAssocEnumHandlers(Path.GetExtension(fileName), ASSOC_FILTER.RECOMMENDED, out var enumAssocHandlers);
+
+            while (enumAssocHandlers.Next(1, out var assocHandler, out _) == 0)
+            {
+                if (assocHandler == null)
+                {
+                    break;
+                }
+
+                assocHandler.GetUIName(out var uiName);
+
+                if (appName == uiName)
+                {
+                    NativeMethods.SHCreateItemFromParsingName(fileName, IntPtr.Zero, typeof(IShellItem).GUID, out var shellItem);
+
+                    shellItem.BindToHandler(IntPtr.Zero, BHID.DataObject, typeof(IDataObject).GUID, out var dataObject);
+
+                    assocHandler.Invoke((IDataObject)dataObject);
+
+                    Marshal.ReleaseComObject(dataObject);
+                    Marshal.ReleaseComObject(shellItem);
+                    Marshal.ReleaseComObject(assocHandler);
+
+                    break;
+                }
+
+                Marshal.ReleaseComObject(assocHandler);
+            }
+
+            Marshal.ReleaseComObject(enumAssocHandlers);
         }
     }
 }

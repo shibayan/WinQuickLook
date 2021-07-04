@@ -103,6 +103,8 @@ namespace WinQuickLook.Controls
 
                 initializeWithItem.Initialize(shellItem, 0);
 
+                Marshal.ReleaseComObject(shellItem);
+
                 return previewHandler;
             }
 
