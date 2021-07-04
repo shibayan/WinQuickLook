@@ -85,7 +85,7 @@ namespace WinQuickLook
             _quickLookWindow.Close();
 
             _messageHook?.Dispose();
-            _notifyIcon.Dispose();
+            _notifyIcon?.Dispose();
 
             _mutex?.ReleaseMutex();
         }
