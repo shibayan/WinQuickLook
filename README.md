@@ -2,6 +2,7 @@ WinQuickLook <img align="right" src="https://raw.githubusercontent.com/shibayan/
 ================
 
 ![Build](https://github.com/shibayan/WinQuickLook/workflows/Build/badge.svg)
+[![Release](https://img.shields.io/github/release/shibayan/appservice-acmebot.svg)](https://www.microsoft.com/store/apps/9njmtkk6jc0q)
 [![License](https://img.shields.io/github/license/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
 
 "Quick Look" like Windows Explorer file viewer.
