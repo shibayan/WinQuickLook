@@ -10,8 +10,7 @@
                         ToolTipText="WinQuickLook"
                         IconSource="/Icon.ico"
                         MenuActivation="RightClick"
-                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick"
-                        ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{x:Static properties:Resources.AutoStartText}" Click="AutoStartMenuItem_Click" />

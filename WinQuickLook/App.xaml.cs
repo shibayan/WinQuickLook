@@ -6,12 +6,6 @@ using System.Windows.Controls;
 
 using Hardcodet.Wpf.TaskbarNotification;
 
-#if !DEBUG
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-#endif
-
 using Windows.ApplicationModel;
 
 using WinQuickLook.Extensions;
@@ -32,7 +26,7 @@ namespace WinQuickLook
 
         private string _currentItem;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -47,7 +41,7 @@ namespace WinQuickLook
             }
 
 #if !DEBUG
-            AppCenter.Start("a49cb0c4-9884-4d72-bf96-ccd0e2c4bbe1", typeof(Analytics), typeof(Crashes));
+            Microsoft.AppCenter.AppCenter.Start("a49cb0c4-9884-4d72-bf96-ccd0e2c4bbe1", typeof(Microsoft.AppCenter.Analytics.Analytics), typeof(Microsoft.AppCenter.Crashes.Crashes));
 #endif
 
             NativeMethods.SetProcessDpiAwarenessContext(Consts.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
@@ -78,6 +72,10 @@ namespace WinQuickLook
 
             // Preloading Window
             _quickLookWindow.Preload();
+
+            var startupTask = await StartupTask.GetAsync("WinQuickLookTask");
+
+            ((MenuItem)_notifyIcon.ContextMenu.Items[0]).IsChecked = startupTask.State == StartupTaskState.Enabled;
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -164,14 +162,7 @@ namespace WinQuickLook
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
-        }
-
-        private async void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var startupTask = await StartupTask.GetAsync("WinQuickLookTask");
-
-            ((MenuItem)((ContextMenu)sender).Items[0]).IsChecked = startupTask.State == StartupTaskState.Enabled;
+            Current.Shutdown();
         }
     }
 }
