@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Threading;
@@ -57,10 +56,7 @@ namespace WinQuickLook.Internal
                 return;
             }
 
-            using var process = Process.GetCurrentProcess();
-            using var module = process.MainModule;
-
-            _keyboardHook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
+            _keyboardHook = NativeMethods.SetWindowsHookEx(Consts.WH_KEYBOARD_LL, _keyboardHookProc, NativeMethods.GetModuleHandle(null), 0);
         }
 
         private void StopKeyboardHook()
@@ -110,10 +106,7 @@ namespace WinQuickLook.Internal
                 return;
             }
 
-            using var process = Process.GetCurrentProcess();
-            using var module = process.MainModule;
-
-            _mouseHook = NativeMethods.SetWindowsHookEx(Consts.WH_MOUSE_LL, _mouseHookProc, NativeMethods.GetModuleHandle(module.ModuleName), 0);
+            _mouseHook = NativeMethods.SetWindowsHookEx(Consts.WH_MOUSE_LL, _mouseHookProc, NativeMethods.GetModuleHandle(null), 0);
         }
 
         private void StopMouseHook()

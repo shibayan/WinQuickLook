@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using WinQuickLook.Interop;
 
@@ -60,9 +64,15 @@ namespace WinQuickLook.Internal
             return pszOut.ToString().Trim();
         }
 
-        public static IList<string> GetAssocAppList(string fileName)
+        public class AssocAppEntry
         {
-            var list = new List<string>();
+            public string Name { get; set; }
+            public ImageSource Icon { get; set; }
+        }
+
+        public static IList<AssocAppEntry> GetAssocAppList(string fileName)
+        {
+            var list = new List<AssocAppEntry>();
 
             NativeMethods.SHAssocEnumHandlers(Path.GetExtension(fileName), ASSOC_FILTER.RECOMMENDED, out var enumAssocHandlers);
 
@@ -76,7 +86,17 @@ namespace WinQuickLook.Internal
                 assocHandler.GetUIName(out var uiName);
                 assocHandler.GetIconLocation(out var location, out var index);
 
-                list.Add(uiName);
+                var icons = new IntPtr[1];
+
+                NativeMethods.ExtractIconEx(location, index, null, icons, 1);
+
+                list.Add(new AssocAppEntry
+                {
+                    Name = uiName,
+                    Icon = Imaging.CreateBitmapSourceFromHIcon(icons[0], Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions())
+                });
+
+                NativeMethods.DestroyIcon(icons[0]);
 
                 Marshal.ReleaseComObject(assocHandler);
             }

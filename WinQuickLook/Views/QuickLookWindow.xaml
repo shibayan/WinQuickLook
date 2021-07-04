@@ -28,9 +28,14 @@
                 <TextBlock Text="&#xE78B;" FontSize="20" FontFamily="Segoe MDL2 Assets"/>
                 <Button.ContextMenu>
                     <ContextMenu Placement="Bottom">
+                        <ContextMenu.Resources>
+                            <Image x:Key="MenuIcon" x:Shared="false" Source="{Binding Path=Icon}" />
+                        </ContextMenu.Resources>
                         <ContextMenu.ItemContainerStyle>
                             <Style TargetType="MenuItem">
-                                <Setter Property="Header" Value="{Binding}" />
+                                <Setter Property="Header" Value="{Binding Path=Name}" />
+                                <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
+
                             </Style>
                         </ContextMenu.ItemContainerStyle>
                     </ContextMenu>
