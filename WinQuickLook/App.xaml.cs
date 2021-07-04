@@ -137,10 +137,7 @@ namespace WinQuickLook
             _currentItem = null;
         }
 
-        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            _quickLookWindow?.Activate();
-        }
+        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e) => _quickLookWindow?.Activate();
 
         private async void AutoStartMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -160,9 +157,6 @@ namespace WinQuickLook
             }
         }
 
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Current.Shutdown();
-        }
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e) => Current.Shutdown();
     }
 }
