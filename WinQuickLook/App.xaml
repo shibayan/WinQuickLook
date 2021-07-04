@@ -1,7 +1,23 @@
 ﻿<Application x:Class="WinQuickLook.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tb="http://www.hardcodet.net/taskbar"
+             xmlns:strings="clr-namespace:WinQuickLook.Strings"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
+        <tb:TaskbarIcon x:Key="NotifyIcon"
+                        Visibility="Visible"
+                        ToolTipText="WinQuickLook"
+                        IconSource="/Icon.ico"
+                        MenuActivation="RightClick"
+                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{x:Static strings:Resources.AutoStartText}" Click="AutoStartMenuItem_Click" />
+                    <Separator />
+                    <MenuItem Header="{x:Static strings:Resources.ExitText}" Click="ExitMenuItem_Click" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
     </Application.Resources>
 </Application>

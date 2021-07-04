@@ -16,34 +16,18 @@ namespace WinQuickLook.Internal
         private const long MegaByte = 1024L * 1024;
         private const long KiroByte = 1024L;
 
-        public static string GetSizeFormat(long length)
+        public static string GetSizeFormat(long length) => length switch
         {
-            if (length >= TeraByte)
-            {
-                return $"{length / (double)TeraByte:0.##} TB";
-            }
-
-            if (length >= GigaByte)
-            {
-                return $"{length / (double)GigaByte:0.##} GB";
-            }
-
-            if (length >= MegaByte)
-            {
-                return $"{length / (double)MegaByte:0.##} MB";
-            }
-
-            if (length >= KiroByte)
-            {
-                return $"{length / (double)KiroByte:0.##} KB";
-            }
-
-            return $"{length} B";
-        }
+            >= TeraByte => $"{length / (double)TeraByte:0.##} TB",
+            >= GigaByte => $"{length / (double)GigaByte:0.##} GB",
+            >= MegaByte => $"{length / (double)MegaByte:0.##} MB",
+            >= KiroByte => $"{length / (double)KiroByte:0.##} KB",
+            _ => $"{length} B"
+        };
 
         public static string GetAssocName(string fileName)
         {
-            int pcchOut = 0;
+            var pcchOut = 0;
 
             NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, null, ref pcchOut);
 
@@ -70,6 +54,11 @@ namespace WinQuickLook.Internal
 
             var shellWindows = (IShellWindows)Activator.CreateInstance(CLSID.ShellWindowsType);
 
+            if (shellWindows == null)
+            {
+                return null;
+            }
+
             string fileName = null;
 
             if (IsDesktopWindow(foregroundHwnd))
@@ -87,7 +76,7 @@ namespace WinQuickLook.Internal
             }
             else
             {
-                for (int i = 0; i < shellWindows.Count; i++)
+                for (var i = 0; i < shellWindows.Count; i++)
                 {
                     var webBrowserApp = (IWebBrowserApp)shellWindows.Item(i);
 
@@ -126,7 +115,7 @@ namespace WinQuickLook.Internal
 
             var folderView = shellView.QueryInterface<IFolderView>();
 
-            int focus = folderView.GetFocusedItem();
+            var focus = folderView.GetFocusedItem();
 
             var persistFolder2 = folderView.GetFolder<IPersistFolder2>();
 
