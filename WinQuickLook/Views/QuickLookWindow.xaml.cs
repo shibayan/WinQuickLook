@@ -173,7 +173,7 @@ namespace WinQuickLook.Views
 
         private void SetAssociatedAppName(string fileName)
         {
-            var assocName = WinExplorerHelper.GetAssocName(fileName);
+            var assocName = AssocHandlerHelper.GetAssocName(fileName);
 
             if (string.IsNullOrEmpty(assocName))
             {
@@ -186,7 +186,7 @@ namespace WinQuickLook.Views
                 openWithButton.Visibility = Visibility.Visible;
             }
 
-            var assocAppList = WinExplorerHelper.GetAssocAppList(fileName);
+            var assocAppList = AssocHandlerHelper.GetAssocAppList(fileName);
 
             if (assocAppList.Count == 0)
             {
