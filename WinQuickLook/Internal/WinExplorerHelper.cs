@@ -25,24 +25,6 @@ namespace WinQuickLook.Internal
             _ => $"{length} B"
         };
 
-        public static string GetAssocName(string fileName)
-        {
-            var pcchOut = 0;
-
-            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, null, ref pcchOut);
-
-            if (pcchOut == 0)
-            {
-                return null;
-            }
-
-            var pszOut = new StringBuilder(pcchOut);
-
-            NativeMethods.AssocQueryString(ASSOCF.INIT_IGNOREUNKNOWN, ASSOCSTR.FRIENDLYAPPNAME, Path.GetExtension(fileName), null, pszOut, ref pcchOut);
-
-            return pszOut.ToString().Trim();
-        }
-
         public static string GetSelectedItem()
         {
             var foregroundHwnd = NativeMethods.GetForegroundWindow();

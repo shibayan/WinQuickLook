@@ -18,6 +18,11 @@ namespace WinQuickLook.Interop
         public static readonly Guid STopLevelBrowser = new(0x4C96BE40, 0x915C, 0x11CF, 0x99, 0xD3, 0x00, 0xAA, 0x00, 0x4A, 0xE8, 0x37);
     }
 
+    public static class BHID
+    {
+        public static readonly Guid DataObject = new("b8c0bd9f-ed24-455c-83e6-d5390c4fe8c4");
+    }
+
     [Flags]
     public enum SIIGBF : uint
     {

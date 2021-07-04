@@ -40,8 +40,17 @@ namespace WinQuickLook.Interop
                                                               Guid riid, [Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex = 2)]
                                                               out IShellItem ppv);
 
+        [DllImport("shell32.dll")]
+        public static extern long SHAssocEnumHandlers([In, MarshalAs(UnmanagedType.LPWStr)] string pszExtra, [In] ASSOC_FILTER afFilter, [Out, MarshalAs(UnmanagedType.Interface)] out IEnumAssocHandlers ppEnumHandler);
+
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SHGetFileInfo([In, MarshalAs(UnmanagedType.LPTStr)] string pszPath, uint dwFileAttributes, [In, Out] ref SHFILEINFO psfi, int cbFileInfo, SHGFI uFlags);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        public static extern uint ExtractIconEx([In, MarshalAs(UnmanagedType.LPTStr)] string lpszFile, int nIconIndex, [In, Out] IntPtr[] phiconLarge, [In, Out] IntPtr[] phiconSmall, uint nIcons);
+
+        [DllImport("user32.dll")]
+        public static extern bool DestroyIcon([In] IntPtr hIcon);
 
         [DllImport("shlwapi.dll")]
         public static extern void StrRetToBSTR([In, Out] ref STRRET pstr, [In] IntPtr pidl, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstr);
