@@ -68,6 +68,16 @@ namespace WinQuickLook.Internal
 
                     NativeMethods.DestroyIcon(icons[0]);
                 }
+                else if (location.StartsWith("@"))
+                {
+                    var iconPathBuffer = new StringBuilder(1024);
+
+                    NativeMethods.SHLoadIndirectString(location, iconPathBuffer, iconPathBuffer.Capacity, IntPtr.Zero);
+
+                    var iconPath = iconPathBuffer.ToString();
+
+                    icon = File.Exists(iconPath) ? new BitmapImage(new Uri(iconPath)) : null;
+                }
                 else
                 {
                     icon = null;

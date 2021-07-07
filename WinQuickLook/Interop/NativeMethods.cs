@@ -55,6 +55,9 @@ namespace WinQuickLook.Interop
         [DllImport("shlwapi.dll")]
         public static extern void StrRetToBSTR([In, Out] ref STRRET pstr, [In] IntPtr pidl, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstr);
 
+        [DllImport("shlwapi.dll")]
+        public static extern int SHLoadIndirectString([In, MarshalAs(UnmanagedType.LPWStr)] string pszSource, [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszOutBuf, int cchOuutBuf, IntPtr ppvReserved);
+
         [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr lpdwProcessId);
 
@@ -62,7 +65,7 @@ namespace WinQuickLook.Interop
         public static extern uint GetGUIThreadInfo(uint dwthreadid, ref GUITHREADINFO lpguithreadinfo);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        public static extern int GetClassName(IntPtr hWnd, [Out, MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpClassName, int nMaxCount);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
@@ -74,10 +77,7 @@ namespace WinQuickLook.Interop
         public static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WINCOMPATTRDATA data);
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
-        public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra, [Out] StringBuilder pszOut, [In, Out] ref int pcchOut);
-
-        [DllImport("dwmapi.dll")]
-        public static extern int DwmGetColorizationColor([Out] out uint pcrColorization, [Out] out bool pfOpaqueBlend);
+        public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra, [Out, MarshalAs(UnmanagedType.LPTStr)] StringBuilder pszOut, [In, Out] ref int pcchOut);
 
         [DllImport("dwmapi.dll")]
         public static extern int DwmIsCompositionEnabled(out bool pfEnabled);
