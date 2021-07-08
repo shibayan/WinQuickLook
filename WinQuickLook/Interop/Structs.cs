@@ -3,23 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace WinQuickLook.Interop
 {
-#if X86
-    [StructLayout(LayoutKind.Explicit, Size = 264)]
-    public struct STRRET
-    {
-        [FieldOffset(0)]
-        public uint uType;
-
-        [FieldOffset(4)]
-        public IntPtr pOleStr;
-
-        [FieldOffset(4)]
-        public uint uOffset;
-
-        [FieldOffset(4)]
-        public IntPtr cStr;
-    }
-#else
     [StructLayout(LayoutKind.Explicit, Size = 272)]
     public struct STRRET
     {
@@ -35,7 +18,6 @@ namespace WinQuickLook.Interop
         [FieldOffset(8)]
         public IntPtr cStr;
     }
-#endif
 
     [StructLayout(LayoutKind.Sequential)]
     public struct GUITHREADINFO
