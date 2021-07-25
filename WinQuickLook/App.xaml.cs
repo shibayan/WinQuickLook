@@ -26,10 +26,8 @@ namespace WinQuickLook
 
         private string _currentItem;
 
-        protected override async void OnStartup(StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             if (!_mutex.WaitOne(0, false))
             {
                 _mutex.Close();
@@ -78,10 +76,9 @@ namespace WinQuickLook
             ((MenuItem)_notifyIcon.ContextMenu.Items[0]).IsChecked = startupTask.State == StartupTaskState.Enabled;
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        private void Application_Exit(object sender, ExitEventArgs e)
         {
-            base.OnExit(e);
-
+            _quickLookWindow.HideIfVisible();
             _quickLookWindow.Close();
 
             _messageHook?.Dispose();

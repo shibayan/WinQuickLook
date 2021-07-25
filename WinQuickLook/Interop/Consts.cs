@@ -9,11 +9,13 @@ namespace WinQuickLook.Interop
         public const int HC_ACTION = 0;
 
         public const int HTCAPTION = 0x02;
+
         public const int WM_NCRBUTTONDOWN = 0x00a4;
         public const int WM_CONTEXTMENU = 0x007b;
         public const int WM_KEYDOWN = 0x0100;
         public const int WM_SYSKEYDOWN = 0x0104;
         public const int WM_LBUTTONDOWN = 0x0201;
+        public const int WM_NCRBUTTONUP = 0x00a5;
 
         public const int VK_F4 = 0x73;
 
