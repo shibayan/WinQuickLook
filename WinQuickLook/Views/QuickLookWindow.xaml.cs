@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +10,6 @@ using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Shell;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
@@ -56,13 +54,6 @@ namespace WinQuickLook.Views
             DependencyProperty.Register(nameof(PreviewHost), typeof(FrameworkElement), typeof(QuickLookWindow), new PropertyMetadata(null));
 
         public static readonly RoutedUICommand OpenWithAssoc = new();
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            InitializeWindowStyle();
-        }
 
         public bool HideIfVisible()
         {
@@ -133,6 +124,18 @@ namespace WinQuickLook.Views
             PreviewHost = null;
         }
 
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            InitializeWindowStyle();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+
+            hwndSource.AddHook(WndProc);
+        }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (PreviewHost is Image image && image.StretchDirection != StretchDirection.Both)
@@ -141,9 +144,9 @@ namespace WinQuickLook.Views
             }
         }
 
-        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            CleanupHost();
+            e.Cancel = true;
         }
 
         private void OpenWithListButton_Click(object sender, RoutedEventArgs e)
@@ -159,6 +162,20 @@ namespace WinQuickLook.Views
             try
             {
                 Process.Start(new ProcessStartInfo(_fileName) { UseShellExecute = true });
+
+                HideIfVisible();
+            }
+            catch
+            {
+                MessageBox.Show(Strings.Resources.OpenButtonErrorMessage, "WinQuickLook");
+            }
+        }
+
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                AssocHandlerHelper.Invoke((string)e.Parameter, _fileName);
 
                 HideIfVisible();
             }
@@ -237,22 +254,17 @@ namespace WinQuickLook.Views
 
             var style = NativeMethods.GetWindowLong(hwnd, Consts.GWL_STYLE);
             NativeMethods.SetWindowLong(hwnd, Consts.GWL_STYLE, style & ~(Consts.WS_SYSMENU | Consts.WS_MINIMIZEBOX | Consts.WS_MAXIMIZEBOX));
-
-            var hwndSource = HwndSource.FromHwnd(hwnd);
-            hwndSource.AddHook(WndProc);
-
-            DisableSystemMenu();
         }
 
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             switch (msg)
             {
-                case Consts.WM_SYSKEYDOWN:
-                    if (wParam.ToInt32() == Consts.VK_F4)
-                    {
-                        handled = true;
-                    }
+                case Consts.WM_SYSKEYDOWN when wParam.ToInt32() == Consts.VK_F4:
+                    handled = true;
+                    break;
+                case Consts.WM_NCRBUTTONUP when wParam.ToInt32() == Consts.HTCAPTION:
+                    handled = true;
                     break;
             }
 
@@ -289,32 +301,6 @@ namespace WinQuickLook.Views
             var hwnd = new WindowInteropHelper(this).Handle;
 
             NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)Math.Round(x), (int)Math.Round(y), 0, 0, Consts.SWP_NOACTIVATE | Consts.SWP_NOSIZE | Consts.SWP_NOZORDER);
-        }
-
-        private void DisableSystemMenu()
-        {
-            var type = typeof(WindowChrome).Assembly.GetType("System.Windows.Shell.WindowChromeWorker");
-            var method = type.GetMethod("GetWindowChromeWorker", BindingFlags.Public | BindingFlags.Static);
-            var field = type.GetField("_messageTable", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            var windowChromeWorker = (DependencyObject)method.Invoke(null, new object[] { this });
-            var messageTable = (IList)field.GetValue(windowChromeWorker);
-
-            messageTable.RemoveAt(5);
-        }
-
-        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                AssocHandlerHelper.Invoke((string)e.Parameter, _fileName);
-
-                HideIfVisible();
-            }
-            catch
-            {
-                MessageBox.Show(Strings.Resources.OpenButtonErrorMessage, "WinQuickLook");
-            }
         }
     }
 }
