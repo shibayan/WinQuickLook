@@ -122,9 +122,12 @@ namespace WinQuickLook.Controls
                 // 初期化できない場合はアンロードする
                 previewHandler.Unload();
             }
+            catch
+            {
+                // ignored
+            }
             finally
             {
-
                 Marshal.FinalReleaseComObject(previewHandler);
             }
 
@@ -138,6 +141,10 @@ namespace WinQuickLook.Controls
                 try
                 {
                     _previewHandler.Unload();
+                }
+                catch
+                {
+                    // ignored
                 }
                 finally
                 {
