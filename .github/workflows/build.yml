@@ -28,4 +28,4 @@ jobs:
       run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
 
     - name: Lint C# code
-      run: dotnet format --check --verbosity detailed
+      run: dotnet format --verify-no-changes --verbosity detailed --no-restore
