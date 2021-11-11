@@ -165,7 +165,7 @@ curly_bracket_next_line = true
 indent_brace_style = Allman
 
 # Xml project files
-[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj,wapproj}]
 indent_size = 2
 
 # Xml build files
