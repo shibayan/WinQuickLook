@@ -14,6 +14,8 @@ jobs:
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
 
     - name: Use .NET ${{ env.DOTNET_VERSION }}
       uses: actions/setup-dotnet@v1
@@ -21,7 +23,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Build application
-      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x86 /p:Configuration=Release /verbosity:minimal
+      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x64 /p:Configuration=Release /verbosity:minimal
 
     - name: Lint C# code
       run: dotnet format whitespace --verify-no-changes --verbosity detailed --no-restore

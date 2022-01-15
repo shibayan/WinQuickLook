@@ -25,6 +25,8 @@ namespace WinQuickLook.Handlers
             var document = PdfDocument.Load(new MemoryStream(File.ReadAllBytes(fileInfo.FullName)));
 
             pdfViewer.Document = document;
+            pdfViewer.ShowBookmarks = false;
+            pdfViewer.ShowToolbar = false;
 
             var requestSize = document.GetPageSize();
 
