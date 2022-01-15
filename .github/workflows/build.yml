@@ -7,24 +7,21 @@ on:
     branches: [ master ]
 
 env:
-  DOTNET_VERSION: 5.0.x
+  DOTNET_VERSION: 6.0.x
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
 
-    - name: Use .NET Core ${{ env.DOTNET_VERSION }}
+    - name: Use .NET ${{ env.DOTNET_VERSION }}
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: Install .NET Core format tool
-      run: dotnet tool update -g dotnet-format
 
     - name: Build application
       run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x64 /p:Configuration=Release /verbosity:minimal
 
     - name: Lint C# code
-      run: dotnet format --check --verbosity detailed
+      run: dotnet format whitespace --verify-no-changes --verbosity detailed --no-restore
