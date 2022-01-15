@@ -1,0 +1,3 @@
+[submodule "PdfiumViewer"]
+	path = PdfiumViewer
+	url = https://github.com/shibayan/PdfiumViewer.git

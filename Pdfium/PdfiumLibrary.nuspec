@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>PdfiumLibrary</id>
+    <version>1.0.0</version>
+    <authors>shibayan</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>PdfiumLibrary</description>
+  </metadata>
+  <files>
+    <file src="./runtimes/win-arm64/pdfium.dll" target="runtimes/win-arm64/native/pdfium.dll" />
+    <file src="./runtimes/win-x64/pdfium.dll" target="runtimes/win-x64/native/pdfium.dll" />
+    <file src="./runtimes/win-x86/pdfium.dll" target="runtimes/win-x86/native/pdfium.dll" />
+  </files>
+</package>
