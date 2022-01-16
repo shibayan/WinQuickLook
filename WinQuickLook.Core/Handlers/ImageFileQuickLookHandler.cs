@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Handlers;
@@ -23,5 +22,5 @@ public class ImageFileQuickLookHandler : FileQuickLookHandler
         }
     }
 
-    protected override (FrameworkElement, Size, string) CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
+    protected override HandlerResult CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
 }

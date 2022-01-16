@@ -1,8 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Windows;
+﻿using System.IO;
+using System.Windows.Media;
 
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
+
+using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;
 
@@ -18,5 +20,21 @@ public class CodeFileQuickLookHandler : FileQuickLookHandler
 
     protected override bool CanOpen(FileInfo fileInfo) => HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension) is not null;
 
-    protected override (FrameworkElement, Size, string) CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
+    protected override HandlerResult CreateViewer(FileInfo fileInfo)
+    {
+        var textEditor = new TextEditor();
+
+        using (textEditor.Init())
+        {
+            textEditor.FontFamily = new FontFamily("Consolas");
+            textEditor.FontSize = 14;
+            textEditor.IsReadOnly = true;
+            textEditor.ShowLineNumbers = true;
+            textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension);
+
+            textEditor.Load(fileInfo.OpenReadNoLock());
+        }
+
+        return new HandlerResult { Viewer = textEditor };
+    }
 }
