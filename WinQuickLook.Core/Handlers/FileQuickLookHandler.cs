@@ -16,5 +16,5 @@ public abstract class FileQuickLookHandler : IQuickLookHandler
 
     protected abstract (FrameworkElement, Size, string) CreateViewer(FileInfo fileInfo);
 
-    protected virtual IReadOnlyList<string> SupportedExtensions { get; } = Array.Empty<string>();
+    protected virtual IReadOnlyList<string> SupportedExtensions => Array.Empty<string>();
 }

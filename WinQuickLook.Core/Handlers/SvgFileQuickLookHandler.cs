@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
 namespace WinQuickLook.Handlers;
 
-public class TextFileQuickLookHandler : FileQuickLookHandler
+public class SvgFileQuickLookHandler : FileQuickLookHandler
 {
-    protected override bool CanOpen(FileInfo fileInfo)
-    {
-        return false;
-    }
+    protected override IReadOnlyList<string> SupportedExtensions => new[] { ".svg", ".svgz" };
 
     protected override (FrameworkElement, Size, string) CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
 }

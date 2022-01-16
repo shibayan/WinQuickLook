@@ -131,6 +131,7 @@ csharp_style_conditional_delegate_call = true:suggestion
 csharp_style_prefer_index_operator = false:none
 csharp_style_prefer_range_operator = false:none
 csharp_style_pattern_local_over_anonymous_function = false:none
+csharp_style_namespace_declarations = file_scoped:warning
 
 # Space preferences
 csharp_space_after_cast = false
