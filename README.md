@@ -2,24 +2,41 @@ WinQuickLook <img align="right" src="https://raw.githubusercontent.com/shibayan/
 ================
 
 ![Build](https://github.com/shibayan/WinQuickLook/workflows/Build/badge.svg)
-[![Release](https://img.shields.io/github/release/shibayan/WinQuickLook.svg)](https://www.microsoft.com/store/apps/9njmtkk6jc0q)
-[![License](https://img.shields.io/github/license/shibayan/WinQuickLook.svg)](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
+[![Release](https://badgen.net/github/release/shibayan/WinQuickLook)](https://www.microsoft.com/store/apps/9njmtkk6jc0q)
+[![License](https://badgen.net/github/license/shibayan/WinQuickLook)](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
 
-"Quick Look" like Windows Explorer file viewer.
+"WinQuickLook" is a file viewer like "Quick Look" on macOS. Just select a file and press the spacebar to quickly check the contents of the file on the fly.
+
+## Installation
+
+### Microsoft Store
 
 <a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q?cid=storebadge&ocid=badge"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
 
-## Requirements
+### WinGet
 
-- Windows 10 Version 1903 or later
+```
+winget install WinQuickLook --source msstore
+or
+winget install 9NJMTKK6JC0Q --source msstore
+```
 
 ## Usage
 
-1. Install [latest version](https://www.microsoft.com/store/apps/9njmtkk6jc0q)
-2. Launch WinQuickLook
-3. Open explorer
-4. Select a file
-5. Press a space-key
+1. Launch WinQuickLook
+2. Open folder in explorer
+3. Select a file
+4. Press a <kbd>space</kbd> key
+
+## Supported platforms
+
+- Windows 10 Version 1903 or later
+- Windows 11
+
+## Thanks
+
+- [PdfiumViewer](https://github.com/pvginkel/PdfiumViewer) by @pvginkel
+- [pdfium-binaries](https://github.com/bblanchon/pdfium-binaries) by @bblanchon
 
 ## License
 
