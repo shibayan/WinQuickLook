@@ -22,8 +22,11 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Build application
-      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x64 /p:Configuration=Release /verbosity:minimal
+    - name: Build solutions
+      run: dotnet build .\WinQuickLook-V4.sln -c Release
+
+    - name: Run test cases
+      run: dotnet test .\WinQuickLook-V4.sln -c Release --no-build
 
     - name: Lint C# code
-      run: dotnet format whitespace --verify-no-changes --verbosity detailed --no-restore
+      run: dotnet format .\WinQuickLook-V4.sln --verify-no-changes --verbosity detailed --no-restore
