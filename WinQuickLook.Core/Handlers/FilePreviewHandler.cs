@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace WinQuickLook.Handlers;
 
-public abstract class FileQuickLookHandler : IQuickLookHandler
+public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 {
     public bool CanOpen(FileSystemInfo fileSystemInfo) => CanOpen((FileInfo)fileSystemInfo);
 

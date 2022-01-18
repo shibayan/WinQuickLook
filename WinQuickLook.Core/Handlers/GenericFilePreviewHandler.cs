@@ -3,7 +3,7 @@ using System.IO;
 
 namespace WinQuickLook.Handlers;
 
-public class GenericFileQuickLookHandler : FileQuickLookHandler
+public class GenericFilePreviewHandler : FilePreviewHandler
 {
     protected override bool CanOpen(FileInfo fileInfo) => true;
 

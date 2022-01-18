@@ -3,7 +3,7 @@ using System.IO;
 
 namespace WinQuickLook.Handlers;
 
-public class GenericDirectoryQuickLookHandler : DirectoryQuickLookHandler
+public class GenericDirectoryPreviewHandler : DirectoryPreviewHandler
 {
     protected override bool CanOpen(DirectoryInfo directoryInfo) => true;
 

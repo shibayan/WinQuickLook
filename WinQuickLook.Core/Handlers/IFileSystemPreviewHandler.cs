@@ -2,7 +2,7 @@
 
 namespace WinQuickLook.Handlers;
 
-public interface IQuickLookHandler
+public interface IFileSystemPreviewHandler
 {
     bool CanOpen(FileSystemInfo fileSystemInfo);
 

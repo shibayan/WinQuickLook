@@ -4,7 +4,7 @@ using System.IO;
 
 namespace WinQuickLook.Handlers;
 
-public class SvgFileQuickLookHandler : FileQuickLookHandler
+public class SvgFilePreviewHandler : FilePreviewHandler
 {
     protected override IReadOnlyList<string> SupportedExtensions => new[] { ".svg", ".svgz" };
 

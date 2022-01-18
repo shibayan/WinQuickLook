@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace WinQuickLook.Handlers;
 
-public class ImageFileQuickLookHandler : FileQuickLookHandler
+public class ImageFilePreviewHandler : FilePreviewHandler
 {
     protected override bool CanOpen(FileInfo fileInfo)
     {

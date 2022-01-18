@@ -4,9 +4,9 @@ using System.IO;
 
 namespace WinQuickLook.Handlers;
 
-public class PdfFileQuickLookHandler : FileQuickLookHandler
+public class HtmlFilePreviewHandler : FilePreviewHandler
 {
-    protected override IReadOnlyList<string> SupportedExtensions => new[] { ".pdf" };
+    protected override IReadOnlyList<string> SupportedExtensions => new[] { ".htm", ".html", ".xhtml" };
 
     protected override HandlerResult CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
 }

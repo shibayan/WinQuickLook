@@ -6,7 +6,7 @@ public class HandlerResult
 {
     public FrameworkElement Viewer { get; init; } = null!;
 
-    public Size RequestSize { get; set; } = DefaultRequestSize;
+    public Size RequestSize { get; set; } = s_defaultRequestSize;
 
-    private static readonly Size DefaultRequestSize = new(1200, 900);
+    private static readonly Size s_defaultRequestSize = new(1200, 900);
 }

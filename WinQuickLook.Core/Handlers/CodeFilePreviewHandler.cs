@@ -8,9 +8,9 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;
 
-public class CodeFileQuickLookHandler : FileQuickLookHandler
+public class CodeFilePreviewHandler : FilePreviewHandler
 {
-    static CodeFileQuickLookHandler()
+    static CodeFilePreviewHandler()
     {
         var highlightingManager = HighlightingManager.Instance;
 

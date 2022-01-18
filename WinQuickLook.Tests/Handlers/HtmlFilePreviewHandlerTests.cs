@@ -6,7 +6,7 @@ using Xunit;
 
 namespace WinQuickLook.Tests.Handlers;
 
-public class HtmlFileQuickLookHandlerTests
+public class HtmlFilePreviewHandlerTests
 {
     [Theory]
     [InlineData("test.htm", true)]
@@ -22,7 +22,7 @@ public class HtmlFileQuickLookHandlerTests
     {
         var fileInfo = new FileInfo(fileName);
 
-        var handler = new HtmlFileQuickLookHandler();
+        var handler = new HtmlFilePreviewHandler();
 
         var actual = handler.CanOpen(fileInfo);
 

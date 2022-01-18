@@ -7,7 +7,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;
 
-public class TextFileQuickLookHandler : FileQuickLookHandler
+public class TextFilePreviewHandler : FilePreviewHandler
 {
     protected override bool CanOpen(FileInfo fileInfo)
     {
