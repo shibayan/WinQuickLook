@@ -13,4 +13,8 @@
     <PackageReference Include="TagLibSharp" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WinQuickLook.CsWin32\WinQuickLook.CsWin32.csproj" />
+  </ItemGroup>
+
 </Project>

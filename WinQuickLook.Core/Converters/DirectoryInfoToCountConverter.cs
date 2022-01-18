@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace WinQuickLook.Converters;
 
-[ValueConversion(typeof(DirectoryInfo), typeof(string))]
+[ValueConversion(typeof(DirectoryInfo), typeof(int))]
 public class DirectoryInfoToCountConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

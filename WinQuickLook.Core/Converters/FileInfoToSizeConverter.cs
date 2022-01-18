@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace WinQuickLook.Converters;
 
-[ValueConversion(typeof(FileInfo), typeof(string))]
+[ValueConversion(typeof(FileInfo), typeof(long))]
 public class FileInfoToSizeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

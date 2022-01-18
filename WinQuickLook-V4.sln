@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Core", "WinQui
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Tests", "WinQuickLook.Tests\WinQuickLook.Tests.csproj", "{86085A98-8D02-4CA6-98EC-D0159FE99D7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinQuickLook.CsWin32", "WinQuickLook.CsWin32\WinQuickLook.CsWin32.csproj", "{0D01E534-2076-42C5-9DEC-84B62E8DC803}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{86085A98-8D02-4CA6-98EC-D0159FE99D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86085A98-8D02-4CA6-98EC-D0159FE99D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86085A98-8D02-4CA6-98EC-D0159FE99D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

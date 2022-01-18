@@ -1,0 +1,56 @@
+﻿// COM
+IShellItem
+IShellItemImageFactory
+IShellWindows
+IWebBrowserApp
+IServiceProvider
+IShellBrowser
+IShellView
+IFolderView
+IPersistFolder2
+IShellFolder
+IPreviewHandler
+IInitializeWithFile
+IInitializeWithItem
+IInitializeWithStream
+IAssocHandler
+IAssocHandlerInvoker
+IEnumAssocHandlers
+
+// Win32 API
+
+// kernel32
+GetModuleHandle
+
+// user32
+CreateWindowEx
+DestroyWindow
+GetForegroundWindow
+SetWindowsHookEx
+UnhookWindowsHookEx
+CallNextHookEx
+SetWindowLong
+GetWindowLong
+DestroyIcon
+GetWindowThreadProcessId
+GetGUIThreadInfo
+GetClassName
+FindWindowEx
+GetAsyncKeyState
+MonitorFromWindow
+GetMonitorInfo
+SetWindowPos
+
+// shell32
+SHCreateItemFromParsingName
+SHAssocEnumHandlers
+SHGetFileInfo
+ExtractIconEx
+
+// shlwapi
+StrRetToBSTR
+SHLoadIndirectString
+AssocQueryString
+
+// shcore
+GetDpiForMonitor
