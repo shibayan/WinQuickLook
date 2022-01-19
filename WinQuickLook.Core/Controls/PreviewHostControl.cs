@@ -46,9 +46,9 @@ public class PreviewHostControl : HwndHost
         if (_previewHandler is not null)
         {
             UnloadPreviewHandler(_previewHandler);
-
-            _previewHandler = previewHandler;
         }
+
+        _previewHandler = previewHandler;
 
         return true;
     }
@@ -90,31 +90,35 @@ public class PreviewHostControl : HwndHost
 
     private static unsafe bool TryInitializePreviewHandler(IPreviewHandler previewHandler, FileInfo fileInfo)
     {
-        var initializeWithFile = (IInitializeWithFile?)previewHandler;
-
-        if (initializeWithFile is not null)
+        switch (previewHandler)
         {
-            var result = initializeWithFile.Initialize(fileInfo.FullName, 0);
+            case IInitializeWithFile initializeWithFile:
+                {
+                    var result = initializeWithFile.Initialize(fileInfo.FullName, 0);
 
-            return result.Value >= 0;
+                    return result.Value >= 0;
+                }
+            case IInitializeWithItem initializeWithItem:
+                {
+                    PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, typeof(IShellItem).GUID, out var ppv);
+
+                    var shellItem = (IShellItem)Marshal.GetUniqueObjectForIUnknown(new IntPtr(ppv));
+
+                    var result = initializeWithItem.Initialize(shellItem, 0);
+
+                    Marshal.ReleaseComObject(shellItem);
+
+                    return result.Value >= 0;
+                }
+            case IInitializeWithStream initializeWithStream:
+                {
+                    var result = initializeWithStream.Initialize(null, 0);
+
+                    return result.Value >= 0;
+                }
+            default:
+                return false;
         }
-
-        var initializeWithItem = (IInitializeWithItem?)previewHandler;
-
-        if (initializeWithItem is not null)
-        {
-            PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, typeof(IShellItem).GUID, out var ppv);
-
-            var shellItem = (IShellItem)Marshal.GetUniqueObjectForIUnknown(new IntPtr(ppv));
-
-            var result = initializeWithItem.Initialize(shellItem, 0);
-
-            Marshal.ReleaseComObject(shellItem);
-
-            return result.Value >= 0;
-        }
-
-        return false;
     }
 
     private static void UnloadPreviewHandler(IPreviewHandler previewHandler)
