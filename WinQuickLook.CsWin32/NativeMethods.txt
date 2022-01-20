@@ -1,4 +1,4 @@
-﻿// COM
+﻿// COM Interface
 IShellItem
 IShellItemImageFactory
 IShellWindows
@@ -54,3 +54,11 @@ AssocQueryString
 
 // shcore
 GetDpiForMonitor
+
+// Structs
+KBDLLHOOKSTRUCT
+
+// Constants
+HC_ACTION
+WM_KEYDOWN
+WM_LBUTTONDOWN
