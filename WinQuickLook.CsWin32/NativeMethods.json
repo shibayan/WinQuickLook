@@ -19,7 +19,8 @@
             "IInitializeWithStream",
             "IAssocHandler",
             "IAssocHandlerInvoker",
-            "IEnumAssocHandlers"
+            "IEnumAssocHandlers",
+            "IMultiLanguage2"
         ]
     },
     "public": true,

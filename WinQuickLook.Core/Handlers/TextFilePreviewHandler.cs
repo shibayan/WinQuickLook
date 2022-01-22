@@ -1,8 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Media;
+
+using Windows.Win32;
+using Windows.Win32.Globalization;
 
 using ICSharpCode.AvalonEdit;
 
+using WinQuickLook.CsWin32;
 using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;
@@ -11,7 +17,17 @@ public class TextFilePreviewHandler : FilePreviewHandler
 {
     protected override bool CanOpen(FileInfo fileInfo)
     {
-        return false;
+        var pnScores = 1;
+
+        using var fileStream = fileInfo.OpenReadNoLock();
+
+        var multiLanguage = (IMultiLanguage2)Activator.CreateInstance(CLSID.CMultiLanguageType)!;
+
+        var result = multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores);
+
+        Marshal.ReleaseComObject(multiLanguage);
+
+        return result.Value >= 0;
     }
 
     protected override HandlerResult CreateViewer(FileInfo fileInfo)

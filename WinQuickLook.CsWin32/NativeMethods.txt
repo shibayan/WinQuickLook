@@ -16,6 +16,7 @@ IInitializeWithStream
 IAssocHandler
 IAssocHandlerInvoker
 IEnumAssocHandlers
+IMultiLanguage2
 
 // Win32 API
 
