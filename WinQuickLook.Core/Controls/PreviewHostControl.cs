@@ -12,6 +12,9 @@ using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
+using WinQuickLook.CsWin32;
+using WinQuickLook.Extensions;
+
 namespace WinQuickLook.Controls;
 
 public class PreviewHostControl : HwndHost
@@ -139,7 +142,9 @@ public class PreviewHostControl : HwndHost
                 }
             case IInitializeWithStream initializeWithStream:
                 {
-                    var result = initializeWithStream.Initialize(null, 0);
+                    using var fileStream = fileInfo.OpenReadNoLock();
+
+                    var result = initializeWithStream.Initialize(new StreamWrapper(fileStream), 0);
 
                     return result.Value >= 0;
                 }

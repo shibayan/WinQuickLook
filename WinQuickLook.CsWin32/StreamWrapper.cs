@@ -6,11 +6,11 @@ using Windows.Win32.System.Com;
 
 namespace WinQuickLook.CsWin32;
 
-public class ComStream : IStream
+public class StreamWrapper : IStream
 {
-    public ComStream(Stream stream)
+    public StreamWrapper(Stream baseStream)
     {
-        _baseStream = stream;
+        _baseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
     }
 
     private readonly Stream _baseStream;
@@ -74,7 +74,8 @@ public class ComStream : IStream
         var statStg = new STATSTG
         {
             type = 2,
-            cbSize = (ulong)_baseStream.Length
+            cbSize = (ulong)_baseStream.Length,
+            grfMode = 0
         };
 
         Marshal.StructureToPtr(statStg, new IntPtr(pstatstg), false);
