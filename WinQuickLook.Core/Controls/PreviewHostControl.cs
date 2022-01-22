@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Interop;
 
 using Windows.Win32;
@@ -9,14 +10,45 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Controls;
 
 public class PreviewHostControl : HwndHost
 {
-    protected override HandleRef BuildWindowCore(HandleRef hwndParent) => throw new NotImplementedException();
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
 
-    protected override void DestroyWindowCore(HandleRef hwnd) => throw new NotImplementedException();
+        if (_previewHandler is not null)
+        {
+            var rect = new RECT { left = 0, top = 0, right = (int)sizeInfo.NewSize.Width, bottom = (int)sizeInfo.NewSize.Height };
+
+            _previewHandler.SetRect(rect);
+        }
+    }
+
+    protected override HandleRef BuildWindowCore(HandleRef hwndParent)
+    {
+        var hwndHost = PInvoke.CreateWindowEx(0,
+            "static", "",
+            WINDOW_STYLE.WS_CHILD | WINDOW_STYLE.WS_VISIBLE | WINDOW_STYLE.WS_CLIPCHILDREN,
+            0, 0,
+            (int)ActualWidth, (int)ActualHeight,
+            new HWND(hwndParent.Handle));
+
+        return new HandleRef(null, hwndHost);
+    }
+
+    protected override void DestroyWindowCore(HandleRef hwnd)
+    {
+        if (_previewHandler is not null)
+        {
+            UnloadPreviewHandler(_previewHandler);
+        }
+
+        PInvoke.DestroyWindow(new HWND(hwnd.Handle));
+    }
 
     private IPreviewHandler? _previewHandler;
 
@@ -68,7 +100,7 @@ public class PreviewHostControl : HwndHost
             return false;
         }
 
-        clsid = Guid.Parse(pszOut[..(int)pcchOut]);
+        clsid = Guid.Parse(pszOut[..(int)(pcchOut - 1)]);
 
         return true;
     }
@@ -118,17 +150,8 @@ public class PreviewHostControl : HwndHost
 
     private static void UnloadPreviewHandler(IPreviewHandler previewHandler)
     {
-        try
-        {
-            previewHandler.Unload();
-        }
-        catch
-        {
-            // ignored
-        }
-        finally
-        {
-            Marshal.FinalReleaseComObject(previewHandler);
-        }
+        previewHandler.Unload();
+
+        Marshal.FinalReleaseComObject(previewHandler);
     }
 }

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <Platforms>x64;ARM64</Platforms>
     <NoWarn>CS0109</NoWarn>
   </PropertyGroup>
