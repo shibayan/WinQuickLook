@@ -6,6 +6,7 @@ using System.Windows.Interop;
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 
@@ -74,16 +75,12 @@ public class PreviewHostControl : HwndHost
 
     private static bool TryCreatePreviewHandler(Guid clsid, [NotNullWhen(true)] out IPreviewHandler? previewHandler)
     {
-        var comType = Type.GetTypeFromCLSID(clsid);
+        var result = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler);
 
-        if (comType is null)
+        if (result.Value < 0)
         {
-            previewHandler = null;
-
             return false;
         }
-
-        previewHandler = (IPreviewHandler?)Activator.CreateInstance(comType);
 
         return previewHandler is not null;
     }
@@ -100,9 +97,7 @@ public class PreviewHostControl : HwndHost
                 }
             case IInitializeWithItem initializeWithItem:
                 {
-                    PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, typeof(IShellItem).GUID, out var ppv);
-
-                    var shellItem = (IShellItem)Marshal.GetUniqueObjectForIUnknown(new IntPtr(ppv));
+                    PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
 
                     var result = initializeWithItem.Initialize(shellItem, 0);
 

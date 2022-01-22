@@ -47,6 +47,9 @@ SHAssocEnumHandlers
 SHGetFileInfo
 ExtractIconEx
 
+// ole32
+CoCreateInstance
+
 // shlwapi
 StrRetToBSTR
 SHLoadIndirectString
