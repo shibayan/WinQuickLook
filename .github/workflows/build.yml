@@ -11,6 +11,7 @@ env:
 
 jobs:
   build:
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2

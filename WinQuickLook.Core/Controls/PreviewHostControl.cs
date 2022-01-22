@@ -41,7 +41,7 @@ public class PreviewHostControl : HwndHost
 
         var rect = new RECT { left = 0, top = 0, right = (int)ActualWidth, bottom = (int)ActualHeight };
 
-        previewHandler.SetWindow(new HWND(Handle.ToInt32()), rect);
+        previewHandler.SetWindow(new HWND(Handle), rect);
         previewHandler.DoPreview();
 
         if (_previewHandler is not null)
@@ -54,12 +54,12 @@ public class PreviewHostControl : HwndHost
         return true;
     }
 
-    private static unsafe bool TryGetPreviewHandlerCLSID(FileInfo fileInfo, out Guid clsid)
+    private static bool TryGetPreviewHandlerCLSID(FileInfo fileInfo, out Guid clsid)
     {
         var pcchOut = 40u;
-        var pszOut = stackalloc char[(int)pcchOut];
+        Span<char> pszOut = stackalloc char[(int)pcchOut];
 
-        var result = PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, typeof(IPreviewHandler).GUID.ToString("B"), new PWSTR(pszOut), ref pcchOut);
+        var result = PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, typeof(IPreviewHandler).GUID.ToString("B"), pszOut, ref pcchOut);
 
         if (result.Value < 0)
         {
@@ -68,7 +68,7 @@ public class PreviewHostControl : HwndHost
             return false;
         }
 
-        clsid = Guid.Parse(new ReadOnlySpan<char>(pszOut, (int)pcchOut));
+        clsid = Guid.Parse(pszOut[..(int)pcchOut]);
 
         return true;
     }
@@ -85,7 +85,7 @@ public class PreviewHostControl : HwndHost
         return previewHandler is not null;
     }
 
-    private static unsafe bool TryInitializePreviewHandler(IPreviewHandler previewHandler, FileInfo fileInfo)
+    private static bool TryInitializePreviewHandler(IPreviewHandler previewHandler, FileInfo fileInfo)
     {
         switch (previewHandler)
         {
