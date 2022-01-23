@@ -4,7 +4,7 @@ namespace WinQuickLook.Handlers;
 
 public abstract class DirectoryPreviewHandler : IFileSystemPreviewHandler
 {
-    public bool CanOpen(FileSystemInfo fileSystemInfo) => CanOpen((DirectoryInfo)fileSystemInfo);
+    public bool CanOpen(FileSystemInfo fileSystemInfo) => fileSystemInfo is DirectoryInfo directoryInfo && CanOpen(directoryInfo);
 
     public HandlerResult CreateViewer(FileSystemInfo fileSystemInfo) => CreateViewer((DirectoryInfo)fileSystemInfo);
 

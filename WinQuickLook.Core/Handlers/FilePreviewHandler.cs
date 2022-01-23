@@ -7,11 +7,11 @@ namespace WinQuickLook.Handlers;
 
 public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 {
-    public bool CanOpen(FileSystemInfo fileSystemInfo) => CanOpen((FileInfo)fileSystemInfo);
+    public bool CanOpen(FileSystemInfo fileSystemInfo) => fileSystemInfo is FileInfo fileInfo && CanOpen(fileInfo);
 
     public HandlerResult CreateViewer(FileSystemInfo fileSystemInfo) => CreateViewer((FileInfo)fileSystemInfo);
 
-    protected virtual bool CanOpen(FileInfo fileInfo) => SupportedExtensions.Contains(fileInfo.Extension.ToLowerInvariant());
+    protected virtual bool CanOpen(FileInfo fileInfo) => SupportedExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase);
 
     protected abstract HandlerResult CreateViewer(FileInfo fileInfo);
 

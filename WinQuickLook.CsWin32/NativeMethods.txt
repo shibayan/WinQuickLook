@@ -59,6 +59,11 @@ AssocQueryString
 // shcore
 GetDpiForMonitor
 
+// mfplat
+MFStartup
+MFShutdown
+MFCreateSourceReaderFromURL
+
 // Structs
 KBDLLHOOKSTRUCT
 
@@ -66,3 +71,4 @@ KBDLLHOOKSTRUCT
 HC_ACTION
 WM_KEYDOWN
 WM_LBUTTONDOWN
+MF_MT_FRAME_SIZE

@@ -14,21 +14,20 @@ public class ShellFilePreviewHandler : FilePreviewHandler
     protected override bool CanOpen(FileInfo fileInfo)
     {
         var pcchOut = 0u;
+        var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        var result = PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, typeof(IPreviewHandler).GUID.ToString("B"), Span<char>.Empty, ref pcchOut);
-
-        return result.Value >= 0;
+        return PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, Span<char>.Empty, ref pcchOut).Value >= 0;
     }
 
     protected override HandlerResult CreateViewer(FileInfo fileInfo)
     {
-        var previewHost = new PreviewHostControl();
+        var shellFileControl = new ShellFileControl();
 
-        using (previewHost.Init())
+        using (shellFileControl.Init())
         {
-            previewHost.Open(fileInfo);
+            shellFileControl.Open(fileInfo);
         }
 
-        return new HandlerResult { Viewer = previewHost };
+        return new HandlerResult { Viewer = shellFileControl };
     }
 }

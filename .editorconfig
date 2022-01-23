@@ -186,3 +186,7 @@ indent_size = 2
 end_of_line = lf
 [*.{cmd, bat}]
 end_of_line = crlf
+
+# JSON files
+[*.json]
+indent_size= 2

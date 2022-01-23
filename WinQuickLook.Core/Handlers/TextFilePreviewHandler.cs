@@ -23,11 +23,14 @@ public class TextFilePreviewHandler : FilePreviewHandler
 
         var multiLanguage = (IMultiLanguage2)Activator.CreateInstance(CLSID.CMultiLanguageType)!;
 
-        var result = multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores);
-
-        Marshal.ReleaseComObject(multiLanguage);
-
-        return result.Value >= 0;
+        try
+        {
+            return multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores).Value >= 0;
+        }
+        finally
+        {
+            Marshal.ReleaseComObject(multiLanguage);
+        }
     }
 
     protected override HandlerResult CreateViewer(FileInfo fileInfo)

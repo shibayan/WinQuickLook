@@ -1,28 +1,31 @@
 {
-    "$schema": "https://aka.ms/CsWin32.schema.json",
-    "allowMarshaling": true,
-    "comInterop": {
-        "preserveSigMethods": [
-            "IShellItem",
-            "IShellItemImageFactory",
-            "IShellWindows",
-            "IWebBrowserApp",
-            "IServiceProvider",
-            "IShellBrowser",
-            "IShellView",
-            "IFolderView",
-            "IPersistFolder2",
-            "IShellFolder",
-            "IPreviewHandler",
-            "IInitializeWithFile",
-            "IInitializeWithItem",
-            "IInitializeWithStream",
-            "IAssocHandler",
-            "IAssocHandlerInvoker",
-            "IEnumAssocHandlers",
-            "IMultiLanguage2"
-        ]
-    },
-    "public": true,
-    "wideCharOnly": true
+  "$schema": "https://aka.ms/CsWin32.schema.json",
+  "allowMarshaling": true,
+  "comInterop": {
+    "preserveSigMethods": [
+      "IShellItem",
+      "IShellItemImageFactory",
+      "IShellWindows",
+      "IWebBrowserApp",
+      "IServiceProvider",
+      "IShellBrowser",
+      "IShellView",
+      "IFolderView",
+      "IPersistFolder2",
+      "IShellFolder",
+      "IPreviewHandler",
+      "IInitializeWithFile",
+      "IInitializeWithItem",
+      "IInitializeWithStream",
+      "IAssocHandler",
+      "IAssocHandlerInvoker",
+      "IEnumAssocHandlers",
+      "IMultiLanguage2",
+      "IMFSourceReader",
+      "IMFAttributes",
+      "IMFMediaType"
+    ]
+  },
+  "public": true,
+  "wideCharOnly": true
 }

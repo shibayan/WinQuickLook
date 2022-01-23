@@ -2,6 +2,7 @@
 
 namespace WinQuickLook.CsWin32;
 
+// ReSharper disable once InconsistentNaming
 public static class CLSID
 {
     public static readonly Guid ShellWindows = new("9BA05972-F6A8-11CF-A442-00A0C90A8F39");

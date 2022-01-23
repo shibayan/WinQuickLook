@@ -17,7 +17,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Controls;
 
-public class PreviewHostControl : HwndHost
+public class ShellFileControl : HwndHost
 {
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
@@ -48,6 +48,8 @@ public class PreviewHostControl : HwndHost
         if (_previewHandler is not null)
         {
             UnloadPreviewHandler(_previewHandler);
+
+            _previewHandler = null;
         }
 
         PInvoke.DestroyWindow(new HWND(hwnd.Handle));
@@ -89,14 +91,15 @@ public class PreviewHostControl : HwndHost
         return true;
     }
 
+    // ReSharper disable once InconsistentNaming
     private static bool TryGetPreviewHandlerCLSID(FileInfo fileInfo, out Guid clsid)
     {
         var pcchOut = 40u;
         Span<char> pszOut = stackalloc char[(int)pcchOut];
 
-        var result = PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, typeof(IPreviewHandler).GUID.ToString("B"), pszOut, ref pcchOut);
+        var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        if (result.Value < 0)
+        if (PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, pszOut, ref pcchOut).Value < 0)
         {
             clsid = Guid.Empty;
 
@@ -110,9 +113,7 @@ public class PreviewHostControl : HwndHost
 
     private static bool TryCreatePreviewHandler(Guid clsid, [NotNullWhen(true)] out IPreviewHandler? previewHandler)
     {
-        var result = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler);
-
-        if (result.Value < 0)
+        if (PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler).Value < 0)
         {
             return false;
         }
@@ -124,29 +125,34 @@ public class PreviewHostControl : HwndHost
     {
         switch (previewHandler)
         {
+            // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithFile initializeWithFile:
                 {
-                    var result = initializeWithFile.Initialize(fileInfo.FullName, 0);
-
-                    return result.Value >= 0;
+                    return initializeWithFile.Initialize(fileInfo.FullName, 0).Value >= 0;
                 }
+            // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithItem initializeWithItem:
                 {
-                    PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
+                    if (PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem).Value < 0)
+                    {
+                        return false;
+                    }
 
-                    var result = initializeWithItem.Initialize(shellItem, 0);
-
-                    Marshal.ReleaseComObject(shellItem);
-
-                    return result.Value >= 0;
+                    try
+                    {
+                        return initializeWithItem.Initialize(shellItem, 0).Value >= 0;
+                    }
+                    finally
+                    {
+                        Marshal.ReleaseComObject(shellItem);
+                    }
                 }
+            // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithStream initializeWithStream:
                 {
                     using var fileStream = fileInfo.OpenReadNoLock();
 
-                    var result = initializeWithStream.Initialize(new StreamWrapper(fileStream), 0);
-
-                    return result.Value >= 0;
+                    return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Value >= 0;
                 }
             default:
                 return false;
