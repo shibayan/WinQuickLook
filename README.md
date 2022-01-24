@@ -18,7 +18,7 @@
 
 ### Microsoft Store
 
-<a href="ms-windows-store://pdp/?ProductId=9NJMTKK6JC0Q&mode=mini"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
+<a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q?cid=storebadge&ocid=badge"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
 
 ### WinGet
 
