@@ -9,6 +9,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/shibayan/WinQuickLook/actions/workflows/build.yml" rel="nofollow"><img src="https://github.com/shibayan/WinQuickLook/workflows/Build/badge.svg" alt="Build" style="max-width: 100%;"></a>
+  <a href="https://github.com/shibayan/WinQuickLook/actions/workflows/publish.yml" rel="nofollow"><img src="https://github.com/shibayan/WinQuickLook/workflows/Publish/badge.svg" alt="Build" style="max-width: 100%;"></a>
   <a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q" rel="nofollow"><img src="https://badgen.net/github/release/shibayan/WinQuickLook" alt="Release" style="max-width: 100%;"></a>
   <a href="https://github.com/shibayan/WinQuickLook/blob/master/LICENSE"><img src="https://badgen.net/github/license/shibayan/WinQuickLook" alt="License" style="max-width: 100%;"></a>
 </p>
@@ -17,7 +18,7 @@
 
 ### Microsoft Store
 
-<a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q?cid=storebadge&ocid=badge"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
+<a href="ms-windows-store://pdp/?ProductId=9NJMTKK6JC0Q&mode=mini"><img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" alt="Download now" width="284"/></a>
 
 ### WinGet
 
