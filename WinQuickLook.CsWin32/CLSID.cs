@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinQuickLook.CsWin32;
+namespace Windows.Win32;
 
 // ReSharper disable once InconsistentNaming
 public static class CLSID

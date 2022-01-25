@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <Platforms>x64;ARM64</Platforms>
     <NoWarn>CS0109</NoWarn>
+    <RootNamespace>Windows.Win32</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

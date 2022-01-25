@@ -12,7 +12,6 @@ using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-using WinQuickLook.CsWin32;
 using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Controls;

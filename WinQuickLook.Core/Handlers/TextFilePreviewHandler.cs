@@ -8,7 +8,6 @@ using Windows.Win32.Globalization;
 
 using ICSharpCode.AvalonEdit;
 
-using WinQuickLook.CsWin32;
 using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;

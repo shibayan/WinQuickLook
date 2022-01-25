@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 using Windows.Win32.System.Com;
 
-namespace WinQuickLook.CsWin32;
+namespace Windows.Win32;
 
 public class StreamWrapper : IStream
 {

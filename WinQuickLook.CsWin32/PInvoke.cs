@@ -8,7 +8,6 @@ using Windows.Win32.Media.MediaFoundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-// ReSharper disable once CheckNamespace
 namespace Windows.Win32;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -19,16 +18,16 @@ public static partial class PInvoke
 
     public static unsafe HRESULT SHCreateItemFromParsingName<T>(string pszPath, System.Com.IBindCtx? pbc, out T ppv)
     {
-        var result = SHCreateItemFromParsingName(pszPath, pbc, typeof(T).GUID, out var o);
+        var hr = SHCreateItemFromParsingName(pszPath, pbc, typeof(T).GUID, out var o);
         ppv = (T)Marshal.GetUniqueObjectForIUnknown(new IntPtr(o));
-        return result;
+        return hr;
     }
 
     public static unsafe HRESULT AssocQueryString(uint flags, ASSOCSTR str, string pszAssoc, string pszExtra, Span<char> pszOut, ref uint pcchOut)
     {
-        fixed (char* p = pszOut)
+        fixed (char* pszOutLocal = pszOut)
         {
-            return AssocQueryString(flags, str, pszAssoc, pszExtra, new PWSTR(p), ref pcchOut);
+            return AssocQueryString(flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
         }
     }
 
@@ -46,19 +45,19 @@ public static partial class PInvoke
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static HRESULT MFGetAttribute2UINT32asUINT64(IMFAttributes pAttributes, in Guid guidKey, out uint punHigh32, out uint punLow32)
     {
-        var result = pAttributes.GetUINT64(guidKey, out var unPacked);
+        var hr = pAttributes.GetUINT64(guidKey, out var unPacked);
 
-        if (result.Value < 0)
+        if (hr.Value < 0)
         {
             punHigh32 = 0;
             punLow32 = 0;
 
-            return result;
+            return hr;
         }
 
         Unpack2UINT32AsUINT64(unPacked, out punHigh32, out punLow32);
 
-        return result;
+        return hr;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
