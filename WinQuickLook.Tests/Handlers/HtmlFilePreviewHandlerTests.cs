@@ -24,7 +24,7 @@ public class HtmlFilePreviewHandlerTests
 
         var handler = new HtmlFilePreviewHandler();
 
-        var actual = handler.CanOpen(fileInfo);
+        var actual = handler.TryCreateViewer(fileInfo, out _);
 
         Assert.Equal(expected, actual);
     }

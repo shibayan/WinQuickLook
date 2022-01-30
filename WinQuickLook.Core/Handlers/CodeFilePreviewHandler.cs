@@ -18,23 +18,32 @@ public class CodeFilePreviewHandler : FilePreviewHandler
         highlightingManager.RegisterHighlighting("Vue", new[] { ".vue" }, highlightingManager.GetDefinitionByExtension(".html"));
     }
 
-    protected override bool CanOpen(FileInfo fileInfo) => HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension) is not null;
-
-    protected override HandlerResult CreateViewer(FileInfo fileInfo)
+    protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
+        var highlighting = HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension);
+
+        if (highlighting is null)
+        {
+            handlerResult = default;
+
+            return true;
+        }
+
         var textEditor = new TextEditor();
 
-        using (textEditor.Init())
+        using (textEditor.Initialize())
         {
             textEditor.FontFamily = new FontFamily("Consolas");
             textEditor.FontSize = 14;
             textEditor.IsReadOnly = true;
             textEditor.ShowLineNumbers = true;
-            textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension);
+            textEditor.SyntaxHighlighting = highlighting;
 
             textEditor.Load(fileInfo.OpenReadNoLock());
         }
 
-        return new HandlerResult { Viewer = textEditor };
+        handlerResult = new HandlerResult { Viewer = textEditor };
+
+        return true;
     }
 }

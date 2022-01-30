@@ -14,7 +14,7 @@ namespace WinQuickLook.Handlers;
 
 public class TextFilePreviewHandler : FilePreviewHandler
 {
-    protected override bool CanOpen(FileInfo fileInfo)
+    protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var pnScores = 1;
 
@@ -24,19 +24,21 @@ public class TextFilePreviewHandler : FilePreviewHandler
 
         try
         {
-            return multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores).Value >= 0;
+            if (multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores).Value < 0)
+            {
+                handlerResult = default;
+
+                return false;
+            }
         }
         finally
         {
             Marshal.ReleaseComObject(multiLanguage);
         }
-    }
 
-    protected override HandlerResult CreateViewer(FileInfo fileInfo)
-    {
         var textEditor = new TextEditor();
 
-        using (textEditor.Init())
+        using (textEditor.Initialize())
         {
             textEditor.FontFamily = new FontFamily("Consolas");
             textEditor.FontSize = 14;
@@ -46,6 +48,8 @@ public class TextFilePreviewHandler : FilePreviewHandler
             textEditor.Load(fileInfo.OpenReadNoLock());
         }
 
-        return new HandlerResult { Viewer = textEditor };
+        handlerResult = new HandlerResult { Viewer = textEditor };
+
+        return true;
     }
 }

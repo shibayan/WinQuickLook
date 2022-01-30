@@ -7,17 +7,17 @@ namespace WinQuickLook.Handlers;
 
 public class GenericFilePreviewHandler : FilePreviewHandler
 {
-    protected override bool CanOpen(FileInfo fileInfo) => true;
-
-    protected override HandlerResult CreateViewer(FileInfo fileInfo)
+    protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var fileControl = new GenericFileControl();
 
-        using (fileControl.Init())
+        using (fileControl.Initialize())
         {
             fileControl.Open(fileInfo);
         }
 
-        return new HandlerResult { Viewer = fileControl };
+        handlerResult = new HandlerResult { Viewer = fileControl };
+
+        return true;
     }
 }

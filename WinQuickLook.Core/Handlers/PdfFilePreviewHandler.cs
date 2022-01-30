@@ -1,12 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace WinQuickLook.Handlers;
 
 public class PdfFilePreviewHandler : FilePreviewHandler
 {
-    protected override IReadOnlyList<string> SupportedExtensions => new[] { ".pdf" };
+    protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
+    {
+        if (!s_supportedExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))
+        {
+            handlerResult = default;
 
-    protected override HandlerResult CreateViewer(FileInfo fileInfo) => throw new NotImplementedException();
+            return false;
+        }
+
+        throw new NotImplementedException();
+    }
+
+    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".pdf" };
 }

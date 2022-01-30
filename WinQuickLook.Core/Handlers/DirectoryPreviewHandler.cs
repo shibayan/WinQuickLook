@@ -1,14 +1,21 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace WinQuickLook.Handlers;
 
 public abstract class DirectoryPreviewHandler : IFileSystemPreviewHandler
 {
-    public bool CanOpen(FileSystemInfo fileSystemInfo) => fileSystemInfo is DirectoryInfo directoryInfo && CanOpen(directoryInfo);
+    public bool TryCreateViewer(FileSystemInfo fileSystemInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
+    {
+        if (fileSystemInfo is DirectoryInfo directoryInfo)
+        {
+            return TryCreateViewer(directoryInfo, out handlerResult);
+        }
 
-    public HandlerResult CreateViewer(FileSystemInfo fileSystemInfo) => CreateViewer((DirectoryInfo)fileSystemInfo);
+        handlerResult = default;
 
-    protected abstract bool CanOpen(DirectoryInfo directoryInfo);
+        return false;
+    }
 
-    protected abstract HandlerResult CreateViewer(DirectoryInfo directoryInfo);
+    protected abstract bool TryCreateViewer(DirectoryInfo directoryInfo, out HandlerResult? handlerResult);
 }

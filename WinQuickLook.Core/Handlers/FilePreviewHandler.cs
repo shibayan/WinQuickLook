@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 
 namespace WinQuickLook.Handlers;
 
 public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 {
-    public bool CanOpen(FileSystemInfo fileSystemInfo) => fileSystemInfo is FileInfo fileInfo && CanOpen(fileInfo);
+    public bool TryCreateViewer(FileSystemInfo fileSystemInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
+    {
+        if (fileSystemInfo is FileInfo fileInfo)
+        {
+            return TryCreateViewer(fileInfo, out handlerResult);
+        }
 
-    public HandlerResult CreateViewer(FileSystemInfo fileSystemInfo) => CreateViewer((FileInfo)fileSystemInfo);
+        handlerResult = default;
 
-    protected virtual bool CanOpen(FileInfo fileInfo) => SupportedExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase);
+        return false;
+    }
 
-    protected abstract HandlerResult CreateViewer(FileInfo fileInfo);
-
-    protected virtual IReadOnlyList<string> SupportedExtensions => Array.Empty<string>();
+    protected abstract bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult);
 }

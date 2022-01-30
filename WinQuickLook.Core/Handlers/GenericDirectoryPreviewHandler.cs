@@ -7,17 +7,17 @@ namespace WinQuickLook.Handlers;
 
 public class GenericDirectoryPreviewHandler : DirectoryPreviewHandler
 {
-    protected override bool CanOpen(DirectoryInfo directoryInfo) => true;
-
-    protected override HandlerResult CreateViewer(DirectoryInfo directoryInfo)
+    protected override bool TryCreateViewer(DirectoryInfo directoryInfo, out HandlerResult? handlerResult)
     {
         var directoryControl = new GenericDirectoryControl();
 
-        using (directoryControl.Init())
+        using (directoryControl.Initialize())
         {
             directoryControl.Open(directoryInfo);
         }
 
-        return new HandlerResult { Viewer = directoryControl };
+        handlerResult = new HandlerResult { Viewer = directoryControl };
+
+        return true;
     }
 }

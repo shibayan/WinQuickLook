@@ -10,23 +10,13 @@ namespace WinQuickLook.Handlers;
 
 public class MediaFilePreviewHandler : FilePreviewHandler
 {
-    protected override bool CanOpen(FileInfo fileInfo)
+    protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         if (PInvoke.MFCreateSourceReaderFromURL(fileInfo.FullName, null, out var sourceReader).Value < 0)
         {
+            handlerResult = default;
+
             return false;
-        }
-
-        Marshal.ReleaseComObject(sourceReader);
-
-        return true;
-    }
-
-    protected override HandlerResult CreateViewer(FileInfo fileInfo)
-    {
-        if (PInvoke.MFCreateSourceReaderFromURL(fileInfo.FullName, null, out var sourceReader).Value < 0)
-        {
-            throw new System.Exception();
         }
 
         try
@@ -35,14 +25,18 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             {
                 Marshal.ReleaseComObject(videoMediaType);
 
-                return CreateVideoViewer(fileInfo);
+                handlerResult = CreateVideoViewer(fileInfo);
+
+                return true;
             }
 
             if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_AUDIO_STREAM, out var audioMediaType).Value >= 0)
             {
                 Marshal.ReleaseComObject(audioMediaType);
 
-                return CreateAudioViewer(fileInfo);
+                handlerResult = CreateAudioViewer(fileInfo);
+
+                return true;
             }
         }
         finally
@@ -50,14 +44,16 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             Marshal.ReleaseComObject(sourceReader);
         }
 
-        throw new System.Exception();
+        handlerResult = default;
+
+        return false;
     }
 
     private HandlerResult CreateAudioViewer(FileInfo fileInfo)
     {
         var audioFileControl = new AudioFileControl();
 
-        using (audioFileControl.Init())
+        using (audioFileControl.Initialize())
         {
             audioFileControl.Open(fileInfo);
         }
@@ -69,7 +65,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
     {
         var videoFileControl = new VideoFileControl();
 
-        using (videoFileControl.Init())
+        using (videoFileControl.Initialize())
         {
             videoFileControl.Open(fileInfo);
         }
