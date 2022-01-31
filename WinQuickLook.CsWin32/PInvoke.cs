@@ -19,7 +19,7 @@ public static partial class PInvoke
     public static unsafe HRESULT SHCreateItemFromParsingName<T>(string pszPath, System.Com.IBindCtx? pbc, out T ppv)
     {
         var hr = SHCreateItemFromParsingName(pszPath, pbc, typeof(T).GUID, out var o);
-        ppv = (T)Marshal.GetUniqueObjectForIUnknown(new IntPtr(o));
+        ppv = (T)o;
         return hr;
     }
 

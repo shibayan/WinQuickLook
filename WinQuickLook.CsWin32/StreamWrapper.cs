@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 using Windows.Win32.System.Com;
+using Windows.Win32.System.Com.StructuredStorage;
 
 namespace Windows.Win32;
 
@@ -61,7 +62,7 @@ public class StreamWrapper : IStream
 
     public unsafe void CopyTo(IStream pstm, ulong cb, ulong* pcbRead = default, ulong* pcbWritten = default) => throw new NotSupportedException();
 
-    public void Commit(uint grfCommitFlags) => throw new NotSupportedException();
+    public void Commit(STGC grfCommitFlags) => throw new NotSupportedException();
 
     public void Revert() => throw new NotSupportedException();
 

@@ -49,7 +49,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         return false;
     }
 
-    private HandlerResult CreateAudioViewer(FileInfo fileInfo)
+    private static HandlerResult CreateAudioViewer(FileInfo fileInfo)
     {
         var audioFileControl = new AudioFileControl();
 
@@ -61,7 +61,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         return new HandlerResult { Viewer = audioFileControl };
     }
 
-    private HandlerResult CreateVideoViewer(FileInfo fileInfo)
+    private static HandlerResult CreateVideoViewer(FileInfo fileInfo)
     {
         var videoFileControl = new VideoFileControl();
 
