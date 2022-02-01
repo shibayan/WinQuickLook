@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("WinQuickLook.Tests")]
+[assembly: InternalsVisibleTo("WinQuickLook.Core.Tests")]

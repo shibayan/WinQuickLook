@@ -8,7 +8,7 @@ namespace WinQuickLook.Tests.Handlers;
 
 public class HtmlFilePreviewHandlerTests
 {
-    [Theory]
+    [StaTheory]
     [InlineData("test.htm", true)]
     [InlineData("test.html", true)]
     [InlineData("test.xhtml", true)]
@@ -18,7 +18,7 @@ public class HtmlFilePreviewHandlerTests
     [InlineData("test.jpg", false)]
     [InlineData("test.JPG", false)]
     [InlineData("test", false)]
-    public void CanOpen(string fileName, bool expected)
+    public void TryCreateViewer(string fileName, bool expected)
     {
         var fileInfo = new FileInfo(fileName);
 
