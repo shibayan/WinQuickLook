@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Core", "WinQuickLook.Core\WinQuickLook.Core.csproj", "{8551591F-32DE-4423-8701-5DCE83B0C907}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Tests", "WinQuickLook.Tests\WinQuickLook.Tests.csproj", "{86085A98-8D02-4CA6-98EC-D0159FE99D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Core.Tests", "WinQuickLook.Core.Tests\WinQuickLook.Core.Tests.csproj", "{86085A98-8D02-4CA6-98EC-D0159FE99D7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.CsWin32", "WinQuickLook.CsWin32\WinQuickLook.CsWin32.csproj", "{0D01E534-2076-42C5-9DEC-84B62E8DC803}"
 EndProject
