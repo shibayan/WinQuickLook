@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 using Windows.Win32;
+using Windows.Win32.Media.MediaFoundation;
 
 using WinQuickLook.Controls;
 using WinQuickLook.Extensions;
@@ -23,20 +26,26 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         {
             if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_VIDEO_STREAM, out var videoMediaType).Value >= 0)
             {
-                Marshal.ReleaseComObject(videoMediaType);
-
-                handlerResult = CreateVideoViewer(fileInfo);
-
-                return true;
+                try
+                {
+                    return TryCreateVideoViewer(fileInfo, videoMediaType, out handlerResult);
+                }
+                finally
+                {
+                    Marshal.ReleaseComObject(videoMediaType);
+                }
             }
 
             if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_AUDIO_STREAM, out var audioMediaType).Value >= 0)
             {
-                Marshal.ReleaseComObject(audioMediaType);
-
-                handlerResult = CreateAudioViewer(fileInfo);
-
-                return true;
+                try
+                {
+                    return TryCreateAudioViewer(fileInfo, out handlerResult);
+                }
+                finally
+                {
+                    Marshal.ReleaseComObject(audioMediaType);
+                }
             }
         }
         finally
@@ -49,7 +58,30 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         return false;
     }
 
-    private static HandlerResult CreateAudioViewer(FileInfo fileInfo)
+    private static bool TryCreateVideoViewer(FileInfo fileInfo, IMFAttributes videoMediaType, [NotNullWhen(true)] out HandlerResult? handlerResult)
+    {
+        if (!TryGetVideoSize(videoMediaType, out var videoSize))
+        {
+            handlerResult = null;
+
+            return false;
+        }
+
+        var size = videoSize.FitTo(1200);
+
+        var videoFileControl = new VideoFileControl();
+
+        using (videoFileControl.Initialize())
+        {
+            videoFileControl.Open(fileInfo);
+        }
+
+        handlerResult = new HandlerResult { Viewer = videoFileControl };
+
+        return true;
+    }
+
+    private static bool TryCreateAudioViewer(FileInfo fileInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
     {
         var audioFileControl = new AudioFileControl();
 
@@ -58,18 +90,22 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             audioFileControl.Open(fileInfo);
         }
 
-        return new HandlerResult { Viewer = audioFileControl };
+        handlerResult = new HandlerResult { Viewer = audioFileControl };
+
+        return true;
     }
 
-    private static HandlerResult CreateVideoViewer(FileInfo fileInfo)
+    private static bool TryGetVideoSize(IMFAttributes videoMediaType, out Size size)
     {
-        var videoFileControl = new VideoFileControl();
-
-        using (videoFileControl.Initialize())
+        if (PInvoke.MFGetAttributeSize(videoMediaType, out var width, out var height).Value >= 0)
         {
-            videoFileControl.Open(fileInfo);
+            size = new Size(width, height);
+
+            return true;
         }
 
-        return new HandlerResult { Viewer = videoFileControl };
+        size = default;
+
+        return false;
     }
 }

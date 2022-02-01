@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,7 +19,7 @@ public class ImageFilePreviewHandler : FilePreviewHandler
             return false;
         }
 
-        var size = FitToSize(imageSize, 1200);
+        var size = imageSize.FitTo(1200);
 
         var bitmap = LoadImage(fileInfo, size);
 
@@ -74,17 +73,5 @@ public class ImageFilePreviewHandler : FilePreviewHandler
 
             return false;
         }
-    }
-
-    private static Size FitToSize(Size size, int maxWidthOrHeight)
-    {
-        if (size.Width <= maxWidthOrHeight && size.Height <= maxWidthOrHeight)
-        {
-            return size;
-        }
-
-        var scaleFactor = maxWidthOrHeight / Math.Max(size.Width, size.Height);
-
-        return new Size(size.Width * scaleFactor, size.Height * scaleFactor);
     }
 }

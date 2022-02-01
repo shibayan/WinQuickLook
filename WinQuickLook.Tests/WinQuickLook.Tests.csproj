@@ -6,7 +6,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Platforms>x64;ARM64</Platforms>
+    <Platforms>x64;arm64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
