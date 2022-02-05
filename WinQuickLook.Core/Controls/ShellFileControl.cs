@@ -39,7 +39,7 @@ public class ShellFileControl : HwndHost
             (int)ActualWidth, (int)ActualHeight,
             new HWND(hwndParent.Handle));
 
-        return new HandleRef(null, hwndHost);
+        return new HandleRef(this, hwndHost);
     }
 
     protected override void DestroyWindowCore(HandleRef hwnd)
@@ -98,7 +98,7 @@ public class ShellFileControl : HwndHost
 
         var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        if (PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, pszOut, ref pcchOut).Value < 0)
+        if (PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, pszOut, ref pcchOut).Failed)
         {
             clsid = Guid.Empty;
 
@@ -112,7 +112,7 @@ public class ShellFileControl : HwndHost
 
     private static bool TryCreatePreviewHandler(Guid clsid, [NotNullWhen(true)] out IPreviewHandler? previewHandler)
     {
-        if (PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler).Value < 0)
+        if (PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out previewHandler).Failed)
         {
             return false;
         }
@@ -127,19 +127,19 @@ public class ShellFileControl : HwndHost
             // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithFile initializeWithFile:
                 {
-                    return initializeWithFile.Initialize(fileInfo.FullName, 0).Value >= 0;
+                    return initializeWithFile.Initialize(fileInfo.FullName, 0).Succeeded;
                 }
             // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithItem initializeWithItem:
                 {
-                    if (PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem).Value < 0)
+                    if (PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem).Failed)
                     {
                         return false;
                     }
 
                     try
                     {
-                        return initializeWithItem.Initialize(shellItem, 0).Value >= 0;
+                        return initializeWithItem.Initialize(shellItem, 0).Succeeded;
                     }
                     finally
                     {
@@ -151,7 +151,7 @@ public class ShellFileControl : HwndHost
                 {
                     using var fileStream = fileInfo.OpenReadNoLock();
 
-                    return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Value >= 0;
+                    return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Succeeded;
                 }
             default:
                 return false;

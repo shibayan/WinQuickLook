@@ -10,13 +10,15 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.Shell;
 
+using WinQuickLook.Extensions;
+
 namespace WinQuickLook.Shell;
 
 public class ShellImageFactory
 {
     public BitmapSource? GetImage(FileSystemInfo fileSystemInfo)
     {
-        if (PInvoke.SHCreateItemFromParsingName(fileSystemInfo.FullName, null, out IShellItem? shellItem).Value < 0)
+        if (PInvoke.SHCreateItemFromParsingName(fileSystemInfo.FullName, null, out IShellItem? shellItem).Failed)
         {
             return null;
         }
@@ -36,7 +38,7 @@ public class ShellImageFactory
 
         var size = new SIZE { cx = 256, cy = 256 };
 
-        if (imageFactory.GetImage(size, SIIGBF.SIIGBF_BIGGERSIZEOK, out var bitmapHandle).Value < 0)
+        if (imageFactory.GetImage(size, SIIGBF.SIIGBF_BIGGERSIZEOK, out var bitmapHandle).Failed)
         {
             Marshal.ReleaseComObject(shellItem);
 
@@ -45,7 +47,8 @@ public class ShellImageFactory
 
         try
         {
-            return Imaging.CreateBitmapSourceFromHBitmap(bitmapHandle.DangerousGetHandle(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            return Imaging.CreateBitmapSourceFromHBitmap(bitmapHandle.DangerousGetHandle(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions())
+                          .AsFreeze();
         }
         catch
         {

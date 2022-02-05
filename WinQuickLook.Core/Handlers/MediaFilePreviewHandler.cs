@@ -15,7 +15,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
 {
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
-        if (PInvoke.MFCreateSourceReaderFromURL(fileInfo.FullName, null, out var sourceReader).Value < 0)
+        if (PInvoke.MFCreateSourceReaderFromURL(fileInfo.FullName, null, out var sourceReader).Failed)
         {
             handlerResult = default;
 
@@ -24,7 +24,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
 
         try
         {
-            if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_VIDEO_STREAM, out var videoMediaType).Value >= 0)
+            if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_VIDEO_STREAM, out var videoMediaType).Succeeded)
             {
                 try
                 {
@@ -36,7 +36,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
                 }
             }
 
-            if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_AUDIO_STREAM, out var audioMediaType).Value >= 0)
+            if (sourceReader.GetCurrentMediaType(PInvoke.MF_SOURCE_READER_FIRST_AUDIO_STREAM, out var audioMediaType).Succeeded)
             {
                 try
                 {
@@ -97,15 +97,15 @@ public class MediaFilePreviewHandler : FilePreviewHandler
 
     private static bool TryGetVideoSize(IMFAttributes videoMediaType, out Size size)
     {
-        if (PInvoke.MFGetAttributeSize(videoMediaType, out var width, out var height).Value >= 0)
+        if (PInvoke.MFGetAttributeSize(videoMediaType, out var width, out var height).Failed)
         {
-            size = new Size(width, height);
+            size = default;
 
-            return true;
+            return false;
         }
 
-        size = default;
+        size = new Size(width, height);
 
-        return false;
+        return true;
     }
 }

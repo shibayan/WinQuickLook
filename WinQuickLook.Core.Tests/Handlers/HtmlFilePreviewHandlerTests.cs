@@ -8,7 +8,7 @@ namespace WinQuickLook.Tests.Handlers;
 
 public class HtmlFilePreviewHandlerTests
 {
-    [StaTheory]
+    [WpfTheory]
     [InlineData("test.htm", true)]
     [InlineData("test.html", true)]
     [InlineData("test.xhtml", true)]
