@@ -28,11 +28,9 @@ CreateWindowEx
 DestroyWindow
 GetForegroundWindow
 SetWindowsHookEx
-UnhookWindowsHookEx
 CallNextHookEx
 SetWindowLong
 GetWindowLong
-DestroyIcon
 GetWindowThreadProcessId
 GetGUIThreadInfo
 GetClassName

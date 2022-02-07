@@ -16,7 +16,7 @@ public class ShellFilePreviewHandler : FilePreviewHandler
         var pcchOut = 0u;
         var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        if (PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, Span<char>.Empty, ref pcchOut).Failed)
+        if (PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, Span<char>.Empty, ref pcchOut).Failed)
         {
             handlerResult = default;
 

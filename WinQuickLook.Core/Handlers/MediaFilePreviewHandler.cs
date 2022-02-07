@@ -76,7 +76,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             videoFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = videoFileControl };
+        handlerResult = new HandlerResult { Viewer = videoFileControl, RequestSize = size };
 
         return true;
     }

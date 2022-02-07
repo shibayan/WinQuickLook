@@ -16,24 +16,37 @@ public static partial class PInvoke
     public const uint MF_SOURCE_READER_FIRST_VIDEO_STREAM = 0xFFFFFFFCU;
     public const uint MF_SOURCE_READER_FIRST_AUDIO_STREAM = 0xFFFFFFFDU;
 
-    public static unsafe HRESULT SHCreateItemFromParsingName<T>(string pszPath, System.Com.IBindCtx? pbc, out T ppv)
+    public static HRESULT SHCreateItemFromParsingName<T>(string pszPath, System.Com.IBindCtx? pbc, out T ppv)
     {
         var hr = SHCreateItemFromParsingName(pszPath, pbc, typeof(T).GUID, out var o);
         ppv = (T)o;
         return hr;
     }
 
-    public static unsafe HRESULT AssocQueryString(uint flags, ASSOCSTR str, string pszAssoc, string pszExtra, Span<char> pszOut, ref uint pcchOut)
+    /// <inheritdoc cref="AssocQueryString(uint, ASSOCSTR, PCWSTR, PCWSTR, PWSTR, uint*)"/>
+    public static unsafe HRESULT AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra, Span<char> pszOut, ref uint pcchOut)
     {
         fixed (char* pszOutLocal = pszOut)
         {
-            return AssocQueryString(flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
+            return AssocQueryString((uint)flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
         }
     }
 
     public static unsafe HWND CreateWindowEx(WINDOW_EX_STYLE dwExStyle, string lpClassName, string lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, SafeHandle? hMenu = default, SafeHandle? hInstance = default)
     {
         return CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, null);
+    }
+
+    /// <inheritdoc cref="SHLoadIndirectString(PCWSTR, PWSTR, uint, void**)"/>
+    public static unsafe HRESULT SHLoadIndirectString(string pszSource, Span<char> pszOutBuf)
+    {
+        fixed (char* pszOutBufLocal = pszOutBuf)
+        {
+            fixed (char* pszSourceLocal = pszSource)
+            {
+                return SHLoadIndirectString(pszSourceLocal, new PWSTR(pszOutBufLocal), (uint)pszOutBuf.Length, null);
+            }
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

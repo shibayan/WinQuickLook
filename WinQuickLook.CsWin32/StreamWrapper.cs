@@ -11,7 +11,9 @@ public class StreamWrapper : IStream
 {
     public StreamWrapper(Stream baseStream)
     {
-        _baseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
+        ArgumentNullException.ThrowIfNull(baseStream);
+
+        _baseStream = baseStream;
     }
 
     private readonly Stream _baseStream;

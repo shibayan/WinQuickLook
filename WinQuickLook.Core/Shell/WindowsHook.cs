@@ -15,29 +15,29 @@ public abstract class WindowsHook : IDisposable
 
     private readonly WINDOWS_HOOK_ID _idHook;
 
-    private HHOOK _hook;
+    private UnhookWindowsHookExSafeHandle? _hook;
     private bool _disposed;
 
     public void Start()
     {
-        if (!_hook.IsNull)
+        if (_hook is not null)
         {
             return;
         }
 
-        PInvoke.SetWindowsHookEx(_idHook, HookProc, PInvoke.GetModuleHandle(new PCWSTR()), 0);
+        _hook = PInvoke.SetWindowsHookEx(_idHook, HookProc, PInvoke.GetModuleHandle((string)null!), 0);
     }
 
     public void Stop()
     {
-        if (_hook.IsNull)
+        if (_hook is null)
         {
             return;
         }
 
-        PInvoke.UnhookWindowsHookEx(_hook);
+        _hook.Close();
 
-        _hook = new HHOOK();
+        _hook = null;
     }
 
     protected virtual LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam) => PInvoke.CallNextHookEx(_hook, code, wParam, lParam);
@@ -50,12 +50,14 @@ public abstract class WindowsHook : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (_disposed)
         {
-            Stop();
-
-            _disposed = true;
+            return;
         }
+
+        Stop();
+
+        _disposed = true;
     }
 
     ~WindowsHook() => Dispose(false);

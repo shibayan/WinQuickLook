@@ -23,4 +23,12 @@ public static partial class FriendlyOverloadExtensions
         ppv = (T)o;
         return hr;
     }
+
+    public static unsafe HRESULT Next(this IEnumAssocHandlers enumAssocHandlers, IAssocHandler[] rgelt, out uint pceltFetched)
+    {
+        fixed (uint* pceltFetchedLocal = &pceltFetched)
+        {
+            return enumAssocHandlers.Next((uint)rgelt.Length, rgelt, pceltFetchedLocal);
+        }
+    }
 }

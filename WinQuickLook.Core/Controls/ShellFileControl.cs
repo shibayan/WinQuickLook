@@ -98,7 +98,7 @@ public class ShellFileControl : HwndHost
 
         var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        if (PInvoke.AssocQueryString(0x00000004, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, pszOut, ref pcchOut).Failed)
+        if (PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, pszOut, ref pcchOut).Failed)
         {
             clsid = Guid.Empty;
 
