@@ -24,9 +24,6 @@ jobs:
     - name: Use MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
-
     - name: Setup Version
       id: setup_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
@@ -41,12 +38,10 @@ jobs:
         $doc.Root.Element($xName).Attribute("Version").Value = "${{ steps.setup_version.outputs.VERSION }}.0";
         $doc.Save($path)
 
-    - name: Restore NuGet packages
-      run: nuget restore
-
     - name: Build application
       run: >
         msbuild .\WinQuickLook.sln
+        /Restore
         /p:Configuration=Release
         /p:Version="${{ steps.setup_version.outputs.VERSION }}"
         /p:UapAppxPackageBuildMode=StoreUpload
@@ -55,6 +50,7 @@ jobs:
         /p:AppxBundle=Always
         /p:AppxPackageSigningEnabled=false
         /p:PackageCertificateThumbprint=""
+        /p:PublishReadyToRun=true
         /verbosity:minimal
 
     - name: Upload MSIX
