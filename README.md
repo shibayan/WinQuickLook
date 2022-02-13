@@ -14,7 +14,7 @@
   <a href="https://github.com/shibayan/WinQuickLook/blob/master/LICENSE"><img src="https://badgen.net/github/license/shibayan/WinQuickLook" alt="License" style="max-width: 100%;"></a>
 </p>
 
-## Installation
+## How to install
 
 ### Microsoft Store
 
@@ -23,19 +23,21 @@
 ### WinGet
 
 ```
-winget install WinQuickLook --source msstore
-or
 winget install 9NJMTKK6JC0Q --source msstore
+```
+or
+```
+winget install WinQuickLook --source msstore
 ```
 
 ## Usage
 
-1. Launch WinQuickLook
+1. Launch `WinQuickLook`
 2. Open folder in explorer
 3. Select a file
 4. Press a <kbd>space</kbd> key
 
-## Supported platforms
+## Supported OS versions
 
 - Windows 10 Version 1903 or later
 - Windows 11

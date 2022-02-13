@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.Core.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinQuickLook.CsWin32", "WinQuickLook.CsWin32\WinQuickLook.CsWin32.csproj", "{0D01E534-2076-42C5-9DEC-84B62E8DC803}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinQuickLook.App", "WinQuickLook.App\WinQuickLook.App.csproj", "{73F2E5B0-B5CF-448C-81C0-354CC810484B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|arm64 = Debug|arm64
@@ -41,6 +43,14 @@ Global
 		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Release|arm64.Build.0 = Release|arm64
 		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Release|x64.ActiveCfg = Release|x64
 		{0D01E534-2076-42C5-9DEC-84B62E8DC803}.Release|x64.Build.0 = Release|x64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Debug|arm64.ActiveCfg = Debug|arm64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Debug|arm64.Build.0 = Debug|arm64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Debug|x64.ActiveCfg = Debug|x64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Debug|x64.Build.0 = Debug|x64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Release|arm64.ActiveCfg = Release|arm64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Release|arm64.Build.0 = Release|arm64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Release|x64.ActiveCfg = Release|x64
+		{73F2E5B0-B5CF-448C-81C0-354CC810484B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
