@@ -5,8 +5,17 @@
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x64;win10-arm64</RuntimeIdentifiers>
+    <GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="$(ApplicationIcon)" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WinQuickLook.Core\WinQuickLook.Core.csproj" />
