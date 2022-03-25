@@ -45,8 +45,7 @@ public class ImageFilePreviewHandler : FilePreviewHandler
 
         using (bitmap.Initialize())
         {
-            bitmap.CreateOptions = BitmapCreateOptions.None;
-            bitmap.CacheOption = BitmapCacheOption.None;
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.DecodePixelWidth = (int)decodeSize.Width;
             bitmap.DecodePixelHeight = (int)decodeSize.Height;
             bitmap.StreamSource = stream;
