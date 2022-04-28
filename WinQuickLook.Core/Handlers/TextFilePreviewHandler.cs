@@ -3,10 +3,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 
+using ICSharpCode.AvalonEdit;
+
 using Windows.Win32;
 using Windows.Win32.Globalization;
-
-using ICSharpCode.AvalonEdit;
 
 using WinQuickLook.Extensions;
 

@@ -126,33 +126,33 @@ public class ShellFileControl : HwndHost
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithFile initializeWithFile:
-                {
-                    return initializeWithFile.Initialize(fileInfo.FullName, 0).Succeeded;
-                }
+            {
+                return initializeWithFile.Initialize(fileInfo.FullName, 0).Succeeded;
+            }
             // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithItem initializeWithItem:
+            {
+                if (PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem).Failed)
                 {
-                    if (PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem).Failed)
-                    {
-                        return false;
-                    }
-
-                    try
-                    {
-                        return initializeWithItem.Initialize(shellItem, 0).Succeeded;
-                    }
-                    finally
-                    {
-                        Marshal.ReleaseComObject(shellItem);
-                    }
+                    return false;
                 }
+
+                try
+                {
+                    return initializeWithItem.Initialize(shellItem, 0).Succeeded;
+                }
+                finally
+                {
+                    Marshal.ReleaseComObject(shellItem);
+                }
+            }
             // ReSharper disable once SuspiciousTypeConversion.Global
             case IInitializeWithStream initializeWithStream:
-                {
-                    using var fileStream = fileInfo.OpenReadNoLock();
+            {
+                using var fileStream = fileInfo.OpenReadNoLock();
 
-                    return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Succeeded;
-                }
+                return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Succeeded;
+            }
             default:
                 return false;
         }
