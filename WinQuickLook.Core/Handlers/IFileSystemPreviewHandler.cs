@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace WinQuickLook.Handlers;
 
 public interface IFileSystemPreviewHandler
 {
-    bool TryCreateViewer(FileSystemInfo fileSystemInfo, out HandlerResult? handlerResult);
+    HandlerPriorityClass PriorityClass { get; }
+    bool TryCreateViewer(FileSystemInfo fileSystemInfo, [NotNullWhen(true)] out HandlerResult? handlerResult);
 }

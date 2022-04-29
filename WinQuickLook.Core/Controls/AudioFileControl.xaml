@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <MediaElement x:Name="mediaElement" ScrubbingEnabled="True" />
+
+        <TextBlock Text="{Binding ElementName=mediaElement, Path=Position}" />
     </Grid>
 </UserControl>

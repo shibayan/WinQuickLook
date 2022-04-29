@@ -14,6 +14,8 @@ namespace WinQuickLook.Handlers;
 
 public class TextFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Normal;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var pnScores = 1;
@@ -24,12 +26,18 @@ public class TextFilePreviewHandler : FilePreviewHandler
 
         try
         {
-            if (multiLanguage.DetectCodepageInIStream(0, 0, new StreamWrapper(fileStream), out _, ref pnScores).Value < 0)
+            if (multiLanguage.DetectCodepageInIStream(0, 0, new ComInteropStream(fileStream), out _, ref pnScores).Failed)
             {
                 handlerResult = default;
 
                 return false;
             }
+        }
+        catch
+        {
+            handlerResult = default;
+
+            return false;
         }
         finally
         {

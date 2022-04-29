@@ -13,6 +13,8 @@ namespace WinQuickLook.Handlers;
 
 public class MediaFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Normal;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         if (PInvoke.MFCreateSourceReaderFromURL(fileInfo.FullName, null, out var sourceReader).Failed)

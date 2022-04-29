@@ -7,9 +7,9 @@ using Windows.Win32.System.Com.StructuredStorage;
 
 namespace Windows.Win32;
 
-public class StreamWrapper : IStream
+public class ComInteropStream : IStream
 {
-    public StreamWrapper(Stream baseStream)
+    public ComInteropStream(Stream baseStream)
     {
         ArgumentNullException.ThrowIfNull(baseStream);
 

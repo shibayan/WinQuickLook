@@ -10,6 +10,8 @@ namespace WinQuickLook.Handlers;
 
 public class HtmlFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.High;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         if (!s_supportedExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))

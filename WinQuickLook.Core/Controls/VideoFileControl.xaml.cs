@@ -13,6 +13,6 @@ public partial class VideoFileControl : UserControl
 
     public void Open(FileInfo fileInfo)
     {
-        throw new NotImplementedException();
+        mediaElement.Source = new Uri(fileInfo.FullName);
     }
 }

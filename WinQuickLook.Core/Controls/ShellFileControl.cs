@@ -151,7 +151,7 @@ public class ShellFileControl : HwndHost
             {
                 using var fileStream = fileInfo.OpenReadNoLock();
 
-                return initializeWithStream.Initialize(new StreamWrapper(fileStream), 0).Succeeded;
+                return initializeWithStream.Initialize(new ComInteropStream(fileStream), 0).Succeeded;
             }
             default:
                 return false;

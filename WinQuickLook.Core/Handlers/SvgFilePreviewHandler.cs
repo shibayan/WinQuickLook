@@ -7,6 +7,8 @@ namespace WinQuickLook.Handlers;
 
 public class SvgFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.High;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         if (!s_supportedExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))

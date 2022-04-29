@@ -13,6 +13,6 @@ public partial class AudioFileControl : UserControl
 
     public void Open(FileInfo fileInfo)
     {
-        throw new NotImplementedException();
+        mediaElement.Source = new Uri(fileInfo.FullName);
     }
 }

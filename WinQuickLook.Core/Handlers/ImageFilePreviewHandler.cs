@@ -10,6 +10,8 @@ namespace WinQuickLook.Handlers;
 
 public class ImageFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Normal;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         if (!TryGetImageSize(fileInfo, out var imageSize))

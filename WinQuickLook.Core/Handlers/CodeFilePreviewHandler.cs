@@ -18,6 +18,8 @@ public class CodeFilePreviewHandler : FilePreviewHandler
         highlightingManager.RegisterHighlighting("Vue", new[] { ".vue" }, highlightingManager.GetDefinitionByExtension(".html"));
     }
 
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.High;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var highlighting = HighlightingManager.Instance.GetDefinitionByExtension(fileInfo.Extension);
@@ -26,7 +28,7 @@ public class CodeFilePreviewHandler : FilePreviewHandler
         {
             handlerResult = default;
 
-            return true;
+            return false;
         }
 
         var textEditor = new TextEditor();

@@ -11,6 +11,8 @@ namespace WinQuickLook.Handlers;
 
 public class ShellFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Low;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var pcchOut = 0u;

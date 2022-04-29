@@ -3,19 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:app="clr-namespace:WinQuickLook.App"
         mc:Ignorable="d"
         d:DesignWidth="600" d:DesignHeight="400" MinWidth="400" MinHeight="400"
         Background="#60ffffff" WindowStyle="None" SnapsToDevicePixels="True" UseLayoutRounding="True"
         Loaded="Window_Loaded">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="37"
+        <WindowChrome CaptionHeight="{x:Static app:AppParameters.CaptionHeight}"
                       GlassFrameThickness="-1"
                       ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="37" />
+            <RowDefinition Height="{Binding Source={x:Static app:AppParameters.CaptionHeight}}" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ContentPresenter x:Name="contentPresenter" Grid.Row="1" />

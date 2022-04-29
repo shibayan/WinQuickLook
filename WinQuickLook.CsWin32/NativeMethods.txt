@@ -17,6 +17,7 @@ IAssocHandler
 IAssocHandlerInvoker
 IEnumAssocHandlers
 IMultiLanguage2
+IPropertyStore
 
 // Win32 API
 
@@ -45,9 +46,11 @@ SHCreateItemFromParsingName
 SHAssocEnumHandlers
 SHGetFileInfo
 ExtractIconEx
+SHGetPropertyStoreFromParsingName
 
 // ole32
 CoCreateInstance
+PropVariantClear
 
 // shlwapi
 StrRetToBSTR
@@ -64,6 +67,7 @@ MFCreateSourceReaderFromURL
 
 // Structs
 KBDLLHOOKSTRUCT
+PROPVARIANT
 
 // Constants
 HC_ACTION

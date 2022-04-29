@@ -7,6 +7,8 @@ namespace WinQuickLook.Handlers;
 
 public class GenericFilePreviewHandler : FilePreviewHandler
 {
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Low;
+
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
         var fileControl = new GenericFileControl();

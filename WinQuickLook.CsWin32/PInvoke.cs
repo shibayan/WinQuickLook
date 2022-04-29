@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.Media.MediaFoundation;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Windows.Win32;
@@ -13,6 +14,8 @@ namespace Windows.Win32;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public static partial class PInvoke
 {
+    public const uint MF_VERSION = 0x0001 << 16 | 0x0070;
+
     public const uint MF_SOURCE_READER_FIRST_VIDEO_STREAM = 0xFFFFFFFCU;
     public const uint MF_SOURCE_READER_FIRST_AUDIO_STREAM = 0xFFFFFFFDU;
 
@@ -20,6 +23,13 @@ public static partial class PInvoke
     {
         var hr = SHCreateItemFromParsingName(pszPath, pbc, typeof(T).GUID, out var o);
         ppv = (T)o;
+        return hr;
+    }
+
+    public static unsafe HRESULT SHGetPropertyStoreFromParsingName<T>(string pszPath, System.Com.IBindCtx pbc, GETPROPERTYSTOREFLAGS flags, out T ppv)
+    {
+        var hr = SHGetPropertyStoreFromParsingName(pszPath, pbc, flags, typeof(T).GUID, out var o);
+        ppv = (T)Marshal.GetUniqueObjectForIUnknown(new IntPtr(o));
         return hr;
     }
 
