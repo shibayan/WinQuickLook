@@ -21,9 +21,9 @@ public class ImageFilePreviewHandler : FilePreviewHandler
             return false;
         }
 
-        var size = imageSize.FitTo(1200);
+        var requestSize = imageSize.FitTo(1200);
 
-        var bitmap = LoadImage(fileInfo, size);
+        var bitmap = LoadImage(fileInfo, requestSize);
 
         var image = new Image();
 
@@ -34,7 +34,7 @@ public class ImageFilePreviewHandler : FilePreviewHandler
             image.Source = bitmap;
         }
 
-        handlerResult = new HandlerResult { Viewer = image, RequestSize = size };
+        handlerResult = new HandlerResult { Viewer = image, RequestSize = requestSize };
 
         return true;
     }

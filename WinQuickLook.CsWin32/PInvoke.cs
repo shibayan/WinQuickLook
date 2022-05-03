@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 using Windows.Win32.Foundation;
 using Windows.Win32.Media.MediaFoundation;
@@ -58,6 +59,11 @@ public static partial class PInvoke
             }
         }
     }
+
+
+    [DllImport("Ole32", ExactSpelling = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    public static extern HRESULT PropVariantClear(ref PROPVARIANT2 pvar);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, out uint punWidth, out uint punHeight)

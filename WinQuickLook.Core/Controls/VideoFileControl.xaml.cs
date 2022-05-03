@@ -14,5 +14,6 @@ public partial class VideoFileControl : UserControl
     public void Open(FileInfo fileInfo)
     {
         mediaElement.Source = new Uri(fileInfo.FullName);
+        mediaElement.Play();
     }
 }

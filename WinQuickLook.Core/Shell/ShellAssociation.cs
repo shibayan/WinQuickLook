@@ -105,7 +105,7 @@ public class ShellAssociation
             return null;
         }
 
-        var iconImageLocation = new string(pszOut[..pszOut.IndexOf('\0')]);
+        var iconImageLocation = new string(pszOut.TrimEnd('\0'));
 
         if (!File.Exists(iconImageLocation))
         {

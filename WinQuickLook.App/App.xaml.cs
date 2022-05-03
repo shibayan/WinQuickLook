@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using WinQuickLook.Handlers;
+using WinQuickLook.Messaging;
 using WinQuickLook.Shell;
 
 namespace WinQuickLook.App;
@@ -39,9 +40,8 @@ public partial class App : Application
 
         PInvoke.MFStartup(PInvoke.MF_VERSION, 1);
 
-        _keyboardHook.Start();
-
 #if !DEBUG
+        _keyboardHook.Start();
         _mouseHook.Start();
 #endif
 
@@ -50,10 +50,10 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        PInvoke.MFShutdown();
-
         _keyboardHook.Dispose();
         _mouseHook.Dispose();
+
+        PInvoke.MFShutdown();
 
         _mutex.ReleaseMutex();
         _mutex.Dispose();

@@ -17,7 +17,6 @@ IAssocHandler
 IAssocHandlerInvoker
 IEnumAssocHandlers
 IMultiLanguage2
-IPropertyStore
 
 // Win32 API
 
@@ -50,7 +49,6 @@ SHGetPropertyStoreFromParsingName
 
 // ole32
 CoCreateInstance
-PropVariantClear
 
 // shlwapi
 StrRetToBSTR
@@ -67,10 +65,13 @@ MFCreateSourceReaderFromURL
 
 // Structs
 KBDLLHOOKSTRUCT
-PROPVARIANT
 
 // Constants
 HC_ACTION
 WM_KEYDOWN
 WM_LBUTTONDOWN
 MF_MT_FRAME_SIZE
+
+PKEY_Title
+PKEY_Music_Artist
+PKEY_Music_AlbumTitle

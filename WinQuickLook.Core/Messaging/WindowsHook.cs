@@ -4,7 +4,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace WinQuickLook.Shell;
+namespace WinQuickLook.Messaging;
 
 public abstract class WindowsHook : IDisposable
 {

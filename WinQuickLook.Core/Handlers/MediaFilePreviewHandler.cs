@@ -42,7 +42,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             {
                 try
                 {
-                    return TryCreateAudioViewer(fileInfo, out handlerResult);
+                    return TryCreateMusicViewer(fileInfo, out handlerResult);
                 }
                 finally
                 {
@@ -69,7 +69,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             return false;
         }
 
-        var size = videoSize.FitTo(1200);
+        var requestSize = videoSize.FitTo(1200);
 
         var videoFileControl = new VideoFileControl();
 
@@ -78,21 +78,21 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             videoFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = videoFileControl, RequestSize = size };
+        handlerResult = new HandlerResult { Viewer = videoFileControl, RequestSize = requestSize };
 
         return true;
     }
 
-    private static bool TryCreateAudioViewer(FileInfo fileInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
+    private static bool TryCreateMusicViewer(FileInfo fileInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
     {
-        var audioFileControl = new AudioFileControl();
+        var musicFileControl = new MusicFileControl();
 
-        using (audioFileControl.Initialize())
+        using (musicFileControl.Initialize())
         {
-            audioFileControl.Open(fileInfo);
+            musicFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = audioFileControl };
+        handlerResult = new HandlerResult { Viewer = musicFileControl };
 
         return true;
     }
