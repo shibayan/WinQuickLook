@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Controls;
+
+using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Controls;
 
@@ -11,8 +12,8 @@ public partial class HtmlFileControl : UserControl
         InitializeComponent();
     }
 
-    public bool Open(FileInfo fileInfo)
+    public void Open(FileInfo fileInfo)
     {
-        throw new NotImplementedException();
+        textEditor.Load(fileInfo.OpenReadNoLock());
     }
 }
