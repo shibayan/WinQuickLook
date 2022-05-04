@@ -63,7 +63,7 @@ public static partial class PInvoke
 
     [DllImport("Ole32", ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    public static extern HRESULT PropVariantClear(ref PROPVARIANT2 pvar);
+    public static extern HRESULT PropVariantClear(ref PROPVARIANT pvar);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, out uint punWidth, out uint punHeight)

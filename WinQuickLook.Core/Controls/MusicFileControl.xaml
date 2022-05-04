@@ -6,6 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="00:00:00" />
+        <Image x:Name="thumbnail" />
+        <TextBlock x:Name="title" />
     </Grid>
 </UserControl>

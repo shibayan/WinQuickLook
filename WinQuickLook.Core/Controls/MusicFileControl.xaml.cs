@@ -16,6 +16,12 @@ public partial class MusicFileControl : UserControl
 
     public void Open(FileInfo fileInfo)
     {
+        var musicProperties = new Shell.ShellPropertyStore().GetMusicProperties(fileInfo);
+        var image = new Shell.ShellImageFactory().GetImage(fileInfo);
+
+        thumbnail.Source = image;
+        title.Text = musicProperties?.Title;
+
         _mediaPlayer.Open(new Uri(fileInfo.FullName));
         _mediaPlayer.Play();
     }

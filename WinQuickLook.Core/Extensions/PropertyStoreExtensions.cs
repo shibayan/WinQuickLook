@@ -35,8 +35,8 @@ internal static class PropertyStoreExtensions
 
         try
         {
-            return Enumerable.Range(0, (int)value.cElems)
-                             .Select(x => Marshal.PtrToStringUni(Marshal.ReadIntPtr(value.pElems, x * IntPtr.Size))!)
+            return Enumerable.Range(0, (int)value.calpwstr.cElems)
+                             .Select(x => Marshal.PtrToStringUni(Marshal.ReadIntPtr(value.calpwstr.pElems, x * IntPtr.Size))!)
                              .ToArray();
         }
         finally

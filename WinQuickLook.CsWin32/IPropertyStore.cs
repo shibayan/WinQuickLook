@@ -36,7 +36,7 @@ public interface IPropertyStore
     /// <para><see href="https://docs.microsoft.com/windows/win32/api//propsys/nf-propsys-ipropertystore-getvalue">Learn more about this API from docs.microsoft.com</see>.</para>
     /// </remarks>
     [PreserveSig]
-    Foundation.HRESULT GetValue(ref PROPERTYKEY key, out PROPVARIANT2 pv);
+    Foundation.HRESULT GetValue(ref PROPERTYKEY key, out PROPVARIANT pv);
 
     /// <summary>This method sets a property value or replaces or removes an existing value.</summary>
     /// <param name="key">TBD</param>
@@ -49,7 +49,7 @@ public interface IPropertyStore
     /// <para><see href="https://docs.microsoft.com/windows/win32/api//propsys/nf-propsys-ipropertystore-setvalue">Learn more about this API from docs.microsoft.com</see>.</para>
     /// </remarks>
     [PreserveSig]
-    Foundation.HRESULT SetValue(ref PROPERTYKEY key, in PROPVARIANT2 propvar);
+    Foundation.HRESULT SetValue(ref PROPERTYKEY key, in PROPVARIANT propvar);
 
     /// <summary>After a change has been made, this method saves the changes.</summary>
     /// <returns>
@@ -64,8 +64,8 @@ public interface IPropertyStore
 }
 
 // ReSharper disable once InconsistentNaming
-[StructLayout(LayoutKind.Explicit, Pack = 1)]
-public struct PROPVARIANT2
+[StructLayout(LayoutKind.Explicit)]
+public struct PROPVARIANT
 {
     [FieldOffset(0)]
     public ushort vt;
@@ -83,8 +83,16 @@ public struct PROPVARIANT2
     public IntPtr pwszVal;
 
     [FieldOffset(8)]
+    public CALPWSTR calpwstr;
+}
+
+// ReSharper disable once InconsistentNaming
+[StructLayout(LayoutKind.Explicit)]
+public struct CALPWSTR
+{
+    [FieldOffset(0)]
     public uint cElems;
 
-    [FieldOffset(16)]
+    [FieldOffset(8)]
     public IntPtr pElems;
 }

@@ -11,17 +11,33 @@ namespace WinQuickLook.Shell;
 
 public class ShellPropertyStore
 {
-    public void GetMusicProperties(FileInfo fileInfo)
+    public MusicProperties? GetMusicProperties(FileInfo fileInfo)
     {
         if (PInvoke.SHGetPropertyStoreFromParsingName(fileInfo.FullName, null, GETPROPERTYSTOREFLAGS.GPS_DEFAULT, out IPropertyStore propertyStore).Failed)
         {
-            return;
+            return null;
         }
 
-        var title = propertyStore.GetString(PInvoke.PKEY_Title);
-        var artist = propertyStore.GetStringArray(PInvoke.PKEY_Music_Artist).First();
-        var album = propertyStore.GetString(PInvoke.PKEY_Music_AlbumTitle);
+        try
+        {
+            return new MusicProperties
+            {
+                Title = propertyStore.GetString(PInvoke.PKEY_Title),
+                Artist = propertyStore.GetStringArray(PInvoke.PKEY_Music_Artist).FirstOrDefault(),
+                Album = propertyStore.GetString(PInvoke.PKEY_Music_AlbumTitle)
+            };
+        }
+        finally
+        {
+            Marshal.ReleaseComObject(propertyStore);
+        }
 
-        Marshal.ReleaseComObject(propertyStore);
+    }
+
+    public class MusicProperties
+    {
+        public string? Title { get; init; }
+        public string? Artist { get; init; }
+        public string? Album { get; init; }
     }
 }
