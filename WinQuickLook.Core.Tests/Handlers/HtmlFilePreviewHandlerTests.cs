@@ -20,7 +20,7 @@ public class HtmlFilePreviewHandlerTests
     [InlineData("test", false)]
     public void TryCreateViewer(string fileName, bool expected)
     {
-        var fileInfo = new FileInfo(fileName);
+        var fileInfo = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "SampleFiles", fileName));
 
         var handler = new HtmlFilePreviewHandler();
 

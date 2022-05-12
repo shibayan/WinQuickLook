@@ -22,8 +22,6 @@ public partial class MainWindow : Window
     {
         var fileInfo = new FileInfo(@"C:\Users\shibayan\Music\iTunes\iTunes Media\Music\Compilations\beatmania IIDX 13 DistorteD ORIGINAL SOU\2-02 BREAK OUT.m4a");
 
-        new WinQuickLook.Shell.ShellPropertyStore().GetMusicProperties(fileInfo);
-
         if (_previewHandlers.TryCreateViewer(fileInfo, out var handlerResult))
         {
             Width = handlerResult.RequestSize.Width;

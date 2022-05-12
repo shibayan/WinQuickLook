@@ -12,7 +12,7 @@ public class CodeFilePreviewHandlerTests
     [InlineData("test.cs", true)]
     public void TryCreateViewer(string fileName, bool expected)
     {
-        var fileInfo = new FileInfo(fileName);
+        var fileInfo = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "SampleFiles", fileName));
 
         var handler = new CodeFilePreviewHandler();
 
