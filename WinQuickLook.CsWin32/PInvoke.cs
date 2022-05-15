@@ -2,11 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 
 using Windows.Win32.Foundation;
 using Windows.Win32.Media.MediaFoundation;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
 using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -60,6 +60,26 @@ public static partial class PInvoke
         }
     }
 
+    public static unsafe HRESULT StrRetToBuf(ref STRRET pstr, IntPtr pidl, Span<char> pszBuf)
+    {
+        fixed (STRRET* pstrLocal = &pstr)
+        {
+            fixed (char* pszBufLocal = pszBuf)
+            {
+                return StrRetToBuf(pstrLocal, (ITEMIDLIST*)pidl, new PWSTR(pszBufLocal), (uint)pszBuf.Length);
+            }
+        }
+    }
+
+    public static unsafe uint GetWindowThreadProcessId(HWND hWnd) => GetWindowThreadProcessId(hWnd, null);
+
+    public static unsafe int GetClassName(HWND hWnd, Span<char> lpClassName)
+    {
+        fixed (char* lpClassNameLocal = lpClassName)
+        {
+            return GetClassName(hWnd, new PWSTR(lpClassNameLocal), lpClassName.Length);
+        }
+    }
 
     [DllImport("Ole32", ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

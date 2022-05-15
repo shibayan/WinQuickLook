@@ -7,6 +7,7 @@ using Windows.Win32;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
 using WinQuickLook.Shell;
@@ -19,13 +20,18 @@ public partial class App : Application
     {
         _serviceProvider = ConfigureService();
 
-        MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+        _keyboardHook = _serviceProvider.GetRequiredService<KeyboardHook>();
+        _mouseHook = _serviceProvider.GetRequiredService<MouseHook>();
+
+        _mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
     }
 
     private readonly Mutex _mutex = new(false, AppParameters.Title);
 
-    private readonly KeyboardHook _keyboardHook = new();
-    private readonly MouseHook _mouseHook = new();
+    private readonly KeyboardHook _keyboardHook;
+    private readonly MouseHook _mouseHook;
+
+    private readonly MainWindow _mainWindow;
 
     private readonly IServiceProvider _serviceProvider;
 
@@ -40,12 +46,24 @@ public partial class App : Application
 
         PInvoke.MFStartup(PInvoke.MF_VERSION, 1);
 
-#if !DEBUG
+        _keyboardHook.PerformSpaceKey = () =>
+        {
+            var fileSystemInfo = new ShellExplorer().GetSelectedItem();
+
+            if (fileSystemInfo is not null)
+            {
+                _mainWindow.StartPreview(fileSystemInfo);
+                _mainWindow.Show();
+            }
+        };
+
         _keyboardHook.Start();
+
+#if !DEBUG
         _mouseHook.Start();
 #endif
 
-        MainWindow.Show();
+        _mainWindow.Preload();
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -63,6 +81,8 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        services.AddSingleton(Dispatcher);
+
         services.TryAddEnumerable(new[]
         {
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, CodeFilePreviewHandler>(),
@@ -77,7 +97,10 @@ public partial class App : Application
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, TextFilePreviewHandler>()
         });
 
-        services.AddSingleton<ShellAssociation>();
+        services.AddSingleton<AssociationResolver>();
+
+        services.AddSingleton<KeyboardHook>();
+        services.AddSingleton<MouseHook>();
 
         services.AddSingleton<MainWindow>();
 

@@ -14,7 +14,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Shell;
 
-public class ShellAssociation
+public class AssociationResolver
 {
     public class Entry
     {

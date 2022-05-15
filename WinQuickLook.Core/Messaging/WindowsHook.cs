@@ -36,7 +36,6 @@ public abstract class WindowsHook : IDisposable
         }
 
         _hook.Close();
-
         _hook = null;
     }
 

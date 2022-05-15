@@ -9,7 +9,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Shell;
 
-public class ShellPropertyStore
+public class PropertyStore
 {
     public MusicProperties? GetMusicProperties(FileInfo fileInfo)
     {
