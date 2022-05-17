@@ -1,13 +1,15 @@
 ﻿using System.Threading;
 using System.Windows;
 
+using Windows.Win32.UI.Input.KeyboardAndMouse;
+
 using WinQuickLook.Extensions;
 using WinQuickLook.Messaging;
 using WinQuickLook.Shell;
 
 namespace WinQuickLook.App;
 
-public partial class App : Application
+public partial class App
 {
     public App(MainWindow mainWindow, KeyboardHook keyboardHook, MouseHook mouseHook)
     {
@@ -35,7 +37,13 @@ public partial class App : Application
             return;
         }
 
-        _keyboardHook.PerformSpaceKey = () => Dispatcher.InvokeAsync(PerformPreview);
+        _keyboardHook.PerformKeyDown = vkCode =>
+        {
+            if (vkCode == VIRTUAL_KEY.VK_SPACE)
+            {
+                Dispatcher.InvokeAsync(PerformPreview);
+            }
+        };
 
         _keyboardHook.Start();
 

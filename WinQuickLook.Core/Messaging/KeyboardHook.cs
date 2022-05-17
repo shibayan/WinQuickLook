@@ -15,7 +15,7 @@ public class KeyboardHook : WindowsHook
     {
     }
 
-    public Action? PerformSpaceKey { get; set; }
+    public Action<VIRTUAL_KEY>? PerformKeyDown { get; set; }
 
     protected override LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam)
     {
@@ -23,12 +23,7 @@ public class KeyboardHook : WindowsHook
         {
             var kbdllhook = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 
-            switch ((VIRTUAL_KEY)kbdllhook.vkCode)
-            {
-                case VIRTUAL_KEY.VK_SPACE:
-                    PerformSpaceKey?.Invoke();
-                    break;
-            }
+            PerformKeyDown?.Invoke((VIRTUAL_KEY)kbdllhook.vkCode);
         }
 
         return base.HookProc(code, wParam, lParam);
