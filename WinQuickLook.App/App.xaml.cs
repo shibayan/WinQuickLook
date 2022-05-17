@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows;
 
 using Windows.Win32;
@@ -33,7 +32,7 @@ public partial class App : Application
 
     private readonly MainWindow _mainWindow;
 
-    private readonly IServiceProvider _serviceProvider;
+    private readonly ServiceProvider _serviceProvider;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -68,8 +67,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _keyboardHook.Dispose();
-        _mouseHook.Dispose();
+        _serviceProvider.Dispose();
 
         PInvoke.MFShutdown();
 
@@ -77,7 +75,7 @@ public partial class App : Application
         _mutex.Dispose();
     }
 
-    private IServiceProvider ConfigureService()
+    private ServiceProvider ConfigureService()
     {
         var services = new ServiceCollection();
 

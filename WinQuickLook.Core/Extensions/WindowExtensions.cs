@@ -1,11 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Interop;
-
-using Windows.Win32;
-using Windows.Win32.Graphics.Gdi;
-using Windows.Win32.UI.HiDpi;
+﻿using System.Windows;
 
 namespace WinQuickLook.Extensions;
 
