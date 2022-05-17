@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Threading;
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -11,13 +10,10 @@ namespace WinQuickLook.Messaging;
 
 public class KeyboardHook : WindowsHook
 {
-    public KeyboardHook(Dispatcher dispatcher)
+    public KeyboardHook()
         : base(WINDOWS_HOOK_ID.WH_KEYBOARD_LL)
     {
-        _dispatcher = dispatcher;
     }
-
-    private readonly Dispatcher _dispatcher;
 
     public Action? PerformSpaceKey { get; set; }
 
@@ -30,11 +26,7 @@ public class KeyboardHook : WindowsHook
             switch ((VIRTUAL_KEY)kbdllhook.vkCode)
             {
                 case VIRTUAL_KEY.VK_SPACE:
-                    _dispatcher.InvokeAsync(() =>
-                    {
-                        PerformSpaceKey?.Invoke();
-                    });
-
+                    PerformSpaceKey?.Invoke();
                     break;
             }
         }

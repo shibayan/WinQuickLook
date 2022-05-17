@@ -1,13 +1,7 @@
 ﻿using System.Threading;
 using System.Windows;
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-
-using Windows.Win32;
-
 using WinQuickLook.Extensions;
-using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
 using WinQuickLook.Shell;
 
@@ -15,14 +9,14 @@ namespace WinQuickLook.App;
 
 public partial class App : Application
 {
-    public App()
+    public App(MainWindow mainWindow, KeyboardHook keyboardHook, MouseHook mouseHook)
     {
-        _serviceProvider = ConfigureService();
+        InitializeComponent();
 
-        _keyboardHook = _serviceProvider.GetRequiredService<KeyboardHook>();
-        _mouseHook = _serviceProvider.GetRequiredService<MouseHook>();
+        _keyboardHook = keyboardHook;
+        _mouseHook = mouseHook;
 
-        _mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+        _mainWindow = mainWindow;
     }
 
     private readonly Mutex _mutex = new(false, AppParameters.Title);
@@ -31,8 +25,6 @@ public partial class App : Application
     private readonly MouseHook _mouseHook;
 
     private readonly MainWindow _mainWindow;
-
-    private readonly ServiceProvider _serviceProvider;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -43,18 +35,7 @@ public partial class App : Application
             return;
         }
 
-        PInvoke.MFStartup(PInvoke.MF_VERSION, 1);
-
-        _keyboardHook.PerformSpaceKey = () =>
-        {
-            var fileSystemInfo = new ShellExplorer().GetSelectedItem();
-
-            if (fileSystemInfo is not null)
-            {
-                _mainWindow.StartPreview(fileSystemInfo);
-                _mainWindow.Show();
-            }
-        };
+        _keyboardHook.PerformSpaceKey = () => Dispatcher.InvokeAsync(PerformPreview);
 
         _keyboardHook.Start();
 
@@ -67,41 +48,18 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _serviceProvider.Dispose();
-
-        PInvoke.MFShutdown();
-
         _mutex.ReleaseMutex();
         _mutex.Dispose();
     }
 
-    private ServiceProvider ConfigureService()
+    private void PerformPreview()
     {
-        var services = new ServiceCollection();
+        var fileSystemInfo = new ShellExplorer().GetSelectedItem();
 
-        services.AddSingleton(Dispatcher);
-
-        services.TryAddEnumerable(new[]
+        if (fileSystemInfo is not null)
         {
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, CodeFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, GenericDirectoryPreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, GenericFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, HtmlFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, ImageFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, MediaFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, PdfFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, ShellFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, SvgFilePreviewHandler>(),
-            ServiceDescriptor.Singleton<IFileSystemPreviewHandler, TextFilePreviewHandler>()
-        });
-
-        services.AddSingleton<AssociationResolver>();
-
-        services.AddSingleton<KeyboardHook>();
-        services.AddSingleton<MouseHook>();
-
-        services.AddSingleton<MainWindow>();
-
-        return services.BuildServiceProvider();
+            _mainWindow.StartPreview(fileSystemInfo);
+            _mainWindow.Show();
+        }
     }
 }

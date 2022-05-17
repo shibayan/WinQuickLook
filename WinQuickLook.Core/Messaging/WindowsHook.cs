@@ -15,6 +15,7 @@ public abstract class WindowsHook : IDisposable
 
     private readonly WINDOWS_HOOK_ID _idHook;
 
+    private HOOKPROC? _hookProc;
     private UnhookWindowsHookExSafeHandle? _hook;
     private bool _disposed;
 
@@ -25,7 +26,9 @@ public abstract class WindowsHook : IDisposable
             return;
         }
 
-        _hook = PInvoke.SetWindowsHookEx(_idHook, HookProc, PInvoke.GetModuleHandle((string)null!), 0);
+        _hookProc = HookProc;
+
+        _hook = PInvoke.SetWindowsHookEx(_idHook, _hookProc, PInvoke.GetModuleHandle((string)null!), 0);
     }
 
     public void Stop()

@@ -10,6 +10,7 @@
     <Platforms>x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x64;win10-arm64</RuntimeIdentifiers>
     <GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
   </PropertyGroup>
 
   <ItemGroup>
