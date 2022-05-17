@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Windows;
 
-using Windows.Win32;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Windows.Win32;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
