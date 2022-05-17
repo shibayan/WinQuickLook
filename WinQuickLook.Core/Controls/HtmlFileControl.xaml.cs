@@ -1,11 +1,10 @@
 ﻿using System.IO;
-using System.Windows.Controls;
 
 using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Controls;
 
-public partial class HtmlFileControl : UserControl
+public partial class HtmlFileControl
 {
     public HtmlFileControl()
     {

@@ -49,6 +49,9 @@ public class Program
         });
 
         services.AddSingleton<AssociationResolver>();
+        services.AddSingleton<PreviewImageFactory>();
+        services.AddSingleton<PropertyStore>();
+        services.AddSingleton<ShellExplorer>();
 
         services.AddSingleton<KeyboardHook>();
         services.AddSingleton<MouseHook>();

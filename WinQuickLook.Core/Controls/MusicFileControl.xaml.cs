@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace WinQuickLook.Controls;
 
-public partial class MusicFileControl : UserControl
+public partial class MusicFileControl
 {
     public MusicFileControl()
     {

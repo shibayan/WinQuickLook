@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace WinQuickLook.Controls;
 
-public partial class GenericFileControl : UserControl
+public partial class GenericFileControl
 {
     public GenericFileControl()
     {
