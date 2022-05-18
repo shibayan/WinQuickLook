@@ -1,0 +1,87 @@
+﻿// COM Interface
+IShellItem
+IShellItemImageFactory
+IServiceProvider
+IShellBrowser
+IShellView
+IFolderView
+IPersistFolder2
+IShellFolder
+IPreviewHandler
+IInitializeWithFile
+IInitializeWithItem
+IInitializeWithStream
+IAssocHandler
+IAssocHandlerInvoker
+IEnumAssocHandlers
+IMultiLanguage2
+
+// Win32 API
+
+// kernel32
+GetModuleHandle
+
+// user32
+CreateWindowEx
+DestroyWindow
+GetForegroundWindow
+SetWindowsHookEx
+CallNextHookEx
+SetWindowLong
+GetWindowLong
+GetWindowThreadProcessId
+GetGUIThreadInfo
+GetClassName
+FindWindowEx
+GetAsyncKeyState
+MonitorFromWindow
+GetMonitorInfo
+SetWindowPos
+
+// shell32
+SHCreateItemFromParsingName
+SHAssocEnumHandlers
+SHGetFileInfo
+ExtractIconEx
+SHGetPropertyStoreFromParsingName
+
+// ole32
+CoCreateInstance
+
+// shlwapi
+StrRetToBuf
+SHLoadIndirectString
+AssocQueryString
+
+// shcore
+GetDpiForMonitor
+
+// mfplat
+MFStartup
+MFShutdown
+MFCreateSourceReaderFromURL
+
+// Structs
+KBDLLHOOKSTRUCT
+SHANDLE_PTR
+
+// Constants
+HC_ACTION
+WM_KEYDOWN
+WM_LBUTTONDOWN
+MF_MT_FRAME_SIZE
+
+SET_WINDOW_POS_FLAGS
+VIRTUAL_KEY
+
+PKEY_Title
+PKEY_Music_Artist
+PKEY_Music_AlbumTitle
+
+SID_STopLevelBrowser
+
+_SHGDNF
+MAX_PATH
+
+ShellWindowTypeConstants
+ShellWindowFindWindowOptions

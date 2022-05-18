@@ -1,0 +1,24 @@
+﻿<Application x:Class="WinQuickLook.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tb="http://www.hardcodet.net/taskbar"
+             xmlns:app="clr-namespace:WinQuickLook.App"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+
+        <tb:TaskbarIcon x:Key="NotifyIcon"
+                        Visibility="Visible"
+                        ToolTipText="{x:Static app:AppParameters.Title}"
+                        IconSource="/Icon.ico"
+                        MenuActivation="RightClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Launch on Login " />
+                    <Separator />
+                    <MenuItem Header="Exit" Command="{x:Static ApplicationCommands.Close}" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+    </Application.Resources>
+</Application>

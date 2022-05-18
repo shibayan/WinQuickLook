@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
       with:
@@ -26,4 +26,4 @@ jobs:
       run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x64 /p:Configuration=Release /verbosity:minimal
 
     - name: Lint C# code
-      run: dotnet format whitespace --verify-no-changes --verbosity detailed --no-restore
+      run: dotnet format whitespace .\WinQuickLook\WinQuickLook.csproj --verify-no-changes --verbosity detailed --no-restore
