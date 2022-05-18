@@ -16,7 +16,7 @@ using WinQuickLook.Handlers;
 
 namespace WinQuickLook.App;
 
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers)
     {
@@ -27,7 +27,7 @@ public partial class MainWindow : Window
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
 
-    public void StartPreview(FileSystemInfo fileSystemInfo)
+    public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
         contentPresenter.Content = null;
 
@@ -39,12 +39,19 @@ public partial class MainWindow : Window
         ApplyRequestSize(handlerResult.RequestSize);
 
         contentPresenter.Content = handlerResult.Viewer;
+
+        Show();
     }
 
-    protected override void OnClosed(EventArgs e)
+    public void HidePreview()
     {
-        base.OnClosed(e);
+        Hide();
 
+        contentPresenter.Content = null;
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
         Application.Current.Shutdown();
     }
 

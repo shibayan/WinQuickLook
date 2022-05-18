@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 
 namespace WinQuickLook.Controls;
@@ -22,6 +21,6 @@ public partial class GenericDirectoryControl
 
     public void Open(DirectoryInfo directoryInfo)
     {
-        throw new NotImplementedException();
+        DirectoryInfo = directoryInfo;
     }
 }
