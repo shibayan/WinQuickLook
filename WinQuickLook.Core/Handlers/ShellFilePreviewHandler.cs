@@ -11,7 +11,7 @@ namespace WinQuickLook.Handlers;
 
 public class ShellFilePreviewHandler : FilePreviewHandler
 {
-    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Low;
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.BelowNormal;
 
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
@@ -29,7 +29,7 @@ public class ShellFilePreviewHandler : FilePreviewHandler
 
         using (shellFileControl.Initialize())
         {
-            shellFileControl.Open(fileInfo);
+            shellFileControl.Loaded += (_, _) => shellFileControl.Open(fileInfo);
         }
 
         handlerResult = new HandlerResult { Viewer = shellFileControl };
