@@ -9,20 +9,20 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Behaviors;
 
-public class PreventCloseBehavior
+public class WindowingBehavior
 {
-    public static bool GetPreventClose(DependencyObject obj) => (bool)obj.GetValue(PreventCloseProperty);
+    public static bool GetPreventClosing(DependencyObject obj) => (bool)obj.GetValue(PreventClosingProperty);
 
-    public static void SetPreventClose(DependencyObject obj, bool value) => obj.SetValue(PreventCloseProperty, value);
+    public static void SetPreventClosing(DependencyObject obj, bool value) => obj.SetValue(PreventClosingProperty, value);
 
-    public static readonly DependencyProperty PreventCloseProperty =
-        DependencyProperty.RegisterAttached("PreventClose", typeof(bool), typeof(Window), new PropertyMetadata(false, PropertyChangedCallback));
+    public static readonly DependencyProperty PreventClosingProperty =
+        DependencyProperty.RegisterAttached("PreventClosing", typeof(bool), typeof(Window), new PropertyMetadata(false, PropertyChangedCallback));
 
     private static void PropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         var window = (Window)obj;
 
-        if (e.NewValue is not null)
+        if ((bool)e.NewValue)
         {
             window.SourceInitialized += Window_SourceInitialized;
             window.Loaded += Window_Loaded;
