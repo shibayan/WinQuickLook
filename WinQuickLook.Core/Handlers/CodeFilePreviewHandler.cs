@@ -18,7 +18,7 @@ public class CodeFilePreviewHandler : FilePreviewHandler
         highlightingManager.RegisterHighlighting("Vue", new[] { ".vue" }, highlightingManager.GetDefinitionByExtension(".html"));
     }
 
-    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.High;
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.AboveNormal;
 
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {

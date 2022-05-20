@@ -16,7 +16,7 @@ using WinQuickLook.Handlers;
 
 namespace WinQuickLook.App;
 
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers)
     {
@@ -27,10 +27,8 @@ public partial class MainWindow : Window
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
 
-    public void StartPreview(FileSystemInfo fileSystemInfo)
+    public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
-        contentPresenter.Content = null;
-
         if (!_previewHandlers.TryCreateViewer(fileSystemInfo, out var handlerResult))
         {
             return;
@@ -39,12 +37,25 @@ public partial class MainWindow : Window
         ApplyRequestSize(handlerResult.RequestSize);
 
         contentPresenter.Content = handlerResult.Viewer;
+
+        if (IsVisible)
+        {
+            return;
+        }
+
+        MoveCenter();
+        Show();
     }
 
-    protected override void OnClosed(EventArgs e)
+    public void HidePreview()
     {
-        base.OnClosed(e);
+        Hide();
 
+        contentPresenter.Content = null;
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
         Application.Current.Shutdown();
     }
 
@@ -63,16 +74,32 @@ public partial class MainWindow : Window
 
         var monitor = new Rect(new Point(monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top), new Point(monitorInfo.rcMonitor.right, monitorInfo.rcMonitor.bottom));
 
-        PInvoke.GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
-
-        var dpiXFactor = dpiX / 96.0;
-        var dpiYFactor = dpiY / 96.0;
-
         var minWidthOrHeight = Math.Min(monitor.Width, monitor.Height) * 0.8;
         var scaleFactor = Math.Min(minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height), 1.0);
 
         Width = Math.Max(Math.Round(requestSize.Width * scaleFactor), MinWidth);
         Height = Math.Max(Math.Round(requestSize.Height * scaleFactor) + AppParameters.CaptionHeight, MinHeight);
+    }
+
+    private void MoveCenter()
+    {
+        var foregroundHwnd = PInvoke.GetForegroundWindow();
+
+        var hMonitor = PInvoke.MonitorFromWindow(foregroundHwnd, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTOPRIMARY);
+
+        var monitorInfo = new MONITORINFO
+        {
+            cbSize = (uint)Marshal.SizeOf<MONITORINFO>()
+        };
+
+        PInvoke.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+        var monitor = new Rect(new Point(monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top), new Point(monitorInfo.rcMonitor.right, monitorInfo.rcMonitor.bottom));
+
+        PInvoke.GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
+
+        var dpiXFactor = dpiX / 96.0;
+        var dpiYFactor = dpiY / 96.0;
 
         var x = monitor.X + ((monitor.Width - (Width * dpiXFactor)) / 2);
         var y = monitor.Y + ((monitor.Height - (Height * dpiYFactor)) / 2);

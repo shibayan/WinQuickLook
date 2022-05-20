@@ -66,8 +66,7 @@ public partial class App
 
         if (fileSystemInfo is not null)
         {
-            _mainWindow.StartPreview(fileSystemInfo);
-            _mainWindow.Show();
+            _mainWindow.OpenPreview(fileSystemInfo);
         }
     }
 }

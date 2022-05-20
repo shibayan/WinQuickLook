@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:WinQuickLook.App"
-        mc:Ignorable="d"
+        xmlns:behaviors="clr-namespace:WinQuickLook.Behaviors;assembly=WinQuickLook.Core"
+        mc:Ignorable="d" x:Name="window"
         d:DesignWidth="600" d:DesignHeight="400" MinWidth="400" MinHeight="400"
         Background="#60ffffff" WindowStyle="None" SnapsToDevicePixels="True" UseLayoutRounding="True"
-        ShowActivated="False" ShowInTaskbar="False" FocusVisualStyle="{x:Null}">
+        ShowActivated="False" ShowInTaskbar="False" FocusVisualStyle="{x:Null}"
+        behaviors:WindowingBehavior.PreventClosing="True">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{x:Static app:AppParameters.CaptionHeight}"
                       GlassFrameThickness="-1"
@@ -19,6 +21,8 @@
             <RowDefinition Height="{Binding Source={x:Static app:AppParameters.CaptionHeight}}" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock Text="{Binding ElementName=window, Path=Title}" HorizontalAlignment="Center" />
+        <Button WindowChrome.IsHitTestVisibleInChrome="True" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Close" Click="CloseButton_Click"/>
         <ContentPresenter x:Name="contentPresenter" Grid.Row="1" />
     </Grid>
 </Window>

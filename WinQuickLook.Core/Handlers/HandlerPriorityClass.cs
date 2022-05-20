@@ -2,7 +2,9 @@
 
 public enum HandlerPriorityClass
 {
-    Low,
+    Lowest,
+    BelowNormal,
     Normal,
-    High
+    AboveNormal,
+    Highest
 }
