@@ -47,7 +47,7 @@ public partial class MainWindow
         Show();
     }
 
-    public void HidePreview()
+    public void ClosePreview()
     {
         Hide();
 
@@ -56,6 +56,8 @@ public partial class MainWindow
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
+        ClosePreview();
+
         Application.Current.Shutdown();
     }
 

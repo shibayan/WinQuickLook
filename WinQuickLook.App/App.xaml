@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:app="clr-namespace:WinQuickLook.App"
+             xmlns:viewModels="clr-namespace:WinQuickLook.App.ViewModels"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
@@ -18,6 +19,9 @@
                     <MenuItem Header="Exit" Command="{x:Static ApplicationCommands.Close}" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
+            <tb:TaskbarIcon.DataContext>
+                <viewModels:NotifyIconViewModel />
+            </tb:TaskbarIcon.DataContext>
         </tb:TaskbarIcon>
 
     </Application.Resources>
