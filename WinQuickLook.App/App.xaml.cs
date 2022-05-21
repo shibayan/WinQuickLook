@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Windows;
 
-using Windows.Win32.UI.Input.KeyboardAndMouse;
-
 using Hardcodet.Wpf.TaskbarNotification;
+
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Messaging;
