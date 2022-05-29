@@ -11,12 +11,13 @@
                         Visibility="Visible"
                         ToolTipText="{x:Static app:AppParameters.Title}"
                         IconSource="/Icon.ico"
-                        MenuActivation="RightClick">
+                        MenuActivation="RightClick"
+                        DoubleClickCommand="{Binding ActivateCommand}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Launch on Login " />
+                    <MenuItem Header="Launch on Login" IsCheckable="True" Command="{Binding LaunchOnLoginCommand}" />
                     <Separator />
-                    <MenuItem Header="Exit" Command="{x:Static ApplicationCommands.Close}" />
+                    <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <tb:TaskbarIcon.DataContext>
