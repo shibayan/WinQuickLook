@@ -14,5 +14,7 @@ public partial class HtmlFileControl
     public void Open(FileInfo fileInfo)
     {
         textEditor.Load(fileInfo.OpenReadNoLock());
+
+        webView2.Source = new System.Uri(fileInfo.FullName);
     }
 }
