@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace WinQuickLook.App.ViewModels;
 
-internal class NotifyIconViewModel
+public class NotifyIconViewModel : BindableBase
 {
     public NotifyIconViewModel()
     {
@@ -26,8 +26,5 @@ internal class NotifyIconViewModel
     {
     }
 
-    private void Exit()
-    {
-        Application.Current.Shutdown();
-    }
+    private void Exit() => Application.Current.Shutdown();
 }

@@ -7,19 +7,19 @@
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
+        <ContextMenu x:Key="NotifyIconMenu">
+            <MenuItem Header="Launch on Login" IsCheckable="True" Command="{Binding LaunchOnLoginCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}" />
+            <Separator />
+            <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+        </ContextMenu>
+
         <tb:TaskbarIcon x:Key="NotifyIcon"
                         Visibility="Visible"
                         ToolTipText="{x:Static app:AppParameters.Title}"
                         IconSource="/Icon.ico"
                         MenuActivation="RightClick"
-                        DoubleClickCommand="{Binding ActivateCommand}">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Launch on Login" IsCheckable="True" Command="{Binding LaunchOnLoginCommand}" />
-                    <Separator />
-                    <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
+                        DoubleClickCommand="{Binding ActivateCommand}"
+                        ContextMenu="{StaticResource NotifyIconMenu}">
             <tb:TaskbarIcon.DataContext>
                 <viewModels:NotifyIconViewModel />
             </tb:TaskbarIcon.DataContext>

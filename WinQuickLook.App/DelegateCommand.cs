@@ -32,23 +32,23 @@ public class DelegateCommand : ICommand
 
 public class DelegateCommand<T> : ICommand
 {
-    public DelegateCommand(Action<T?> execute)
+    public DelegateCommand(Action<T> execute)
         : this(execute, _ => true)
     {
     }
 
-    public DelegateCommand(Action<T?> execute, Func<T?, bool> canExecute)
+    public DelegateCommand(Action<T> execute, Func<T, bool> canExecute)
     {
         _execute = execute;
         _canExecute = canExecute;
     }
 
-    private readonly Action<T?> _execute;
-    private readonly Func<T?, bool> _canExecute;
+    private readonly Action<T> _execute;
+    private readonly Func<T, bool> _canExecute;
 
-    public bool CanExecute(object? parameter) => _canExecute((T?)parameter);
+    public bool CanExecute(object? parameter) => _canExecute((T)parameter!);
 
-    public void Execute(object? parameter) => _execute((T?)parameter);
+    public void Execute(object? parameter) => _execute((T)parameter!);
 
     public event EventHandler? CanExecuteChanged
     {
