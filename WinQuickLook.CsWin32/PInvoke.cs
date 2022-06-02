@@ -81,6 +81,14 @@ public static partial class PInvoke
         }
     }
 
+    public static unsafe HRESULT DwmSetWindowAttribute<T>(HWND hwnd, Graphics.Dwm.DWMWINDOWATTRIBUTE dwAttribute, ref T pvAttribute) where T : unmanaged
+    {
+        fixed (T* pvAttributeLocal = &pvAttribute)
+        {
+            return DwmSetWindowAttribute(hwnd, dwAttribute, pvAttributeLocal, (uint)Marshal.SizeOf<T>());
+        }
+    }
+
     [DllImport("Ole32", ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     public static extern HRESULT PropVariantClear(ref PROPVARIANT pvar);
