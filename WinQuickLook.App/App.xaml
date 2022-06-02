@@ -18,7 +18,7 @@
                         ToolTipText="{x:Static app:AppParameters.Title}"
                         IconSource="/Icon.ico"
                         MenuActivation="RightClick"
-                        DoubleClickCommand="{Binding ActivateCommand}"
+                        LeftClickCommand="{Binding ActivateCommand}"
                         ContextMenu="{StaticResource NotifyIconMenu}">
             <tb:TaskbarIcon.DataContext>
                 <viewModels:NotifyIconViewModel />

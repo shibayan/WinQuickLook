@@ -20,6 +20,10 @@ public class NotifyIconViewModel : BindableBase
 
     private void Activate()
     {
+        foreach (Window window in Application.Current.Windows)
+        {
+            window.Activate();
+        }
     }
 
     private void LaunchOnLogin(bool isChecked)

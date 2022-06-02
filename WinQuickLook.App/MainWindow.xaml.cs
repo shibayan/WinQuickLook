@@ -36,6 +36,7 @@ public partial class MainWindow
 
         ApplyRequestSize(handlerResult.RequestSize);
 
+        Title = fileSystemInfo.Name;
         contentPresenter.Content = handlerResult.Viewer;
 
         if (IsVisible)
@@ -57,8 +58,6 @@ public partial class MainWindow
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         ClosePreview();
-
-        Application.Current.Shutdown();
     }
 
     private void ApplyRequestSize(Size requestSize)
