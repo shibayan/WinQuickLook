@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Windows;
 
+using Hardcodet.Wpf.TaskbarNotification;
+
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 using WinQuickLook.Extensions;
@@ -18,6 +20,7 @@ public partial class App
         _keyboardHook = keyboardHook;
         _mouseHook = mouseHook;
 
+        _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon")!;
         _mainWindow = mainWindow;
     }
 
@@ -26,6 +29,7 @@ public partial class App
     private readonly KeyboardHook _keyboardHook;
     private readonly MouseHook _mouseHook;
 
+    private readonly TaskbarIcon _notifyIcon;
     private readonly MainWindow _mainWindow;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -43,6 +47,10 @@ public partial class App
             {
                 Dispatcher.InvokeAsync(PerformPreview);
             }
+            else if (vkCode == VIRTUAL_KEY.VK_ESCAPE)
+            {
+                Dispatcher.InvokeAsync(ClosePreview);
+            }
         };
 
         _keyboardHook.Start();
@@ -56,6 +64,8 @@ public partial class App
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _notifyIcon.Dispose();
+
         _mutex.ReleaseMutex();
         _mutex.Dispose();
     }
@@ -68,5 +78,15 @@ public partial class App
         {
             _mainWindow.OpenPreview(fileSystemInfo);
         }
+    }
+
+    private void ClosePreview()
+    {
+        if (!_mainWindow.IsActive)
+        {
+            return;
+        }
+
+        _mainWindow.ClosePreview();
     }
 }
