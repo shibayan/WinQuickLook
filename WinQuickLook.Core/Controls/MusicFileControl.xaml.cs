@@ -20,6 +20,8 @@ public partial class MusicFileControl
 
         thumbnail.Source = image;
         title.Text = musicProperties?.Title;
+        artist.Text = musicProperties?.Artist;
+        album.Text = musicProperties?.Album;
 
         _mediaPlayer.Open(new Uri(fileInfo.FullName));
         _mediaPlayer.Play();

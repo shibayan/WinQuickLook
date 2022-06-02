@@ -8,10 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <TabControl TabStripPlacement="Bottom">
-        <TabItem Header="Raw">
+        <TabItem Header="Source">
             <avalonedit:TextEditor x:Name="textEditor" FontFamily="Consolas" FontSize="14" IsReadOnly="True" ShowLineNumbers="True" />
         </TabItem>
-        <TabItem Header="Render">
+        <TabItem Header="Rendered">
             <wpf:WebView2 x:Name="webView2" />
         </TabItem>
     </TabControl>
