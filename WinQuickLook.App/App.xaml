@@ -3,21 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:app="clr-namespace:WinQuickLook.App"
+             xmlns:viewModels="clr-namespace:WinQuickLook.App.ViewModels"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
+
+        <ContextMenu x:Key="NotifyIconMenu">
+            <MenuItem Header="Launch on Login" IsCheckable="True" Command="{Binding LaunchOnLoginCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}" />
+            <Separator />
+            <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+        </ContextMenu>
 
         <tb:TaskbarIcon x:Key="NotifyIcon"
                         Visibility="Visible"
                         ToolTipText="{x:Static app:AppParameters.Title}"
                         IconSource="/Icon.ico"
-                        MenuActivation="RightClick">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Launch on Login " />
-                    <Separator />
-                    <MenuItem Header="Exit" Command="{x:Static ApplicationCommands.Close}" />
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
+                        MenuActivation="RightClick"
+                        LeftClickCommand="{Binding ActivateCommand}"
+                        ContextMenu="{StaticResource NotifyIconMenu}">
+            <tb:TaskbarIcon.DataContext>
+                <viewModels:NotifyIconViewModel />
+            </tb:TaskbarIcon.DataContext>
         </tb:TaskbarIcon>
 
     </Application.Resources>

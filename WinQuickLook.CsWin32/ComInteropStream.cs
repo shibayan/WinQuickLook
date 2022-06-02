@@ -2,8 +2,8 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
+using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
-using Windows.Win32.System.Com.StructuredStorage;
 
 namespace Windows.Win32;
 
@@ -18,7 +18,7 @@ public class ComInteropStream : IStream
 
     private readonly Stream _baseStream;
 
-    public unsafe void Read(void* pv, uint cb, uint* pcbRead)
+    public unsafe HRESULT Read(void* pv, uint cb, uint* pcbRead)
     {
         var buffer = new Span<byte>(pv, (int)cb);
 
@@ -28,9 +28,11 @@ public class ComInteropStream : IStream
         {
             Marshal.WriteInt32(new IntPtr(pcbRead), bytesRead);
         }
+
+        return new HRESULT();
     }
 
-    public unsafe void Write(void* pv, uint cb, uint* pcbWritten)
+    public unsafe HRESULT Write(void* pv, uint cb, uint* pcbWritten)
     {
         var buffer = new ReadOnlySpan<byte>(pv, (int)cb);
 
@@ -40,6 +42,8 @@ public class ComInteropStream : IStream
         {
             Marshal.WriteInt32(new IntPtr(pcbWritten), buffer.Length);
         }
+
+        return new HRESULT();
     }
 
     public unsafe void Seek(long dlibMove, STREAM_SEEK dwOrigin, ulong* plibNewPosition = default)

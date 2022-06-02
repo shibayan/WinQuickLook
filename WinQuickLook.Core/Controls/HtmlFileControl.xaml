@@ -12,7 +12,7 @@
             <avalonedit:TextEditor x:Name="textEditor" FontFamily="Consolas" FontSize="14" IsReadOnly="True" ShowLineNumbers="True" />
         </TabItem>
         <TabItem Header="Render">
-            <wpf:WebView2 />
+            <wpf:WebView2 x:Name="webView2" />
         </TabItem>
     </TabControl>
 </UserControl>
