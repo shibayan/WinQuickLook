@@ -18,14 +18,14 @@ public class TextFilePreviewHandler : FilePreviewHandler
 
     protected override bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult)
     {
-        var pnScores = 1;
-
         using var fileStream = fileInfo.OpenReadNoLock();
 
         var multiLanguage = (IMultiLanguage2)Activator.CreateInstance(CLSID.CMultiLanguageType)!;
 
         try
         {
+            var pnScores = 1;
+
             if (multiLanguage.DetectCodepageInIStream(0, 0, new ComInteropStream(fileStream), out _, ref pnScores).Failed)
             {
                 handlerResult = default;

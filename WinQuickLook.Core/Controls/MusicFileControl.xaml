@@ -3,14 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:WinQuickLook.Converters"
              mc:Ignorable="d"
-             Width="600" Height="300">
+             d:DesignWidth="600" d:DesignHeight="400">
+    <UserControl.Resources>
+        <converters:FileSystemInfoToThumbnailConverter x:Key="FileSystemInfoToThumbnailConverter" /></UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
-        <Image x:Name="thumbnail" Width="256" Height="256" Grid.Column="0" />
+        <Image Source="{Binding FileInfo, Converter={StaticResource FileSystemInfoToThumbnailConverter}}" Stretch="UniformToFill" Opacity="0.5" Grid.ColumnSpan="2">
+            <Image.Effect>
+                <BlurEffect Radius="200" />
+            </Image.Effect>
+        </Image>
+        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.FullName}" LoadedBehavior="Manual" />
+        <Image Source="{Binding FileInfo, Converter={StaticResource FileSystemInfoToThumbnailConverter}}" Width="256" Height="256" Grid.Column="0" />
         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock x:Name="title" FontSize="22" TextWrapping="Wrap" TextAlignment="Center" />
             <TextBlock x:Name="artist" FontSize="18" TextWrapping="Wrap" Margin="0,10,0,0" TextAlignment="Center" />

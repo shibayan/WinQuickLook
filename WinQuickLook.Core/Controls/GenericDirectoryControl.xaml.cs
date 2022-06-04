@@ -8,6 +8,8 @@ public partial class GenericDirectoryControl
     public GenericDirectoryControl()
     {
         InitializeComponent();
+
+        DataContext = this;
     }
 
     public DirectoryInfo DirectoryInfo

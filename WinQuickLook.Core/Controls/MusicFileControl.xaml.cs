@@ -1,6 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Windows.Media;
+﻿using System.IO;
+using System.Windows;
 
 namespace WinQuickLook.Controls;
 
@@ -9,21 +8,29 @@ public partial class MusicFileControl
     public MusicFileControl()
     {
         InitializeComponent();
+
+        DataContext = this;
     }
 
-    private readonly MediaPlayer _mediaPlayer = new();
+    public FileInfo FileInfo
+    {
+        get => (FileInfo)GetValue(FileInfoProperty);
+        set => SetValue(FileInfoProperty, value);
+    }
+
+    public static readonly DependencyProperty FileInfoProperty =
+        DependencyProperty.Register(nameof(FileInfo), typeof(FileInfo), typeof(MusicFileControl), new PropertyMetadata(null));
 
     public void Open(FileInfo fileInfo)
     {
-        var musicProperties = new Shell.PropertyStore().GetMusicProperties(fileInfo);
-        var image = new Shell.PreviewImageFactory().GetImage(fileInfo);
+        FileInfo = fileInfo;
 
-        thumbnail.Source = image;
+        var musicProperties = new Shell.PropertyStore().GetMusicProperties(fileInfo);
+
         title.Text = musicProperties?.Title;
         artist.Text = musicProperties?.Artist;
         album.Text = musicProperties?.Album;
 
-        _mediaPlayer.Open(new Uri(fileInfo.FullName));
-        _mediaPlayer.Play();
+        mediaElement.Play();
     }
 }

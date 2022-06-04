@@ -3,10 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WinQuickLook.Controls"
+             xmlns:converters="clr-namespace:WinQuickLook.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:DirectoryInfoToCountConverter x:Key="DirectoryInfoToCountConverter" />
+        <converters:FileSystemInfoToThumbnailConverter x:Key="FileSystemInfoToThumbnailConverter" />
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+        <Image Source="{Binding DirectoryInfo, Converter={StaticResource FileSystemInfoToThumbnailConverter}}" Margin="15" Stretch="Uniform" Grid.Column="0" Width="256" Height="256" />
+        <StackPanel Orientation="Vertical" Margin="15" Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="{Binding DirectoryInfo.Name}" FontSize="22" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding DirectoryInfo.FullName}" FontSize="16" Margin="0,20,0,0" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding DirectoryInfo, Converter={StaticResource DirectoryInfoToCountConverter}}" FontSize="16" Margin="0,15,0,0" />
+            <TextBlock Text="{Binding DirectoryInfo.LastWriteTime}" FontSize="16" Margin="0,15,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
     </Grid>
 </UserControl>
