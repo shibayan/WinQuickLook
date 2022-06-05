@@ -27,15 +27,6 @@ public partial class MainWindow
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
 
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-        base.OnSourceInitialized(e);
-
-        var trueValue = 0x01;
-
-        PInvoke.DwmSetWindowAttribute(new HWND(new WindowInteropHelper(this).Handle), (Windows.Win32.Graphics.Dwm.DWMWINDOWATTRIBUTE)1029, ref trueValue);
-    }
-
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
         if (!_previewHandlers.TryCreateViewer(fileSystemInfo, out var handlerResult))
