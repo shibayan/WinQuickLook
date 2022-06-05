@@ -87,7 +87,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
     {
         var musicFileControl = new MusicFileControl();
 
-        var requestSize = new Size(600, 400);
+        var requestSize = new Size(700, 400);
 
         using (musicFileControl.Initialize())
         {

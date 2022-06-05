@@ -13,7 +13,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Shell;
 
-public class PreviewImageFactory
+public class ThumbnailImageFactory
 {
     public BitmapSource? GetImage(FileSystemInfo fileSystemInfo)
     {

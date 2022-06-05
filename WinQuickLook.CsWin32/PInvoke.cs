@@ -89,6 +89,17 @@ public static partial class PInvoke
         }
     }
 
+    public static unsafe nuint SHGetFileInfo(string pszPath, Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES dwFileAttributes, ref SHFILEINFOW psfi, SHGFI_FLAGS uFlags)
+    {
+        fixed (char* pszPathLocal = pszPath)
+        {
+            fixed (SHFILEINFOW* psfiLocal = &psfi)
+            {
+                return SHGetFileInfo(pszPathLocal, dwFileAttributes, psfiLocal, (uint)Marshal.SizeOf<SHFILEINFOW>(), uFlags);
+            }
+        }
+    }
+
     [DllImport("Ole32", ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     public static extern HRESULT PropVariantClear(ref PROPVARIANT pvar);

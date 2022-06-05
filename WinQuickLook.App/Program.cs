@@ -49,7 +49,7 @@ public class Program
         });
 
         services.AddSingleton<AssociationResolver>();
-        services.AddSingleton<PreviewImageFactory>();
+        services.AddSingleton<ThumbnailImageFactory>();
         services.AddSingleton<PropertyStore>();
         services.AddSingleton<ShellExplorer>();
 

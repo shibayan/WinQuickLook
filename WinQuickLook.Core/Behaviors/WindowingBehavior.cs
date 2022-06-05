@@ -15,12 +15,12 @@ public class WindowingBehavior
 
     public static void SetPreventClosing(DependencyObject obj, bool value) => obj.SetValue(PreventClosingProperty, value);
 
-    public static readonly DependencyProperty PreventClosingProperty =
-        DependencyProperty.RegisterAttached("PreventClosing", typeof(bool), typeof(Window), new PropertyMetadata(false, PreventClosing_PropertyChangedCallback));
-
     public static bool GetSystemBackdrop(DependencyObject obj) => (bool)obj.GetValue(SystemBackdropProperty);
 
     public static void SetSystemBackdrop(DependencyObject obj, bool value) => obj.SetValue(SystemBackdropProperty, value);
+
+    public static readonly DependencyProperty PreventClosingProperty =
+        DependencyProperty.RegisterAttached("PreventClosing", typeof(bool), typeof(Window), new PropertyMetadata(false, PreventClosing_PropertyChangedCallback));
 
     public static readonly DependencyProperty SystemBackdropProperty =
         DependencyProperty.RegisterAttached("SystemBackdrop", typeof(bool), typeof(Window), new PropertyMetadata(false, SystemBackdrop_PropertyChangedCallback));
