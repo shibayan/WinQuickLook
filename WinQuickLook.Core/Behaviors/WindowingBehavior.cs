@@ -16,37 +16,66 @@ public class WindowingBehavior
     public static void SetPreventClosing(DependencyObject obj, bool value) => obj.SetValue(PreventClosingProperty, value);
 
     public static readonly DependencyProperty PreventClosingProperty =
-        DependencyProperty.RegisterAttached("PreventClosing", typeof(bool), typeof(Window), new PropertyMetadata(false, PropertyChangedCallback));
+        DependencyProperty.RegisterAttached("PreventClosing", typeof(bool), typeof(Window), new PropertyMetadata(false, PreventClosing_PropertyChangedCallback));
 
-    private static void PropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static bool GetSystemBackdrop(DependencyObject obj) => (bool)obj.GetValue(SystemBackdropProperty);
+
+    public static void SetSystemBackdrop(DependencyObject obj, bool value) => obj.SetValue(SystemBackdropProperty, value);
+
+    public static readonly DependencyProperty SystemBackdropProperty =
+        DependencyProperty.RegisterAttached("SystemBackdrop", typeof(bool), typeof(Window), new PropertyMetadata(false, SystemBackdrop_PropertyChangedCallback));
+
+    private static void SystemBackdrop_PropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         var window = (Window)obj;
 
         if ((bool)e.NewValue)
         {
-            window.SourceInitialized += Window_SourceInitialized;
-            window.Loaded += Window_Loaded;
+            window.SourceInitialized += SourceInitialized;
         }
         else
         {
-            window.SourceInitialized -= Window_SourceInitialized;
-            window.Loaded -= Window_Loaded;
+            window.SourceInitialized -= SourceInitialized;
+        }
+
+        static void SourceInitialized(object? sender, EventArgs e)
+        {
+            var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
+            var trueValue = 0x01;
+
+            PInvoke.DwmSetWindowAttribute(hwnd, (Windows.Win32.Graphics.Dwm.DWMWINDOWATTRIBUTE)1029, ref trueValue);
         }
     }
 
-    private static void Window_SourceInitialized(object? sender, EventArgs e)
+    private static void PreventClosing_PropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
+        var window = (Window)obj;
 
-        var style = PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-        PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style & ~(int)(WINDOW_STYLE.WS_SYSMENU | WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX));
-    }
+        if ((bool)e.NewValue)
+        {
+            window.SourceInitialized += SourceInitialized;
+            window.Loaded += Loaded;
+        }
+        else
+        {
+            window.SourceInitialized -= SourceInitialized;
+            window.Loaded -= Loaded;
+        }
 
-    private static void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper((Window)sender).Handle);
+        static void SourceInitialized(object? sender, EventArgs e)
+        {
+            var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
 
-        hwndSource?.AddHook(WndProc);
+            var style = PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+            PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style & ~(int)(WINDOW_STYLE.WS_SYSMENU | WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX));
+        }
+
+        static void Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper((Window)sender).Handle);
+
+            hwndSource?.AddHook(WndProc);
+        }
     }
 
     private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
