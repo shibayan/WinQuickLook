@@ -28,8 +28,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=window, Path=Title}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Margin="10,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button  WindowChrome.IsHitTestVisibleInChrome="True" Content="Hide" Click="CloseButton_Click"/>
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="CloseButton_Click" BorderThickness="0" Background="Transparent" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
+                <TextBlock Text="&#xE711;" FontSize="14" FontFamily="Segoe MDL2 Assets"/>
+            </Button>
         </StackPanel>
         <ContentPresenter x:Name="contentPresenter" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" />
     </Grid>
