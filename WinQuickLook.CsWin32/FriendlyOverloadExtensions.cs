@@ -13,7 +13,7 @@ public static partial class FriendlyOverloadExtensions
     public static unsafe HRESULT QueryService<T>(this IServiceProvider serviceProvider, in Guid guidService, out T ppvObject)
     {
         var hr = serviceProvider.QueryService(guidService, typeof(T).GUID, out var o);
-        ppvObject = (T)Marshal.GetUniqueObjectForIUnknown(new IntPtr(o));
+        ppvObject = (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T));
         return hr;
     }
 
