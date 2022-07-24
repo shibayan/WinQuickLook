@@ -11,7 +11,7 @@ namespace WinQuickLook.Shell;
 
 public class PropertyStore
 {
-    public MusicProperties? GetMusicProperties(FileInfo fileInfo)
+    public AudioProperties? GetAudioProperties(FileInfo fileInfo)
     {
         if (PInvoke.SHGetPropertyStoreFromParsingName(fileInfo.FullName, null, GETPROPERTYSTOREFLAGS.GPS_DEFAULT, out IPropertyStore propertyStore).Failed)
         {
@@ -20,7 +20,7 @@ public class PropertyStore
 
         try
         {
-            return new MusicProperties
+            return new AudioProperties
             {
                 Title = propertyStore.GetString(PInvoke.PKEY_Title),
                 Artist = propertyStore.GetStringArray(PInvoke.PKEY_Music_Artist).FirstOrDefault(),
@@ -34,7 +34,7 @@ public class PropertyStore
 
     }
 
-    public class MusicProperties
+    public class AudioProperties
     {
         public string? Title { get; init; }
         public string? Artist { get; init; }

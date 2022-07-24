@@ -30,7 +30,7 @@ public static partial class PInvoke
     public static unsafe HRESULT SHGetPropertyStoreFromParsingName<T>(string pszPath, System.Com.IBindCtx pbc, GETPROPERTYSTOREFLAGS flags, out T ppv)
     {
         var hr = SHGetPropertyStoreFromParsingName(pszPath, pbc, flags, typeof(T).GUID, out var o);
-        ppv = (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T));
+        ppv = o is not null ? (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T)) : default;
         return hr;
     }
 
@@ -105,10 +105,7 @@ public static partial class PInvoke
     public static extern HRESULT PropVariantClear(ref PROPVARIANT pvar);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, out uint punWidth, out uint punHeight)
-    {
-        return MFGetAttribute2UINT32asUINT64(pAttributes, MF_MT_FRAME_SIZE, out punWidth, out punHeight);
-    }
+    public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, in Guid guidKey, out uint punWidth, out uint punHeight) => MFGetAttribute2UINT32asUINT64(pAttributes, guidKey, out punWidth, out punHeight);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static HRESULT MFGetAttribute2UINT32asUINT64(IMFAttributes pAttributes, in Guid guidKey, out uint punHigh32, out uint punLow32)

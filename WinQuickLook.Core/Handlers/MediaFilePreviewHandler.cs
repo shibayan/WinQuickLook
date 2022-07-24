@@ -42,7 +42,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             {
                 try
                 {
-                    return TryCreateMusicViewer(fileInfo, out handlerResult);
+                    return TryCreateAudioViewer(fileInfo, audioMediaType, out handlerResult);
                 }
                 finally
                 {
@@ -83,9 +83,16 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         return true;
     }
 
-    private static bool TryCreateMusicViewer(FileInfo fileInfo, [NotNullWhen(true)] out HandlerResult? handlerResult)
+    private static bool TryCreateAudioViewer(FileInfo fileInfo, IMFAttributes audioMediaType, [NotNullWhen(true)] out HandlerResult? handlerResult)
     {
-        var musicFileControl = new MusicFileControl();
+        if (!TryGetAudioChannels(audioMediaType, out _))
+        {
+            handlerResult = null;
+
+            return false;
+        }
+
+        var musicFileControl = new AudioFileControl();
 
         var requestSize = new Size(700, 400);
 
@@ -101,7 +108,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
 
     private static bool TryGetVideoSize(IMFAttributes videoMediaType, out Size size)
     {
-        if (PInvoke.MFGetAttributeSize(videoMediaType, out var width, out var height).Failed)
+        if (PInvoke.MFGetAttributeSize(videoMediaType, PInvoke.MF_MT_FRAME_SIZE, out var width, out var height).Failed)
         {
             size = default;
 
@@ -109,6 +116,16 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         }
 
         size = new Size(width, height);
+
+        return true;
+    }
+
+    private static bool TryGetAudioChannels(IMFAttributes audioMediaType, out uint channels)
+    {
+        if (audioMediaType.GetUINT32(PInvoke.MF_MT_AUDIO_NUM_CHANNELS, out channels).Failed || channels == 0)
+        {
+            return false;
+        }
 
         return true;
     }

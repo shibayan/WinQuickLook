@@ -27,17 +27,25 @@
             <RowDefinition Height="{Binding Source={x:Static app:AppParameters.CaptionHeight}}" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Button WindowChrome.IsHitTestVisibleInChrome="True" Click="CloseButton_Click" BorderThickness="0" Background="Transparent" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
+        <StackPanel x:Name="associateButtons" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" BorderThickness="0" Background="Transparent" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
                 <TextBlock Text="&#xE78B;" FontSize="14" FontFamily="Segoe MDL2 Assets"/>
                 <Button.ContextMenu>
-                    <ContextMenu Placement="Bottom">
-                        <MenuItem Header="Test" />
+                    <ContextMenu Placement="Bottom" ItemsSource="{Binding Path=Recommends}">
+                        <ContextMenu.Resources>
+                            <Image x:Key="MenuIcon" x:Shared="false" Source="{Binding Path=Icon}" />
+                        </ContextMenu.Resources>
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Path=Name}" />
+                                <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
-            <Button WindowChrome.IsHitTestVisibleInChrome="True" BorderThickness="0" Background="Transparent" Padding="15,0" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
-                <TextBlock Text="Open with Notepad" />
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" BorderThickness="0" Background="Transparent" Padding="15,0" Height="{x:Static app:AppParameters.CaptionButtonHeight}" Command="{Binding Path=OpenWithDefaultCommand}">
+                <TextBlock Text="{Binding Path=DefaultName, StringFormat='Open with {0}'}" />
             </Button>
         </StackPanel>
         <TextBlock Grid.Column="1" Grid.Row="0" Margin="20,0" Text="{Binding ElementName=window, Path=Title}" FontSize="14" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />

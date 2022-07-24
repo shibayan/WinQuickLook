@@ -11,21 +11,27 @@ using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.HiDpi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
+using WinQuickLook.App.ViewModels;
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
+using WinQuickLook.Shell;
 
 namespace WinQuickLook.App;
 
 public partial class MainWindow
 {
-    public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers)
+    public MainWindow(MainWindowViewModel viewModel, IEnumerable<IFileSystemPreviewHandler> previewHandlers, AssociationResolver associationResolver)
     {
         InitializeComponent();
 
+        DataContext = viewModel;
+
         _previewHandlers = previewHandlers;
+        _associationResolver = associationResolver;
     }
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
+    private readonly AssociationResolver _associationResolver;
 
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
@@ -38,6 +44,23 @@ public partial class MainWindow
 
         Title = fileSystemInfo.Name;
         contentPresenter.Content = handlerResult.Viewer;
+
+        if (fileSystemInfo is FileInfo fileInfo)
+        {
+            if (_associationResolver.TryGetDefault(fileInfo, out var entry))
+            {
+                ((MainWindowViewModel)DataContext).DefaultName = entry.Name;
+            }
+
+            var recommends = _associationResolver.GetRecommends(fileInfo);
+
+            ((MainWindowViewModel)DataContext).Recommends = recommends;
+        }
+        else
+        {
+            ((MainWindowViewModel)DataContext).DefaultName = "";
+            ((MainWindowViewModel)DataContext).Recommends = Array.Empty<AssociationResolver.Entry>();
+        }
 
         if (IsVisible)
         {
