@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 using WinQuickLook.Handlers;
@@ -14,6 +16,7 @@ public class MainWindowViewModel : BindableBase
         _previewHandlers = previewHandlers;
         _associationResolver = associationResolver;
 
+        CloseCommand = new DelegateCommand(Close);
         OpenWithDefaultCommand = new DelegateCommand(OpenWithDefault);
         OpenWithProgramCommand = new DelegateCommand(OpenWithProgram);
     }
@@ -21,8 +24,25 @@ public class MainWindowViewModel : BindableBase
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
     private readonly AssociationResolver _associationResolver;
 
+    public ICommand CloseCommand { get; }
     public ICommand OpenWithDefaultCommand { get; }
     public ICommand OpenWithProgramCommand { get; }
+
+    private FrameworkElement? _viewer;
+
+    public FrameworkElement? Viewer
+    {
+        get => _viewer;
+        set => SetProperty(ref _viewer, value);
+    }
+
+    private FileSystemInfo? _openFileSystem;
+
+    public FileSystemInfo? OpenFileSystem
+    {
+        get => _openFileSystem;
+        set => SetProperty(ref _openFileSystem, value);
+    }
 
     private string _defaultName = "";
 
@@ -38,6 +58,11 @@ public class MainWindowViewModel : BindableBase
     {
         get => _recommends;
         set => SetProperty(ref _recommends, value);
+    }
+
+    private void Close()
+    {
+        Viewer = null;
     }
 
     private void OpenWithDefault()
