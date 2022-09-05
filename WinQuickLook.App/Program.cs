@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Windows.Win32;
 
+using WinQuickLook.App.ViewModels;
 using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
 using WinQuickLook.Shell;
@@ -49,13 +50,14 @@ public class Program
         });
 
         services.AddSingleton<AssociationResolver>();
-        services.AddSingleton<PreviewImageFactory>();
+        services.AddSingleton<ThumbnailImageFactory>();
         services.AddSingleton<PropertyStore>();
         services.AddSingleton<ShellExplorer>();
 
         services.AddSingleton<KeyboardHook>();
         services.AddSingleton<MouseHook>();
 
+        services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();
 
         services.AddSingleton<App>();

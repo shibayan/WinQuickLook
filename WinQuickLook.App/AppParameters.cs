@@ -7,4 +7,8 @@ public static class AppParameters
     public const string StartupTask = "WinQuickLookTask";
 
     public const double CaptionHeight = 37;
+
+    public const double CaptionButtonWidth = 45;
+
+    public const double CaptionButtonHeight = CaptionHeight;
 }

@@ -8,6 +8,8 @@ public partial class GenericFileControl
     public GenericFileControl()
     {
         InitializeComponent();
+
+        DataContext = this;
     }
 
     public FileInfo FileInfo

@@ -30,7 +30,7 @@ public static partial class PInvoke
     public static unsafe HRESULT SHGetPropertyStoreFromParsingName<T>(string pszPath, System.Com.IBindCtx pbc, GETPROPERTYSTOREFLAGS flags, out T ppv)
     {
         var hr = SHGetPropertyStoreFromParsingName(pszPath, pbc, flags, typeof(T).GUID, out var o);
-        ppv = (T)Marshal.GetUniqueObjectForIUnknown(new IntPtr(o));
+        ppv = o is not null ? (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T)) : default;
         return hr;
     }
 
@@ -89,15 +89,23 @@ public static partial class PInvoke
         }
     }
 
+    public static unsafe nuint SHGetFileInfo(string pszPath, Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES dwFileAttributes, ref SHFILEINFOW psfi, SHGFI_FLAGS uFlags)
+    {
+        fixed (char* pszPathLocal = pszPath)
+        {
+            fixed (SHFILEINFOW* psfiLocal = &psfi)
+            {
+                return SHGetFileInfo(pszPathLocal, dwFileAttributes, psfiLocal, (uint)Marshal.SizeOf<SHFILEINFOW>(), uFlags);
+            }
+        }
+    }
+
     [DllImport("Ole32", ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     public static extern HRESULT PropVariantClear(ref PROPVARIANT pvar);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, out uint punWidth, out uint punHeight)
-    {
-        return MFGetAttribute2UINT32asUINT64(pAttributes, MF_MT_FRAME_SIZE, out punWidth, out punHeight);
-    }
+    public static HRESULT MFGetAttributeSize(IMFAttributes pAttributes, in Guid guidKey, out uint punWidth, out uint punHeight) => MFGetAttribute2UINT32asUINT64(pAttributes, guidKey, out punWidth, out punHeight);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static HRESULT MFGetAttribute2UINT32asUINT64(IMFAttributes pAttributes, in Guid guidKey, out uint punHigh32, out uint punLow32)

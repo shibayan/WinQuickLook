@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <MediaElement x:Name="mediaElement" ScrubbingEnabled="True" LoadedBehavior="Manual" />
+        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.FullName}" ScrubbingEnabled="True" LoadedBehavior="Manual" />
     </Grid>
 </UserControl>

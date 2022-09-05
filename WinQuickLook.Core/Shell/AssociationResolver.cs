@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -20,6 +21,28 @@ public class AssociationResolver
     {
         public string Name { get; init; } = null!;
         public ImageSource? Icon { get; init; }
+    }
+
+    public bool TryGetDefault(FileInfo fileInfo, [NotNullWhen(true)] out Entry? entry)
+    {
+        var pcchOut = 0u;
+
+        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, null, ref pcchOut);
+
+        if (pcchOut == 0)
+        {
+            entry = default;
+
+            return false;
+        }
+
+        Span<char> pszOut = stackalloc char[(int)pcchOut];
+
+        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, pszOut, ref pcchOut);
+
+        entry = new Entry { Name = new string(pszOut) };
+
+        return true;
     }
 
     public IReadOnlyList<Entry> GetRecommends(FileInfo fileInfo)
@@ -72,6 +95,8 @@ public class AssociationResolver
         }
 
         Marshal.ReleaseComObject(enumAssocHandlers);
+
+        recommends.Sort((x, y) => Comparer<string>.Default.Compare(x.Name, y.Name));
 
         return recommends;
     }

@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Styles.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="$(ApplicationIcon)" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
