@@ -88,7 +88,7 @@ public class ShellExplorer
         // ReSharper disable once SuspiciousTypeConversion.Global
         var shellFolder = (IShellFolder)persistFolder2;
 
-        shellFolder.GetDisplayNameOf(ppidl, (uint)_SHGDNF.SHGDN_FORPARSING, out var pName);
+        shellFolder.GetDisplayNameOf(ppidl, SHGDNF.SHGDN_FORPARSING, out var pName);
 
         Span<char> pszBuf = new char[PInvoke.MAX_PATH];
 

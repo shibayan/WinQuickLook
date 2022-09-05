@@ -8,85 +8,6 @@
              d:DesignWidth="700" d:DesignHeight="400">
     <UserControl.Resources>
         <converters:FileSystemInfoToThumbnailConverter x:Key="FileSystemInfoToThumbnailConverter" />
-
-        <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="SliderThumb.Static.Background" Color="#FFF0F0F0"/>
-        <SolidColorBrush x:Key="SliderThumb.Static.Border" Color="#FFACACAC"/>
-        <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5"/>
-        <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC"/>
-        <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="#FF7Eb4EA"/>
-        <SolidColorBrush x:Key="SliderThumb.Pressed.Background" Color="#FFDAECFC"/>
-        <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="#FF569DE5"/>
-        <SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="#FFF0F0F0"/>
-        <SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="#FFD9D9D9"/>
-        <SolidColorBrush x:Key="SliderThumb.Track.Background" Color="#FFE7EAEA"/>
-        <SolidColorBrush x:Key="SliderThumb.Track.Border" Color="#FFD6D6D6"/>
-        <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
-            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
-                <Ellipse x:Name="grip" HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center" Width="10" Height="10" Fill="DarkRed" />
-            </Grid>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
-                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
-                </Trigger>
-                <Trigger Property="IsDragging" Value="true">
-                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
-                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
-                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <Style x:Key="SliderStyle1" TargetType="{x:Type Slider}">
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource SliderThumb.Static.Foreground}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Slider}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
-                                </Grid.RowDefinitions>
-                                <Track x:Name="PART_Track" Grid.Row="0">
-                                    <Track.DecreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Background="Red"/>
-                                    </Track.DecreaseRepeatButton>
-                                    <Track.IncreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Background="Gray"/>
-                                    </Track.IncreaseRepeatButton>
-                                    <Track.Thumb>
-                                        <Thumb x:Name="Thumb" Focusable="False" Height="18" OverridesDefaultStyle="True" Template="{StaticResource SliderThumbHorizontalDefault}" VerticalAlignment="Center" Width="11"/>
-                                    </Track.Thumb>
-                                </Track>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <Setter Property="Foreground" TargetName="Thumb" Value="Blue"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -109,7 +30,6 @@
             <TextBlock x:Name="title" FontSize="24" TextWrapping="Wrap" TextAlignment="Center" />
             <TextBlock x:Name="artist" FontSize="16" TextWrapping="Wrap" Margin="0,15,0,0" TextAlignment="Center" />
             <TextBlock x:Name="album" FontSize="16" TextWrapping="Wrap" Margin="0,5,0,0" TextAlignment="Center" />
-            <Slider Style="{DynamicResource SliderStyle1}" Margin="25,30,25,0" Value="0" Minimum="0" TickPlacement="None" SmallChange="1" LargeChange="1" IsMoveToPointEnabled="True" />
         </StackPanel>
         <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.FullName}" LoadedBehavior="Manual" Grid.Column="0" />
     </Grid>

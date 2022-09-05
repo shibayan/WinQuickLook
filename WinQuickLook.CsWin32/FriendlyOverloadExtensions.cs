@@ -32,7 +32,7 @@ public static partial class FriendlyOverloadExtensions
         }
     }
 
-    public static unsafe void GetDisplayNameOf(this IShellFolder folderView, in IntPtr pidl, uint uFlags, out UI.Shell.Common.STRRET pName)
+    public static unsafe void GetDisplayNameOf(this IShellFolder folderView, in IntPtr pidl, SHGDNF uFlags, out UI.Shell.Common.STRRET pName)
     {
         fixed (UI.Shell.Common.STRRET* pNameLocal = &pName)
         {

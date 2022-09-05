@@ -88,7 +88,6 @@ PKEY_Music_AlbumTitle
 
 SID_STopLevelBrowser
 
-_SHGDNF
 MAX_PATH
 
 ShellWindowTypeConstants
