@@ -46,17 +46,9 @@ public class ComInteropStream : IStream
         return new HRESULT();
     }
 
-    public unsafe void Seek(long dlibMove, STREAM_SEEK dwOrigin, ulong* plibNewPosition = default)
+    public unsafe void Seek(long dlibMove, SeekOrigin dwOrigin, [Optional] ulong* plibNewPosition)
     {
-        var seekOrigin = dwOrigin switch
-        {
-            STREAM_SEEK.STREAM_SEEK_SET => SeekOrigin.Begin,
-            STREAM_SEEK.STREAM_SEEK_CUR => SeekOrigin.Current,
-            STREAM_SEEK.STREAM_SEEK_END => SeekOrigin.End,
-            _ => throw new ArgumentOutOfRangeException(nameof(dwOrigin))
-        };
-
-        var newPosition = _baseStream.Seek(dlibMove, seekOrigin);
+        var newPosition = _baseStream.Seek(dlibMove, dwOrigin);
 
         if (plibNewPosition is not null)
         {
@@ -72,11 +64,11 @@ public class ComInteropStream : IStream
 
     public void Revert() => throw new NotSupportedException();
 
-    public void LockRegion(ulong libOffset, ulong cb, uint dwLockType) => throw new NotSupportedException();
+    public void LockRegion(ulong libOffset, ulong cb, LOCKTYPE dwLockType) => throw new NotSupportedException();
 
     public void UnlockRegion(ulong libOffset, ulong cb, uint dwLockType) => throw new NotSupportedException();
 
-    public unsafe void Stat(STATSTG* pstatstg, uint grfStatFlag)
+    public unsafe void Stat(STATSTG* pstatstg, STATFLAG grfStatFlag)
     {
         var statStg = new STATSTG
         {
