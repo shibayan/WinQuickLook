@@ -8,7 +8,7 @@ using Windows.Win32;
 using WinQuickLook.App.ViewModels;
 using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
-using WinQuickLook.Shell;
+using WinQuickLook.Windows;
 
 namespace WinQuickLook.App;
 
@@ -51,11 +51,11 @@ public class Program
 
         services.AddSingleton<AssociationResolver>();
         services.AddSingleton<ThumbnailImageFactory>();
-        services.AddSingleton<PropertyStore>();
+        services.AddSingleton<ShellPropertyStore>();
         services.AddSingleton<ShellExplorer>();
 
-        services.AddSingleton<KeyboardHook>();
-        services.AddSingleton<MouseHook>();
+        services.AddSingleton<LowLevelKeyboardHook>();
+        services.AddSingleton<LowLevelMouseHook>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();

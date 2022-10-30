@@ -7,13 +7,13 @@ using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Messaging;
-using WinQuickLook.Shell;
+using WinQuickLook.Windows;
 
 namespace WinQuickLook.App;
 
 public partial class App
 {
-    public App(MainWindow mainWindow, KeyboardHook keyboardHook, MouseHook mouseHook)
+    public App(MainWindow mainWindow, LowLevelKeyboardHook keyboardHook, LowLevelMouseHook mouseHook)
     {
         InitializeComponent();
 
@@ -26,8 +26,8 @@ public partial class App
 
     private readonly Mutex _mutex = new(false, AppParameters.Title);
 
-    private readonly KeyboardHook _keyboardHook;
-    private readonly MouseHook _mouseHook;
+    private readonly LowLevelKeyboardHook _keyboardHook;
+    private readonly LowLevelMouseHook _mouseHook;
 
     private readonly TaskbarIcon _notifyIcon;
     private readonly MainWindow _mainWindow;

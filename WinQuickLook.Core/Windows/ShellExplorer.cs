@@ -9,7 +9,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 using IServiceProvider = Windows.Win32.System.Com.IServiceProvider;
 
-namespace WinQuickLook.Shell;
+namespace WinQuickLook.Windows;
 
 public class ShellExplorer
 {

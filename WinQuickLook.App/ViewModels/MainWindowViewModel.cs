@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 
 using WinQuickLook.Handlers;
-using WinQuickLook.Shell;
+using WinQuickLook.Windows;
 
 namespace WinQuickLook.App.ViewModels;
 

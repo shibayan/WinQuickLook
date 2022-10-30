@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
 
+using WinQuickLook.Windows;
+
 namespace WinQuickLook.Controls;
 
 public partial class AudioFileControl
@@ -25,7 +27,7 @@ public partial class AudioFileControl
     {
         FileInfo = fileInfo;
 
-        var audioProperties = new Shell.PropertyStore().GetAudioProperties(fileInfo);
+        var audioProperties = new ShellPropertyStore().GetAudioProperties(fileInfo);
 
         title.Text = audioProperties?.Title;
         artist.Text = audioProperties?.Artist;
