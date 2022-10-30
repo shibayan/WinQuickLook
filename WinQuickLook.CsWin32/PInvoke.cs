@@ -27,10 +27,10 @@ public static partial class PInvoke
         return hr;
     }
 
-    public static unsafe HRESULT SHGetPropertyStoreFromParsingName<T>(string pszPath, System.Com.IBindCtx pbc, GETPROPERTYSTOREFLAGS flags, out T ppv)
+    public static HRESULT SHGetPropertyStoreFromParsingName<T>(string pszPath, System.Com.IBindCtx pbc, GETPROPERTYSTOREFLAGS flags, out T ppv)
     {
         var hr = SHGetPropertyStoreFromParsingName(pszPath, pbc, flags, typeof(T).GUID, out var o);
-        ppv = o is not null ? (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T)) : default;
+        ppv = (T)o;
         return hr;
     }
 
