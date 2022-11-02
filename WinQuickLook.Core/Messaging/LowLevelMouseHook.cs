@@ -4,9 +4,9 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Messaging;
 
-public class MouseHook : WindowsHook
+public class LowLevelMouseHook : WindowsHook
 {
-    public MouseHook()
+    public LowLevelMouseHook()
         : base(WINDOWS_HOOK_ID.WH_MOUSE_LL)
     {
     }

@@ -8,9 +8,9 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Messaging;
 
-public class KeyboardHook : WindowsHook
+public class LowLevelKeyboardHook : WindowsHook
 {
-    public KeyboardHook()
+    public LowLevelKeyboardHook()
         : base(WINDOWS_HOOK_ID.WH_KEYBOARD_LL)
     {
     }

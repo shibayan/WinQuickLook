@@ -13,7 +13,7 @@ using Windows.Win32.UI.Shell;
 
 using WinQuickLook.Extensions;
 
-namespace WinQuickLook.Shell;
+namespace WinQuickLook.Windows;
 
 public class AssociationResolver
 {

@@ -7,9 +7,9 @@ using Windows.Win32.UI.Shell.PropertiesSystem;
 
 using WinQuickLook.Extensions;
 
-namespace WinQuickLook.Shell;
+namespace WinQuickLook.Windows;
 
-public class PropertyStore
+public class ShellPropertyStore
 {
     public AudioProperties? GetAudioProperties(FileInfo fileInfo)
     {

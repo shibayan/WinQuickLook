@@ -4,6 +4,7 @@ using System.Windows.Interop;
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -43,7 +44,7 @@ public class WindowingBehavior
             var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
             var trueValue = 0x01;
 
-            PInvoke.DwmSetWindowAttribute(hwnd, (Windows.Win32.Graphics.Dwm.DWMWINDOWATTRIBUTE)1029, ref trueValue);
+            PInvoke.DwmSetWindowAttribute(hwnd, (DWMWINDOWATTRIBUTE)1029, ref trueValue);
         }
     }
 
