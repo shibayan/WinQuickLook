@@ -22,12 +22,8 @@ public class ShellExplorer
             return null;
         }
 
-        var shellWindows = (IShellWindows?)Activator.CreateInstance(CLSID.ShellWindowsType);
-
-        if (shellWindows is null)
-        {
-            return null;
-        }
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        var shellWindows = (IShellWindows)new ShellWindows();
 
         var fileSystemInfo = default(FileSystemInfo);
 
