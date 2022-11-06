@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 
@@ -20,7 +19,8 @@ public class TextFilePreviewHandler : FilePreviewHandler
     {
         using var fileStream = fileInfo.OpenReadNoLock();
 
-        var multiLanguage = (IMultiLanguage2)Activator.CreateInstance(CLSID.CMultiLanguageType)!;
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        var multiLanguage = (IMultiLanguage2)new CMultiLanguage();
 
         try
         {

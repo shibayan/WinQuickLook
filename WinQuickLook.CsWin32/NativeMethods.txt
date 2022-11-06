@@ -16,6 +16,10 @@ IAssocHandlerInvoker
 IEnumAssocHandlers
 IMultiLanguage2
 
+// COM CoClass
+ShellWindows
+CMultiLanguage
+
 // Win32 API
 
 // kernel32
