@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-*" />
   </ItemGroup>
 
   <ItemGroup>
