@@ -27,7 +27,7 @@ public class AssociationResolver
     {
         var pcchOut = 0u;
 
-        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, null, ref pcchOut);
+        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, (Span<char>)null, ref pcchOut);
 
         if (pcchOut == 0)
         {
