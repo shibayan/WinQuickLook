@@ -34,12 +34,12 @@ public static partial class PInvoke
         return hr;
     }
 
-    /// <inheritdoc cref="AssocQueryString(uint, ASSOCSTR, PCWSTR, PCWSTR, PWSTR, uint*)"/>
+    /// <inheritdoc cref="AssocQueryString(ASSOCF, ASSOCSTR, PCWSTR, PCWSTR, PWSTR, uint*)"/>
     public static unsafe HRESULT AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra, Span<char> pszOut, ref uint pcchOut)
     {
         fixed (char* pszOutLocal = pszOut)
         {
-            return AssocQueryString((uint)flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
+            return AssocQueryString(flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
         }
     }
 
