@@ -48,22 +48,6 @@ public static partial class FriendlyOverloadExtensions
         }
     }
 
-    public static unsafe HRESULT get_Count(this IShellWindows shellWindows, out int count)
-    {
-        fixed (int* countLocal = &count)
-        {
-            return shellWindows.get_Count(countLocal);
-        }
-    }
-
-    public static unsafe HRESULT get_HWND(this IWebBrowserApp webBrowserApp, out HWND hWnd)
-    {
-        fixed (HWND* hWndLocal = &hWnd)
-        {
-            return webBrowserApp.get_HWND((SHANDLE_PTR*)hWndLocal);
-        }
-    }
-
     public static HRESULT Item<T>(this IShellWindows shellWindows, object index, out T folder)
     {
         var hr = shellWindows.Item(index, out var o);

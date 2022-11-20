@@ -2,6 +2,8 @@
 IShellItem
 IShellItemImageFactory
 IServiceProvider
+IWebBrowserApp
+IShellWindows
 IShellBrowser
 IShellView
 IFolderView

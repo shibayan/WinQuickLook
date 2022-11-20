@@ -42,13 +42,11 @@ public class ShellExplorer
         }
         else
         {
-            shellWindows.get_Count(out var count);
-
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < shellWindows.Count; i++)
             {
                 shellWindows.Item(i, out IWebBrowserApp webBrowserApp);
 
-                webBrowserApp.get_HWND(out var hwnd);
+                var hwnd = (HWND)webBrowserApp.HWND.Value;
 
                 if (hwnd == foregroundHwnd && !IsCaretActive(hwnd))
                 {
