@@ -46,7 +46,7 @@ public class ComInteropStream : IStream
         return new HRESULT();
     }
 
-    public unsafe void Seek(long dlibMove, SeekOrigin dwOrigin, [Optional] ulong* plibNewPosition)
+    public unsafe HRESULT Seek(long dlibMove, SeekOrigin dwOrigin, [Optional] ulong* plibNewPosition)
     {
         var newPosition = _baseStream.Seek(dlibMove, dwOrigin);
 
@@ -54,21 +54,28 @@ public class ComInteropStream : IStream
         {
             Marshal.WriteInt64(new IntPtr(plibNewPosition), newPosition);
         }
+
+        return new HRESULT();
     }
 
-    public void SetSize(ulong libNewSize) => _baseStream.SetLength((long)libNewSize);
+    public HRESULT SetSize(ulong libNewSize)
+    {
+        _baseStream.SetLength((long)libNewSize);
 
-    public unsafe void CopyTo(IStream pstm, ulong cb, ulong* pcbRead = default, ulong* pcbWritten = default) => throw new NotSupportedException();
+        return new HRESULT();
+    }
 
-    public void Commit(STGC grfCommitFlags) => throw new NotSupportedException();
+    public unsafe HRESULT CopyTo(IStream pstm, ulong cb, ulong* pcbRead = default, ulong* pcbWritten = default) => throw new NotSupportedException();
 
-    public void Revert() => throw new NotSupportedException();
+    public HRESULT Commit(STGC grfCommitFlags) => throw new NotSupportedException();
 
-    public void LockRegion(ulong libOffset, ulong cb, LOCKTYPE dwLockType) => throw new NotSupportedException();
+    public HRESULT Revert() => throw new NotSupportedException();
 
-    public void UnlockRegion(ulong libOffset, ulong cb, uint dwLockType) => throw new NotSupportedException();
+    public HRESULT LockRegion(ulong libOffset, ulong cb, LOCKTYPE dwLockType) => throw new NotSupportedException();
 
-    public unsafe void Stat(STATSTG* pstatstg, STATFLAG grfStatFlag)
+    public HRESULT UnlockRegion(ulong libOffset, ulong cb, uint dwLockType) => throw new NotSupportedException();
+
+    public unsafe HRESULT Stat(STATSTG* pstatstg, STATFLAG grfStatFlag)
     {
         var statStg = new STATSTG
         {
@@ -78,7 +85,9 @@ public class ComInteropStream : IStream
         };
 
         Marshal.StructureToPtr(statStg, new IntPtr(pstatstg), false);
+
+        return new HRESULT();
     }
 
-    public void Clone(out IStream ppstm) => throw new NotSupportedException();
+    public HRESULT Clone(out IStream ppstm) => throw new NotSupportedException();
 }
