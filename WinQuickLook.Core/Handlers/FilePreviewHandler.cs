@@ -1,5 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 
 namespace WinQuickLook.Handlers;
 
@@ -11,7 +14,15 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
     {
         if (fileSystemInfo is FileInfo fileInfo)
         {
-            return TryCreateViewer(fileInfo, out handlerResult);
+            if (PriorityClass == HandlerPriorityClass.Lowest)
+            {
+                return TryCreateViewer(fileInfo, out handlerResult);
+            }
+
+            if (!s_genericFileExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))
+            {
+                return TryCreateViewer(fileInfo, out handlerResult);
+            }
         }
 
         handlerResult = default;
@@ -20,4 +31,6 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
     }
 
     protected abstract bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult);
+
+    private static readonly IReadOnlyList<string> s_genericFileExtensions = new[] { ".dll", ".exe" };
 }

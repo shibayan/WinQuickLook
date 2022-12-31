@@ -42,9 +42,9 @@ public class WindowingBehavior
         static void SourceInitialized(object? sender, EventArgs e)
         {
             var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
-            var trueValue = 0x01;
+            var flags = 0x02;
 
-            PInvoke.DwmSetWindowAttribute(hwnd, (DWMWINDOWATTRIBUTE)1029, ref trueValue);
+            PInvoke.DwmSetWindowAttribute(hwnd, (DWMWINDOWATTRIBUTE)38, ref flags);
         }
     }
 
@@ -79,7 +79,7 @@ public class WindowingBehavior
         }
     }
 
-    private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    private static nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
         switch ((uint)msg)
         {
@@ -91,6 +91,6 @@ public class WindowingBehavior
                 break;
         }
 
-        return IntPtr.Zero;
+        return nint.Zero;
     }
 }
