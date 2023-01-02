@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -30,9 +31,11 @@ public partial class MainWindow
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
     private readonly AssociationResolver _associationResolver;
 
-    public Ref<string> DefaultName { get; } = new();
+    public Ref<FileInfo> FileInfo { get; } = new(null);
 
-    public Ref<IReadOnlyList<AssociationResolver.Entry>> Recommends { get; } = new();
+    public Ref<string> DefaultName { get; } = new("");
+
+    public Ref<IReadOnlyList<AssociationResolver.Entry>> Recommends { get; } = new(Array.Empty<AssociationResolver.Entry>());
 
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
@@ -48,6 +51,8 @@ public partial class MainWindow
 
         if (fileSystemInfo is FileInfo fileInfo)
         {
+            FileInfo.Value = fileInfo;
+
             DefaultName.Value = _associationResolver.TryGetDefault(fileInfo, out var entry) ? entry.Name : "";
             Recommends.Value = _associationResolver.GetRecommends(fileInfo);
         }
@@ -66,21 +71,31 @@ public partial class MainWindow
         Show();
     }
 
+    public void OpenWithAssociation(string name)
+    {
+        ClosePreview();
+    }
+
+    public void OpenWithDefault()
+    {
+        Process.Start(new ProcessStartInfo(FileInfo.Value.FullName) { UseShellExecute = true });
+
+        ClosePreview();
+    }
+
     public void ClosePreview()
     {
-        if (!IsActive)
-        {
-            return;
-        }
-
         Hide();
 
         contentPresenter.Content = null;
     }
 
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    public void ClosePreviewIfActive()
     {
-        ClosePreview();
+        if (IsActive)
+        {
+            ClosePreview();
+        }
     }
 
     private void ApplyRequestSize(Size requestSize)
