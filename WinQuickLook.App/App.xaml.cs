@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 
 using Hardcodet.Wpf.TaskbarNotification;
 
@@ -21,6 +22,8 @@ public partial class App
         _mouseHook = mouseHook;
 
         _notifyIcon = (TaskbarIcon)FindResource("NotifyIcon")!;
+        ((MenuItem)_notifyIcon.ContextMenu.Items[2]).Click += (_, _) => Application.Current.Shutdown();
+
         _mainWindow = mainWindow;
     }
 
@@ -43,13 +46,14 @@ public partial class App
 
         _keyboardHook.PerformKeyDown = vkCode =>
         {
-            if (vkCode == VIRTUAL_KEY.VK_SPACE)
+            switch (vkCode)
             {
-                Dispatcher.InvokeAsync(PerformPreview);
-            }
-            else if (vkCode == VIRTUAL_KEY.VK_ESCAPE)
-            {
-                Dispatcher.InvokeAsync(ClosePreview);
+                case VIRTUAL_KEY.VK_SPACE:
+                    Dispatcher.InvokeAsync(PerformPreview);
+                    break;
+                case VIRTUAL_KEY.VK_ESCAPE:
+                    Dispatcher.InvokeAsync(ClosePreview);
+                    break;
             }
         };
 
@@ -80,13 +84,5 @@ public partial class App
         }
     }
 
-    private void ClosePreview()
-    {
-        if (!_mainWindow.IsActive)
-        {
-            return;
-        }
-
-        _mainWindow.ClosePreview();
-    }
+    private void ClosePreview() => _mainWindow.ClosePreview();
 }
