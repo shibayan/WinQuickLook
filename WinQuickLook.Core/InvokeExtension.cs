@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Xaml;
 
 namespace WinQuickLook;
 
@@ -22,14 +23,14 @@ public class InvokeExtension : MarkupExtension
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
 
-        if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget provideValueTarget)
+        if (serviceProvider.GetService(typeof(IRootObjectProvider)) is not IRootObjectProvider rootObjectProvider)
         {
             throw new InvalidOperationException();
         }
 
-        var targetObject = (FrameworkElement)provideValueTarget.TargetObject;
+        var rootObject = (FrameworkElement)rootObjectProvider.RootObject;
 
-        var methodInfo = targetObject.DataContext.GetType().GetMethod(_methodName);
+        var methodInfo = rootObject.DataContext.GetType().GetMethod(_methodName);
 
         if (methodInfo is null)
         {
@@ -43,7 +44,7 @@ public class InvokeExtension : MarkupExtension
             throw new InvalidOperationException();
         }
 
-        return new InvokeMethodCommand(targetObject.DataContext, methodInfo, parameters.Length == 0);
+        return new InvokeMethodCommand(rootObject.DataContext, methodInfo, parameters.Length == 0);
     }
 
     private class InvokeMethodCommand : ICommand

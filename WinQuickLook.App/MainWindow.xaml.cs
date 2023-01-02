@@ -71,8 +71,10 @@ public partial class MainWindow
         Show();
     }
 
-    public void OpenWithAssociation(string name)
+    public void OpenWithAssociation(string appName)
     {
+        _associationResolver.Invoke(appName, FileInfo.Value);
+
         ClosePreview();
     }
 

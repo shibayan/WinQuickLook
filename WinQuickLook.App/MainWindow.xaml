@@ -44,7 +44,7 @@
                             <Style TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding Path=Name}" />
                                 <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
-                                <!--<Setter Property="Command" Value="" />-->
+                                <Setter Property="Command" Value="{core:Invoke OpenWithAssociation}" />
                                 <Setter Property="CommandParameter" Value="{Binding Path=Name}" />
                             </Style>
                         </ContextMenu.ItemContainerStyle>

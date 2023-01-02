@@ -101,6 +101,47 @@ public class AssociationResolver
         return recommends;
     }
 
+    public void Invoke(string appName, FileInfo fileInfo)
+    {
+        if (PInvoke.SHAssocEnumHandlers(fileInfo.Extension, ASSOC_FILTER.ASSOC_FILTER_RECOMMENDED, out var enumAssocHandlers).Failed)
+        {
+            return;
+        }
+
+        var assocHandlers = new IAssocHandler?[1];
+
+        while (enumAssocHandlers.Next(assocHandlers, out _).Succeeded)
+        {
+            var assocHandler = assocHandlers[0];
+
+            if (assocHandler is null)
+            {
+                break;
+            }
+
+            assocHandler.GetUIName(out var pUiName);
+
+            if (appName == pUiName.ToString())
+            {
+                PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
+
+                shellItem.BindToHandler(null, PInvoke.BHID_DataObject, typeof(global::Windows.Win32.System.Com.IDataObject).GUID, out var dataObject);
+
+                assocHandler.Invoke((global::Windows.Win32.System.Com.IDataObject)dataObject);
+
+                Marshal.ReleaseComObject(dataObject);
+                Marshal.ReleaseComObject(shellItem);
+                Marshal.ReleaseComObject(assocHandler);
+
+                break;
+            }
+
+            Marshal.ReleaseComObject(assocHandler);
+        }
+
+        Marshal.ReleaseComObject(enumAssocHandlers);
+    }
+
     private BitmapSource? GetIconFromResource(string path, int iconIndex)
     {
         PInvoke.ExtractIconEx(path, iconIndex, out var iconLarge, out var iconSmall, 1);
