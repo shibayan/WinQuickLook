@@ -10,6 +10,8 @@
 <p align="center">
   <a href="https://github.com/shibayan/WinQuickLook/actions/workflows/build.yml" rel="nofollow"><img src="https://github.com/shibayan/WinQuickLook/workflows/Build/badge.svg" alt="Build" style="max-width: 100%;"></a>
   <a href="https://github.com/shibayan/WinQuickLook/actions/workflows/publish.yml" rel="nofollow"><img src="https://github.com/shibayan/WinQuickLook/workflows/Publish/badge.svg" alt="Build" style="max-width: 100%;"></a>
+  <a href="https://github.com/shibayan/WinQuickLook/stargazers" rel="nofollow"><img src="https://badgen.net/github/stars/shibayan/WinQuickLook" alt="Stargazers" style="max-width: 100%;"></a>
+  <a href="https://github.com/shibayan/WinQuickLook/network/members" rel="nofollow"><img src="https://badgen.net/github/forks/shibayan/WinQuickLook" alt="Forks" style="max-width: 100%;"></a>
   <a href="https://www.microsoft.com/store/apps/9njmtkk6jc0q" rel="nofollow"><img src="https://badgen.net/github/release/shibayan/WinQuickLook" alt="Release" style="max-width: 100%;"></a>
   <a href="https://github.com/shibayan/WinQuickLook/blob/master/LICENSE"><img src="https://badgen.net/github/license/shibayan/WinQuickLook" alt="License" style="max-width: 100%;"></a>
 </p>

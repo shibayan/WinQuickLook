@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Windows.Win32;
 
-using WinQuickLook.App.ViewModels;
 using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
 using WinQuickLook.Windows;
@@ -57,7 +56,6 @@ public class Program
         services.AddSingleton<LowLevelKeyboardHook>();
         services.AddSingleton<LowLevelMouseHook>();
 
-        services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();
 
         services.AddSingleton<App>();

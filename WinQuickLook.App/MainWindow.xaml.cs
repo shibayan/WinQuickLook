@@ -11,7 +11,6 @@ using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.HiDpi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-using WinQuickLook.App.ViewModels;
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
 using WinQuickLook.Windows;
@@ -20,11 +19,9 @@ namespace WinQuickLook.App;
 
 public partial class MainWindow
 {
-    public MainWindow(MainWindowViewModel viewModel, IEnumerable<IFileSystemPreviewHandler> previewHandlers, AssociationResolver associationResolver)
+    public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers, AssociationResolver associationResolver)
     {
         InitializeComponent();
-
-        DataContext = viewModel;
 
         _previewHandlers = previewHandlers;
         _associationResolver = associationResolver;
@@ -32,6 +29,10 @@ public partial class MainWindow
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
     private readonly AssociationResolver _associationResolver;
+
+    public Ref<string> DefaultName { get; } = new();
+
+    public Ref<IReadOnlyList<AssociationResolver.Entry>> Recommends { get; } = new();
 
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
@@ -47,19 +48,13 @@ public partial class MainWindow
 
         if (fileSystemInfo is FileInfo fileInfo)
         {
-            if (_associationResolver.TryGetDefault(fileInfo, out var entry))
-            {
-                ((MainWindowViewModel)DataContext).DefaultName = entry.Name;
-            }
-
-            var recommends = _associationResolver.GetRecommends(fileInfo);
-
-            ((MainWindowViewModel)DataContext).Recommends = recommends;
+            DefaultName.Value = _associationResolver.TryGetDefault(fileInfo, out var entry) ? entry.Name : "";
+            Recommends.Value = _associationResolver.GetRecommends(fileInfo);
         }
         else
         {
-            ((MainWindowViewModel)DataContext).DefaultName = "";
-            ((MainWindowViewModel)DataContext).Recommends = Array.Empty<AssociationResolver.Entry>();
+            DefaultName.Value = "";
+            Recommends.Value = Array.Empty<AssociationResolver.Entry>();
         }
 
         if (IsVisible)
@@ -73,6 +68,11 @@ public partial class MainWindow
 
     public void ClosePreview()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         Hide();
 
         contentPresenter.Content = null;
@@ -85,18 +85,7 @@ public partial class MainWindow
 
     private void ApplyRequestSize(Size requestSize)
     {
-        var foregroundHwnd = PInvoke.GetForegroundWindow();
-
-        var hMonitor = PInvoke.MonitorFromWindow(foregroundHwnd, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTOPRIMARY);
-
-        var monitorInfo = new MONITORINFO
-        {
-            cbSize = (uint)Marshal.SizeOf<MONITORINFO>()
-        };
-
-        PInvoke.GetMonitorInfo(hMonitor, ref monitorInfo);
-
-        var monitor = new Rect(new Point(monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top), new Point(monitorInfo.rcMonitor.right, monitorInfo.rcMonitor.bottom));
+        var (monitor, _) = GetCurrentMonitorInfo();
 
         var minWidthOrHeight = Math.Min(monitor.Width, monitor.Height) * 0.8;
         var scaleFactor = Math.Min(minWidthOrHeight / Math.Max(requestSize.Width, requestSize.Height), 1.0);
@@ -106,6 +95,20 @@ public partial class MainWindow
     }
 
     private void MoveCenter()
+    {
+        var (monitor, dpi) = GetCurrentMonitorInfo();
+
+        var dpiFactor = dpi / 96.0;
+
+        var x = monitor.X + ((monitor.Width - (Width * dpiFactor)) / 2);
+        var y = monitor.Y + ((monitor.Height - (Height * dpiFactor)) / 2);
+
+        var hwnd = new WindowInteropHelper(this).Handle;
+
+        PInvoke.SetWindowPos(new HWND(hwnd), new HWND(), (int)Math.Round(x), (int)Math.Round(y), 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER);
+    }
+
+    private static (Rect, double) GetCurrentMonitorInfo()
     {
         var foregroundHwnd = PInvoke.GetForegroundWindow();
 
@@ -117,19 +120,11 @@ public partial class MainWindow
         };
 
         PInvoke.GetMonitorInfo(hMonitor, ref monitorInfo);
+        PInvoke.GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out _);
 
-        var monitor = new Rect(new Point(monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top), new Point(monitorInfo.rcMonitor.right, monitorInfo.rcMonitor.bottom));
+        var leftTop = new Point(monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top);
+        var rightBottom = new Point(monitorInfo.rcMonitor.right, monitorInfo.rcMonitor.bottom);
 
-        PInvoke.GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY);
-
-        var dpiXFactor = dpiX / 96.0;
-        var dpiYFactor = dpiY / 96.0;
-
-        var x = monitor.X + ((monitor.Width - (Width * dpiXFactor)) / 2);
-        var y = monitor.Y + ((monitor.Height - (Height * dpiYFactor)) / 2);
-
-        var hwnd = new WindowInteropHelper(this).Handle;
-
-        PInvoke.SetWindowPos(new HWND(hwnd), new HWND(), (int)Math.Round(x), (int)Math.Round(y), 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER);
+        return (new Rect(leftTop, rightBottom), dpiX);
     }
 }
