@@ -6,7 +6,7 @@ namespace WinQuickLook;
 
 public class Ref<T> : INotifyPropertyChanged
 {
-    public Ref(T? value = default)
+    public Ref(T? value)
     {
         Value = value;
     }

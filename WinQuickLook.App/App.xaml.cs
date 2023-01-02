@@ -84,5 +84,5 @@ public partial class App
         }
     }
 
-    private void ClosePreview() => _mainWindow.ClosePreview();
+    private void ClosePreview() => _mainWindow.ClosePreviewIfActive();
 }

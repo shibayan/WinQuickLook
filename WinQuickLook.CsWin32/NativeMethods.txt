@@ -96,3 +96,5 @@ MAX_PATH
 
 ShellWindowTypeConstants
 ShellWindowFindWindowOptions
+
+BHID_DataObject
