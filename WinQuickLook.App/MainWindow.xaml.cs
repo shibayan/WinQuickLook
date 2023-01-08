@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
+using Cylinder;
+
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
@@ -73,6 +75,11 @@ public partial class MainWindow
 
     public void OpenWithAssociation(string appName)
     {
+        if (FileInfo.Value is null)
+        {
+            return;
+        }
+
         _associationResolver.Invoke(appName, FileInfo.Value);
 
         ClosePreview();
@@ -80,6 +87,11 @@ public partial class MainWindow
 
     public void OpenWithDefault()
     {
+        if (FileInfo.Value is null)
+        {
+            return;
+        }
+
         Process.Start(new ProcessStartInfo(FileInfo.Value.FullName) { UseShellExecute = true });
 
         ClosePreview();

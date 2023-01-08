@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.2.0.78" />
+    <PackageReference Include="Cylinder" Version="1.0.0-preview.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1462.37" />
   </ItemGroup>
 
