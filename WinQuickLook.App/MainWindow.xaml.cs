@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
+using Cylinder;
+
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.HiDpi;
 using Windows.Win32.UI.WindowsAndMessaging;
-
-using Cylinder;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
