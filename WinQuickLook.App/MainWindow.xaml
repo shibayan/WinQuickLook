@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:core="clr-namespace:WinQuickLook;assembly=WinQuickLook.Core"
         xmlns:app="clr-namespace:WinQuickLook.App"
         xmlns:behaviors="clr-namespace:WinQuickLook.Behaviors;assembly=WinQuickLook.Core"
+        xmlns:cylinder="clr-namespace:Cylinder;assembly=Cylinder"
         mc:Ignorable="d"
         d:DesignWidth="600" d:DesignHeight="400" MinWidth="400" MinHeight="400"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -44,14 +44,14 @@
                             <Style TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding Path=Name}" />
                                 <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
-                                <Setter Property="Command" Value="{core:Invoke OpenWithAssociation}" />
+                                <Setter Property="Command" Value="{cylinder:Invoke OpenWithAssociation}" />
                                 <Setter Property="CommandParameter" Value="{Binding Path=Name}" />
                             </Style>
                         </ContextMenu.ItemContainerStyle>
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
-            <Button Style="{DynamicResource AssociateButtonStyle}" Command="{core:Invoke OpenWithDefault}" Padding="15,0" Height="{x:Static app:AppParameters.CaptionButtonHeight}" Visibility="{Binding Path=DefaultName.Value, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <Button Style="{DynamicResource AssociateButtonStyle}" Command="{cylinder:Invoke OpenWithDefault}" Padding="15,0" Height="{x:Static app:AppParameters.CaptionButtonHeight}" Visibility="{Binding Path=DefaultName.Value, Converter={StaticResource ObjectToVisibilityConverter}}">
                 <TextBlock Text="{Binding Path=DefaultName.Value, StringFormat='Open with {0}'}" />
             </Button>
         </StackPanel>
@@ -60,7 +60,7 @@
             <Button Style="{DynamicResource AssociateButtonStyle}" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
                 <TextBlock Style="{DynamicResource CaptionFontIconStyle}" Text="&#xE8BC;" />
             </Button>
-            <Button Style="{DynamicResource CloseButtonStyle}" Command="{core:Invoke ClosePreview}" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
+            <Button Style="{DynamicResource CloseButtonStyle}" Command="{cylinder:Invoke ClosePreview}" Width="{x:Static app:AppParameters.CaptionButtonWidth}" Height="{x:Static app:AppParameters.CaptionButtonHeight}">
                 <TextBlock Style="{DynamicResource CaptionFontIconStyle}" Text="&#xE711;" />
             </Button>
         </StackPanel>

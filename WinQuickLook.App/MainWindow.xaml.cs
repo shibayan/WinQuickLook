@@ -12,6 +12,8 @@ using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.HiDpi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
+using Cylinder;
+
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
 using WinQuickLook.Windows;
@@ -73,6 +75,11 @@ public partial class MainWindow
 
     public void OpenWithAssociation(string appName)
     {
+        if (FileInfo.Value is null)
+        {
+            return;
+        }
+
         _associationResolver.Invoke(appName, FileInfo.Value);
 
         ClosePreview();
@@ -80,6 +87,11 @@ public partial class MainWindow
 
     public void OpenWithDefault()
     {
+        if (FileInfo.Value is null)
+        {
+            return;
+        }
+
         Process.Start(new ProcessStartInfo(FileInfo.Value.FullName) { UseShellExecute = true });
 
         ClosePreview();
