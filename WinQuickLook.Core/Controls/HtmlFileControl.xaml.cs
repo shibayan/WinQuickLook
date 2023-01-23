@@ -8,10 +8,7 @@ namespace WinQuickLook.Controls;
 
 public partial class HtmlFileControl
 {
-    public HtmlFileControl()
-    {
-        InitializeComponent();
-    }
+    public HtmlFileControl() => InitializeComponent();
 
     public void Open(FileInfo fileInfo)
     {

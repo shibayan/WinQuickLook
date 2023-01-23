@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:WinQuickLook.Converters"
              mc:Ignorable="d"
-             d:DesignWidth="700" d:DesignHeight="400">
+             d:DesignWidth="700" d:DesignHeight="400" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <UserControl.Resources>
         <converters:FileSystemInfoToThumbnailConverter x:Key="FileSystemInfoToThumbnailConverter" />
     </UserControl.Resources>
@@ -17,7 +17,7 @@
         <Grid.Background>
             <VisualBrush Stretch="UniformToFill" Opacity="0.5">
                 <VisualBrush.Visual>
-                    <Image ClipToBounds="True" Source="{Binding FileInfo, Converter={StaticResource FileSystemInfoToThumbnailConverter}}">
+                    <Image ClipToBounds="True" Source="{Binding FileInfo.Value, Converter={StaticResource FileSystemInfoToThumbnailConverter}}">
                         <Image.Effect>
                             <BlurEffect Radius="200" />
                         </Image.Effect>
@@ -25,12 +25,12 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Grid.Background>
-        <Image Source="{Binding FileInfo, Converter={StaticResource FileSystemInfoToThumbnailConverter}}" Margin="25,15,15,15" MaxWidth="256" MaxHeight="256" Stretch="Uniform" Grid.Column="0" />
+        <Image Source="{Binding FileInfo.Value, Converter={StaticResource FileSystemInfoToThumbnailConverter}}" Margin="25,15,15,15" MaxWidth="256" MaxHeight="256" Stretch="Uniform" Grid.Column="0" />
         <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,15,15,15">
             <TextBlock x:Name="title" FontSize="24" TextWrapping="Wrap" TextAlignment="Center" />
             <TextBlock x:Name="artist" FontSize="16" TextWrapping="Wrap" Margin="0,15,0,0" TextAlignment="Center" />
             <TextBlock x:Name="album" FontSize="16" TextWrapping="Wrap" Margin="0,5,0,0" TextAlignment="Center" />
         </StackPanel>
-        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.FullName}" LoadedBehavior="Manual" Grid.Column="0" />
+        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.Value.FullName}" LoadedBehavior="Manual" Grid.Column="0" />
     </Grid>
 </UserControl>
