@@ -8,12 +8,12 @@ using IServiceProvider = Windows.Win32.System.Com.IServiceProvider;
 
 namespace Windows.Win32;
 
-public static partial class FriendlyOverloadExtensions
+public static class FriendlyOverloadExtensions
 {
     public static unsafe HRESULT QueryService<T>(this IServiceProvider serviceProvider, in Guid guidService, out T ppvObject)
     {
         var hr = serviceProvider.QueryService(guidService, typeof(T).GUID, out var o);
-        ppvObject = (T)Marshal.GetTypedObjectForIUnknown(new IntPtr(o), typeof(T));
+        ppvObject = (T)Marshal.GetTypedObjectForIUnknown(new nint(o), typeof(T));
         return hr;
     }
 
@@ -24,15 +24,15 @@ public static partial class FriendlyOverloadExtensions
         return hr;
     }
 
-    public static unsafe void Item(this IFolderView folderView, int iItemIndex, out IntPtr ppidl)
+    public static unsafe void Item(this IFolderView folderView, int iItemIndex, out nint ppidl)
     {
-        fixed (IntPtr* ppidlLocal = &ppidl)
+        fixed (nint* ppidlLocal = &ppidl)
         {
             folderView.Item(iItemIndex, (UI.Shell.Common.ITEMIDLIST**)ppidlLocal);
         }
     }
 
-    public static unsafe void GetDisplayNameOf(this IShellFolder folderView, in IntPtr pidl, SHGDNF uFlags, out UI.Shell.Common.STRRET pName)
+    public static unsafe void GetDisplayNameOf(this IShellFolder folderView, in nint pidl, SHGDNF uFlags, out UI.Shell.Common.STRRET pName)
     {
         fixed (UI.Shell.Common.STRRET* pNameLocal = &pName)
         {
