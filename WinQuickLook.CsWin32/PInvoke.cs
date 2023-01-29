@@ -60,7 +60,7 @@ public static partial class PInvoke
         }
     }
 
-    public static unsafe HRESULT StrRetToBuf(ref STRRET pstr, IntPtr pidl, Span<char> pszBuf)
+    public static unsafe HRESULT StrRetToBuf(ref STRRET pstr, nint pidl, Span<char> pszBuf)
     {
         fixed (STRRET* pstrLocal = &pstr)
         {
