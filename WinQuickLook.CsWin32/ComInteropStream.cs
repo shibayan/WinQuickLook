@@ -26,7 +26,7 @@ public class ComInteropStream : IStream
 
         if (pcbRead is not null)
         {
-            Marshal.WriteInt32(new IntPtr(pcbRead), bytesRead);
+            Marshal.WriteInt32(new nint(pcbRead), bytesRead);
         }
 
         return new HRESULT();
@@ -40,7 +40,7 @@ public class ComInteropStream : IStream
 
         if (pcbWritten is not null)
         {
-            Marshal.WriteInt32(new IntPtr(pcbWritten), buffer.Length);
+            Marshal.WriteInt32(new nint(pcbWritten), buffer.Length);
         }
 
         return new HRESULT();
@@ -52,7 +52,7 @@ public class ComInteropStream : IStream
 
         if (plibNewPosition is not null)
         {
-            Marshal.WriteInt64(new IntPtr(plibNewPosition), newPosition);
+            Marshal.WriteInt64(new nint(plibNewPosition), newPosition);
         }
 
         return new HRESULT();
@@ -84,7 +84,7 @@ public class ComInteropStream : IStream
             grfMode = 0
         };
 
-        Marshal.StructureToPtr(statStg, new IntPtr(pstatstg), false);
+        Marshal.StructureToPtr(statStg, new nint(pstatstg), false);
 
         return new HRESULT();
     }

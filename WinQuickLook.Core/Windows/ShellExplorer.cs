@@ -17,7 +17,7 @@ public class ShellExplorer
     {
         var foregroundHwnd = PInvoke.GetForegroundWindow();
 
-        if (foregroundHwnd == IntPtr.Zero)
+        if (foregroundHwnd == nint.Zero)
         {
             return null;
         }
@@ -77,7 +77,7 @@ public class ShellExplorer
         var folderView = (IFolderView)shellView;
 
         folderView.GetFocusedItem(out var index);
-        folderView.Item(index, out IntPtr ppidl);
+        folderView.Item(index, out nint ppidl);
 
         folderView.GetFolder(out IPersistFolder2 persistFolder2);
 
@@ -130,7 +130,7 @@ public class ShellExplorer
 
         PInvoke.GetGUIThreadInfo(threadId, ref info);
 
-        return info.flags != 0 || info.hwndCaret != IntPtr.Zero;
+        return info.flags != 0 || info.hwndCaret != nint.Zero;
     }
 
     private bool IsDesktopWindow(HWND hwnd)
@@ -146,6 +146,6 @@ public class ShellExplorer
             return false;
         }
 
-        return PInvoke.FindWindowEx(hwnd, new HWND(), "SHELLDLL_DefView", null) != IntPtr.Zero;
+        return PInvoke.FindWindowEx(hwnd, new HWND(), "SHELLDLL_DefView", null) != nint.Zero;
     }
 }
