@@ -14,7 +14,10 @@ public class FileInfoToTypeNameConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var fileSystemInfo = (FileSystemInfo)value;
+        if (value is not FileSystemInfo fileSystemInfo)
+        {
+            return DependencyProperty.UnsetValue;
+        }
 
         var sfi = new SHFILEINFOW();
 

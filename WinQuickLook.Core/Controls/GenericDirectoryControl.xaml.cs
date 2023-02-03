@@ -1,28 +1,17 @@
 ﻿using System.IO;
-using System.Windows;
+
+using Cylinder;
 
 namespace WinQuickLook.Controls;
 
 public partial class GenericDirectoryControl
 {
-    public GenericDirectoryControl()
-    {
-        InitializeComponent();
+    public GenericDirectoryControl() => InitializeComponent();
 
-        DataContext = this;
-    }
-
-    public DirectoryInfo DirectoryInfo
-    {
-        get => (DirectoryInfo)GetValue(DirectoryInfoProperty);
-        set => SetValue(DirectoryInfoProperty, value);
-    }
-
-    public static readonly DependencyProperty DirectoryInfoProperty =
-        DependencyProperty.Register(nameof(DirectoryInfo), typeof(DirectoryInfo), typeof(GenericDirectoryControl), new PropertyMetadata(null));
+    public Ref<DirectoryInfo> DirectoryInfo { get; } = new(null);
 
     public void Open(DirectoryInfo directoryInfo)
     {
-        DirectoryInfo = directoryInfo;
+        DirectoryInfo.Value = directoryInfo;
     }
 }

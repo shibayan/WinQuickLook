@@ -14,14 +14,15 @@ public class FileSystemInfoToThumbnailConverter : IValueConverter
 {
     private static readonly ThumbnailImageFactory s_previewImageFactory = new();
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
     {
-        var fileSystemInfo = (FileSystemInfo)value;
+        if (value is FileSystemInfo fileSystemInfo)
+        {
+            return s_previewImageFactory.GetImage(fileSystemInfo)!;
+        }
 
-        var thumbnailImage = s_previewImageFactory.GetImage(fileSystemInfo);
-
-        return thumbnailImage!;
+        return DependencyProperty.UnsetValue;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
+    public object ConvertBack(object? value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 }

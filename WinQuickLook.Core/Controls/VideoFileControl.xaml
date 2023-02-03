@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.FullName}" ScrubbingEnabled="True" LoadedBehavior="Manual" />
+        <MediaElement x:Name="mediaElement" Source="{Binding FileInfo.Value.FullName}" ScrubbingEnabled="True" LoadedBehavior="Manual" />
     </Grid>
 </UserControl>

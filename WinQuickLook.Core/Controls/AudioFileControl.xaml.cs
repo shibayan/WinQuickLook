@@ -1,5 +1,6 @@
 ﻿using System.IO;
-using System.Windows;
+
+using Cylinder;
 
 using WinQuickLook.Windows;
 
@@ -7,25 +8,13 @@ namespace WinQuickLook.Controls;
 
 public partial class AudioFileControl
 {
-    public AudioFileControl()
-    {
-        InitializeComponent();
+    public AudioFileControl() => InitializeComponent();
 
-        DataContext = this;
-    }
-
-    public FileInfo FileInfo
-    {
-        get => (FileInfo)GetValue(FileInfoProperty);
-        set => SetValue(FileInfoProperty, value);
-    }
-
-    public static readonly DependencyProperty FileInfoProperty =
-        DependencyProperty.Register(nameof(FileInfo), typeof(FileInfo), typeof(AudioFileControl), new PropertyMetadata(null));
+    public Ref<FileInfo> FileInfo { get; } = new(null);
 
     public void Open(FileInfo fileInfo)
     {
-        FileInfo = fileInfo;
+        FileInfo.Value = fileInfo;
 
         var audioProperties = new ShellPropertyStore().GetAudioProperties(fileInfo);
 
