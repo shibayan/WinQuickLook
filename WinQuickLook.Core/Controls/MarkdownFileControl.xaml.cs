@@ -2,6 +2,8 @@
 
 using ICSharpCode.AvalonEdit.Highlighting;
 
+using Markdig;
+
 using Microsoft.Web.WebView2.Core;
 
 using WinQuickLook.Extensions;
@@ -22,6 +24,10 @@ public partial class MarkdownFileControl
 
     private void WebView2_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
     {
-        webView2.NavigateToString(Markdig.Markdown.ToHtml(textEditor.Text));
+        var pipeline = new MarkdownPipelineBuilder()
+                       .UseAdvancedExtensions()
+                       .Build();
+
+        webView2.NavigateToString(Markdown.ToHtml(textEditor.Text, pipeline));
     }
 }
