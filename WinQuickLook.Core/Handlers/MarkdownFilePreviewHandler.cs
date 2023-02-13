@@ -8,7 +8,7 @@ using WinQuickLook.Extensions;
 
 namespace WinQuickLook.Handlers;
 
-public class HtmlFilePreviewHandler : FilePreviewHandler
+public class MarkdownFilePreviewHandler : FilePreviewHandler
 {
     public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Highest;
 
@@ -21,17 +21,17 @@ public class HtmlFilePreviewHandler : FilePreviewHandler
             return false;
         }
 
-        var htmlFileControl = new HtmlFileControl();
+        var markdownFileControl = new MarkdownFileControl();
 
-        using (htmlFileControl.Initialize())
+        using (markdownFileControl.Initialize())
         {
-            htmlFileControl.Open(fileInfo);
+            markdownFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = htmlFileControl };
+        handlerResult = new HandlerResult { Viewer = markdownFileControl };
 
         return true;
     }
 
-    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".htm", ".html", ".xhtml" };
+    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".md", ".markdown" };
 }

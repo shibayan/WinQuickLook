@@ -5,7 +5,7 @@ on:
     tags: [ v* ]
 
 env:
-  DOTNET_VERSION: 6.0.x
+  DOTNET_VERSION: 7.0.x
   BUNDLE_PLATFORMS: x64|arm64
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Use MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v1
 
     - name: Setup Version
       id: setup_version
