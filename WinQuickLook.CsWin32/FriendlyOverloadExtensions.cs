@@ -40,13 +40,10 @@ public static class FriendlyOverloadExtensions
         }
     }
 
-    public static unsafe HRESULT Next(this IEnumAssocHandlers enumAssocHandlers, IAssocHandler[] rgelt, out uint pceltFetched)
-    {
-        fixed (uint* pceltFetchedLocal = &pceltFetched)
-        {
-            return enumAssocHandlers.Next((uint)rgelt.Length, rgelt, pceltFetchedLocal);
-        }
-    }
+    //public static unsafe HRESULT Next(this IEnumAssocHandlers enumAssocHandlers, IAssocHandler[] rgelt, out uint pceltFetched)
+    //{
+    //    return enumAssocHandlers.Next((uint)rgelt.Length, rgelt, out pceltFetched);
+    //}
 
     public static unsafe HRESULT get_Count(this IShellWindows shellWindows, out int count)
     {
