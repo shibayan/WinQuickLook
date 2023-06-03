@@ -11,7 +11,7 @@ using IServiceProvider = Windows.Win32.System.Com.IServiceProvider;
 
 namespace WinQuickLook.Windows;
 
-public class ShellExplorer
+public class ShellExplorerProvider
 {
     public FileSystemInfo? GetSelectedItem()
     {

@@ -76,7 +76,7 @@ public partial class App
 
     private void PerformPreview()
     {
-        var fileSystemInfo = new ShellExplorer().GetSelectedItem();
+        var fileSystemInfo = new ShellExplorerProvider().GetSelectedItem();
 
         if (fileSystemInfo is not null)
         {

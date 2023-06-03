@@ -16,7 +16,7 @@ public partial class AudioFileControl
     {
         FileInfo.Value = fileInfo;
 
-        var audioProperties = new ShellPropertyStore().GetAudioProperties(fileInfo);
+        var audioProperties = new ShellPropertyProvider().GetAudioProperties(fileInfo);
 
         title.Text = audioProperties?.Title;
         artist.Text = audioProperties?.Artist;

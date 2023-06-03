@@ -22,22 +22,22 @@ namespace WinQuickLook.App;
 
 public partial class MainWindow
 {
-    public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers, AssociationResolver associationResolver)
+    public MainWindow(IEnumerable<IFileSystemPreviewHandler> previewHandlers, ShellAssociationProvider shellAssociationProvider)
     {
         InitializeComponent();
 
         _previewHandlers = previewHandlers;
-        _associationResolver = associationResolver;
+        _shellAssociationProvider = shellAssociationProvider;
     }
 
     private readonly IEnumerable<IFileSystemPreviewHandler> _previewHandlers;
-    private readonly AssociationResolver _associationResolver;
+    private readonly ShellAssociationProvider _shellAssociationProvider;
 
     public Ref<FileInfo> FileInfo { get; } = new(null);
 
     public Ref<string> DefaultName { get; } = new("");
 
-    public Ref<IReadOnlyList<AssociationResolver.Entry>> Recommends { get; } = new(Array.Empty<AssociationResolver.Entry>());
+    public Ref<IReadOnlyList<ShellAssociationProvider.Entry>> Recommends { get; } = new(Array.Empty<ShellAssociationProvider.Entry>());
 
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
@@ -55,13 +55,13 @@ public partial class MainWindow
         {
             FileInfo.Value = fileInfo;
 
-            DefaultName.Value = _associationResolver.TryGetDefault(fileInfo, out var entry) ? entry.Name : "";
-            Recommends.Value = _associationResolver.GetRecommends(fileInfo);
+            DefaultName.Value = _shellAssociationProvider.TryGetDefault(fileInfo, out var entry) ? entry.Name : "";
+            Recommends.Value = _shellAssociationProvider.GetRecommends(fileInfo);
         }
         else
         {
             DefaultName.Value = "";
-            Recommends.Value = Array.Empty<AssociationResolver.Entry>();
+            Recommends.Value = Array.Empty<ShellAssociationProvider.Entry>();
         }
 
         if (IsVisible)
@@ -80,7 +80,7 @@ public partial class MainWindow
             return;
         }
 
-        _associationResolver.Invoke(appName, FileInfo.Value);
+        _shellAssociationProvider.Invoke(appName, FileInfo.Value);
 
         ClosePreview();
     }

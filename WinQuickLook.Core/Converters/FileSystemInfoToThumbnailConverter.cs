@@ -12,13 +12,13 @@ namespace WinQuickLook.Converters;
 [ValueConversion(typeof(FileSystemInfo), typeof(BitmapSource))]
 public class FileSystemInfoToThumbnailConverter : IValueConverter
 {
-    private static readonly ThumbnailImageFactory s_previewImageFactory = new();
+    private static readonly ShellThumbnailProvider s_shellThumbnailProvider = new();
 
     public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is FileSystemInfo fileSystemInfo)
         {
-            return s_previewImageFactory.GetImage(fileSystemInfo)!;
+            return s_shellThumbnailProvider.GetImage(fileSystemInfo)!;
         }
 
         return DependencyProperty.UnsetValue;

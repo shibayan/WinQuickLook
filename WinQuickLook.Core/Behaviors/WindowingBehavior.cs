@@ -12,10 +12,12 @@ namespace WinQuickLook.Behaviors;
 
 public class WindowingBehavior
 {
+    // ReSharper disable once UnusedMember.Global
     public static bool GetPreventClosing(DependencyObject obj) => (bool)obj.GetValue(PreventClosingProperty);
 
     public static void SetPreventClosing(DependencyObject obj, bool value) => obj.SetValue(PreventClosingProperty, value);
 
+    // ReSharper disable once UnusedMember.Global
     public static bool GetUseSystemBackdrop(DependencyObject obj) => (bool)obj.GetValue(UseSystemBackdropProperty);
 
     public static void SetUseSystemBackdrop(DependencyObject obj, bool value) => obj.SetValue(UseSystemBackdropProperty, value);
@@ -68,7 +70,7 @@ public class WindowingBehavior
             var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
 
             var style = PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-            PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style & ~(int)(WINDOW_STYLE.WS_SYSMENU | WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX));
+            _ = PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, style & ~(int)(WINDOW_STYLE.WS_SYSMENU | WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX));
         }
 
         static void Loaded(object sender, RoutedEventArgs e)
@@ -81,15 +83,12 @@ public class WindowingBehavior
 
     private static nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
-        switch ((uint)msg)
+        handled = (uint)msg switch
         {
-            case PInvoke.WM_SYSKEYDOWN when (VIRTUAL_KEY)wParam == VIRTUAL_KEY.VK_F4:
-                handled = true;
-                break;
-            case PInvoke.WM_NCRBUTTONUP when (uint)wParam == PInvoke.HTCAPTION:
-                handled = true;
-                break;
-        }
+            PInvoke.WM_SYSKEYDOWN when (VIRTUAL_KEY)wParam == VIRTUAL_KEY.VK_F4 => true,
+            PInvoke.WM_NCRBUTTONUP when (uint)wParam == PInvoke.HTCAPTION => true,
+            _ => handled
+        };
 
         return nint.Zero;
     }
