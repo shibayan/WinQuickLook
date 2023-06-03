@@ -49,10 +49,10 @@ public class Program
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, TextFilePreviewHandler>()
         });
 
-        services.AddSingleton<AssociationResolver>();
-        services.AddSingleton<ThumbnailImageFactory>();
-        services.AddSingleton<ShellPropertyStore>();
-        services.AddSingleton<ShellExplorer>();
+        services.AddSingleton<ShellAssociationProvider>();
+        services.AddSingleton<ShellThumbnailProvider>();
+        services.AddSingleton<ShellPropertyProvider>();
+        services.AddSingleton<ShellExplorerProvider>();
 
         services.AddSingleton<LowLevelKeyboardHook>();
         services.AddSingleton<LowLevelMouseHook>();
