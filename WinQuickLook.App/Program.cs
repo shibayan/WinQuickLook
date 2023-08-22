@@ -18,18 +18,22 @@ public class Program
     {
         PInvoke.MFStartup(PInvoke.MF_VERSION, 1);
 
-        var services = new ServiceCollection();
-
-        ConfigureService(services);
-
-        using (var provider = services.BuildServiceProvider())
+        try
         {
+            var services = new ServiceCollection();
+
+            ConfigureService(services);
+
+            using var provider = services.BuildServiceProvider();
+
             var app = provider.GetRequiredService<App>();
 
             app.Run();
         }
-
-        PInvoke.MFShutdown();
+        finally
+        {
+            PInvoke.MFShutdown();
+        }
     }
 
     private static void ConfigureService(IServiceCollection services)
