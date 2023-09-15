@@ -7,7 +7,7 @@ using Windows.Win32.UI.Shell.PropertiesSystem;
 
 using WinQuickLook.Extensions;
 
-namespace WinQuickLook.Windows;
+namespace WinQuickLook.Providers;
 
 public class ShellPropertyProvider
 {

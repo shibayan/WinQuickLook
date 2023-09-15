@@ -8,7 +8,7 @@ using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Messaging;
-using WinQuickLook.Windows;
+using WinQuickLook.Providers;
 
 namespace WinQuickLook.App;
 

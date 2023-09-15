@@ -11,7 +11,7 @@ using Windows.Win32.UI.Shell;
 
 using WinQuickLook.Extensions;
 
-namespace WinQuickLook.Windows;
+namespace WinQuickLook.Providers;
 
 public class ShellThumbnailProvider
 {

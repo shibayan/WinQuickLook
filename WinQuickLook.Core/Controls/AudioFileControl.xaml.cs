@@ -2,7 +2,7 @@
 
 using Cylinder;
 
-using WinQuickLook.Windows;
+using WinQuickLook.Providers;
 
 namespace WinQuickLook.Controls;
 

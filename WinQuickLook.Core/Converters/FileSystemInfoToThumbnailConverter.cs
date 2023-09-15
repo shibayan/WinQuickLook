@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-using WinQuickLook.Windows;
+using WinQuickLook.Providers;
 
 namespace WinQuickLook.Converters;
 

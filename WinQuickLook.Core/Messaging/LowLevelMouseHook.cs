@@ -13,7 +13,7 @@ public class LowLevelMouseHook : WindowsHook
 
     protected override LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam)
     {
-        if (code == PInvoke.HC_ACTION && wParam == (nuint)PInvoke.WM_LBUTTONDOWN)
+        if (code == PInvoke.HC_ACTION && wParam == PInvoke.WM_LBUTTONDOWN)
         {
 
         }

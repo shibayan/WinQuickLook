@@ -7,7 +7,7 @@ using Windows.Win32;
 
 using WinQuickLook.Handlers;
 using WinQuickLook.Messaging;
-using WinQuickLook.Windows;
+using WinQuickLook.Providers;
 
 namespace WinQuickLook.App;
 

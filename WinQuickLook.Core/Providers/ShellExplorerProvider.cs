@@ -9,7 +9,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 using IServiceProvider = Windows.Win32.System.Com.IServiceProvider;
 
-namespace WinQuickLook.Windows;
+namespace WinQuickLook.Providers;
 
 public class ShellExplorerProvider
 {
@@ -119,7 +119,7 @@ public class ShellExplorerProvider
         }
     }
 
-    private bool IsCaretActive(HWND hwnd)
+    private static bool IsCaretActive(HWND hwnd)
     {
         var threadId = PInvoke.GetWindowThreadProcessId(hwnd);
 
@@ -133,7 +133,7 @@ public class ShellExplorerProvider
         return info.flags != 0 || info.hwndCaret != nint.Zero;
     }
 
-    private bool IsDesktopWindow(HWND hwnd)
+    private static bool IsDesktopWindow(HWND hwnd)
     {
         Span<char> classNameBuf = new char[64];
 
