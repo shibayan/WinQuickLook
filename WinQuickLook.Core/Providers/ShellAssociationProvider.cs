@@ -13,7 +13,7 @@ using Windows.Win32.UI.Shell;
 
 using WinQuickLook.Extensions;
 
-namespace WinQuickLook.Windows;
+namespace WinQuickLook.Providers;
 
 public class ShellAssociationProvider
 {
@@ -70,24 +70,11 @@ public class ShellAssociationProvider
 
             var iconLocation = pIconLocation.ToString();
 
-            BitmapSource? icon;
-
-            if (Path.IsPathFullyQualified(iconLocation))
-            {
-                icon = GetIconFromResource(iconLocation, iconIndex);
-            }
-            else if (iconLocation.StartsWith("@"))
-            {
-                icon = GetIconFromIndirectString(iconLocation);
-            }
-            else
-            {
-                icon = null;
-            }
+            var icon = GetIconFromLocation(iconLocation, iconIndex);
 
             recommends.Add(new Entry
             {
-                Name = pUiName.ToString(),
+                Name = pUiName.ToString()!,
                 Icon = icon
             });
 
@@ -125,9 +112,9 @@ public class ShellAssociationProvider
             {
                 PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
 
-                shellItem.BindToHandler(null, PInvoke.BHID_DataObject, typeof(global::Windows.Win32.System.Com.IDataObject).GUID, out var dataObject);
+                shellItem.BindToHandler(null, PInvoke.BHID_DataObject, typeof(Windows.Win32.System.Com.IDataObject).GUID, out var dataObject);
 
-                assocHandler.Invoke((global::Windows.Win32.System.Com.IDataObject)dataObject);
+                assocHandler.Invoke((Windows.Win32.System.Com.IDataObject)dataObject);
 
                 Marshal.ReleaseComObject(dataObject);
                 Marshal.ReleaseComObject(shellItem);
@@ -142,7 +129,27 @@ public class ShellAssociationProvider
         Marshal.ReleaseComObject(enumAssocHandlers);
     }
 
-    private BitmapSource? GetIconFromResource(string path, int iconIndex)
+    private static BitmapSource? GetIconFromLocation(string? iconLocation, int iconIndex)
+    {
+        if (iconLocation is null)
+        {
+            return null;
+        }
+
+        if (Path.IsPathFullyQualified(iconLocation))
+        {
+            return GetIconFromResource(iconLocation, iconIndex);
+        }
+
+        if (iconLocation.StartsWith("@"))
+        {
+            return GetIconFromIndirectString(iconLocation);
+        }
+
+        return null;
+    }
+
+    private static BitmapSource? GetIconFromResource(string path, int iconIndex)
     {
         PInvoke.ExtractIconEx(path, iconIndex, out var iconLarge, out var iconSmall, 1);
 
@@ -162,7 +169,7 @@ public class ShellAssociationProvider
         }
     }
 
-    private BitmapSource? GetIconFromIndirectString(string path)
+    private static BitmapSource? GetIconFromIndirectString(string path)
     {
         Span<char> pszOut = new char[512];
 

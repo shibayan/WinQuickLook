@@ -19,7 +19,7 @@ public class LowLevelKeyboardHook : WindowsHook
 
     protected override LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam)
     {
-        if (code == PInvoke.HC_ACTION && wParam == (nuint)PInvoke.WM_KEYDOWN)
+        if (code == PInvoke.HC_ACTION && wParam == PInvoke.WM_KEYDOWN)
         {
             var kbdllhook = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 

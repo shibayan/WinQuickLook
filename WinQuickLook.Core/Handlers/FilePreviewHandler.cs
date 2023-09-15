@@ -19,7 +19,7 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
                 return TryCreateViewer(fileInfo, out handlerResult);
             }
 
-            if (!s_genericFileExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))
+            if (!s_ignoreFileExtensions.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase))
             {
                 return TryCreateViewer(fileInfo, out handlerResult);
             }
@@ -32,5 +32,8 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 
     protected abstract bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult);
 
-    private static readonly IReadOnlyList<string> s_genericFileExtensions = new[] { ".dll", ".exe" };
+    private static readonly IReadOnlyList<string> s_ignoreFileExtensions = new[]
+    {
+        ".acm", ".ax", ".cpl", ".dll", ".drv", ".efi", ".exe", ".fon", ".mui", ".ocx", ".scr", ".sys", ".tsp"
+    };
 }

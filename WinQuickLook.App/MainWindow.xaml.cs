@@ -16,7 +16,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 using WinQuickLook.Extensions;
 using WinQuickLook.Handlers;
-using WinQuickLook.Windows;
+using WinQuickLook.Providers;
 
 namespace WinQuickLook.App;
 
