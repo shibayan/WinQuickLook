@@ -1,0 +1,29 @@
+name: Build V3
+
+on:
+  push:
+    branches: [ v3 ]
+  pull_request:
+    branches: [ v3 ]
+
+env:
+  DOTNET_VERSION: 7.0.x
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Use .NET ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Build application
+      run: dotnet build .\WinQuickLook\WinQuickLook.csproj /p:Platform=x64 /p:Configuration=Release /verbosity:minimal
+
+    - name: Lint C# code
+      run: dotnet format whitespace .\WinQuickLook\WinQuickLook.csproj --verify-no-changes --verbosity detailed --no-restore
