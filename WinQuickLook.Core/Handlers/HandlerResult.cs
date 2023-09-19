@@ -4,7 +4,7 @@ namespace WinQuickLook.Handlers;
 
 public class HandlerResult
 {
-    public FrameworkElement Viewer { get; init; } = null!;
+    public FrameworkElement Content { get; init; } = null!;
 
     public Size RequestSize { get; set; } = s_defaultRequestSize;
 

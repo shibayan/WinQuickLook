@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 
 using Cylinder;
@@ -49,7 +50,7 @@ public partial class MainWindow
         ApplyRequestSize(handlerResult.RequestSize);
 
         Title = fileSystemInfo.Name;
-        contentPresenter.Content = handlerResult.Viewer;
+        AppContentPresenter.Content = handlerResult.Content;
 
         if (fileSystemInfo is FileInfo fileInfo)
         {
@@ -71,6 +72,14 @@ public partial class MainWindow
 
         MoveCenter();
         Show();
+    }
+
+    public void OpenAssociateMenu(Button button)
+    {
+        var contextMenu = (ContextMenu)button.FindResource("AssociateMenu");
+
+        contextMenu.PlacementTarget = button;
+        contextMenu.IsOpen = true;
     }
 
     public void OpenWithAssociation(string appName)
@@ -101,7 +110,7 @@ public partial class MainWindow
     {
         Hide();
 
-        contentPresenter.Content = null;
+        AppContentPresenter.Content = null;
     }
 
     public void ClosePreviewIfActive()

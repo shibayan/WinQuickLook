@@ -18,7 +18,7 @@ public class GenericFilePreviewHandler : FilePreviewHandler
             fileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = fileControl, RequestSize = new(572, 290) };
+        handlerResult = new HandlerResult { Content = fileControl, RequestSize = new(572, 290) };
 
         return true;
     }

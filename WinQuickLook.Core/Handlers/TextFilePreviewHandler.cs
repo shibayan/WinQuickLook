@@ -56,7 +56,7 @@ public class TextFilePreviewHandler : FilePreviewHandler
             textEditor.Load(fileInfo.OpenReadNoLock());
         }
 
-        handlerResult = new HandlerResult { Viewer = textEditor };
+        handlerResult = new HandlerResult { Content = textEditor };
 
         return true;
     }
