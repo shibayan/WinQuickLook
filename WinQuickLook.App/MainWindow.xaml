@@ -20,7 +20,26 @@
                       UseAeroCaptionButtons="False" />
     </WindowChrome.WindowChrome>
     <Window.Resources>
-        <ResourceDictionary Source="Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary>
+                    <ContextMenu x:Key="AssociateMenu" Placement="Bottom" ItemsSource="{Binding Path=Recommends.Value}">
+                        <ContextMenu.Resources>
+                            <Image x:Key="MenuIcon" x:Shared="false" Source="{Binding Path=Icon}" />
+                        </ContextMenu.Resources>
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Path=Name}" />
+                                <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
+                                <Setter Property="Command" Value="{cylinder:Invoke OpenWithAssociation}" />
+                                <Setter Property="CommandParameter" Value="{Binding Path=Name}" />
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
+                    </ContextMenu>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,25 +54,12 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Button Style="{DynamicResource AssociateButtonStyle}"
+                        Command="{cylinder:Invoke OpenAssociateMenu}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                         Width="{x:Static app:AppParameters.CaptionButtonWidth}"
                         Height="{x:Static app:AppParameters.CaptionButtonHeight}"
                         Visibility="{Binding Path=Recommends.Value, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <TextBlock Style="{DynamicResource CaptionFontIconStyle}" Text="&#xE78B;" />
-                    <Button.ContextMenu>
-                        <ContextMenu Placement="Bottom" ItemsSource="{Binding Path=Recommends.Value}">
-                            <ContextMenu.Resources>
-                                <Image x:Key="MenuIcon" x:Shared="false" Source="{Binding Path=Icon}" />
-                            </ContextMenu.Resources>
-                            <ContextMenu.ItemContainerStyle>
-                                <Style TargetType="MenuItem">
-                                    <Setter Property="Header" Value="{Binding Path=Name}" />
-                                    <Setter Property="Icon" Value="{StaticResource MenuIcon}" />
-                                    <Setter Property="Command" Value="{cylinder:Invoke OpenWithAssociation}" />
-                                    <Setter Property="CommandParameter" Value="{Binding Path=Name}" />
-                                </Style>
-                            </ContextMenu.ItemContainerStyle>
-                        </ContextMenu>
-                    </Button.ContextMenu>
                 </Button>
                 <Button Style="{DynamicResource AssociateButtonStyle}"
                         Command="{cylinder:Invoke OpenWithDefault}"
@@ -78,6 +84,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ContentPresenter x:Name="contentPresenter" Grid.Row="1" />
+        <ContentPresenter x:Name="AppContentPresenter" Grid.Row="1" />
     </Grid>
 </Window>

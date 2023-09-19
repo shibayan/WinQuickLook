@@ -32,7 +32,7 @@ public class ShellFilePreviewHandler : FilePreviewHandler
             shellFileControl.Loaded += (_, _) => shellFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = shellFileControl };
+        handlerResult = new HandlerResult { Content = shellFileControl };
 
         return true;
     }

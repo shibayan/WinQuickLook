@@ -18,7 +18,7 @@ public class GenericDirectoryPreviewHandler : DirectoryPreviewHandler
             directoryControl.Open(directoryInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = directoryControl, RequestSize = new(572, 290) };
+        handlerResult = new HandlerResult { Content = directoryControl, RequestSize = new(572, 290) };
 
         return true;
     }

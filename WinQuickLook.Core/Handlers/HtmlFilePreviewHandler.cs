@@ -28,7 +28,7 @@ public class HtmlFilePreviewHandler : FilePreviewHandler
             htmlFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = htmlFileControl };
+        handlerResult = new HandlerResult { Content = htmlFileControl };
 
         return true;
     }

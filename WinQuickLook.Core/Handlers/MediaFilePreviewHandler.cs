@@ -78,7 +78,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             videoFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = videoFileControl, RequestSize = requestSize };
+        handlerResult = new HandlerResult { Content = videoFileControl, RequestSize = requestSize };
 
         return true;
     }
@@ -101,7 +101,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
             musicFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = musicFileControl, RequestSize = requestSize };
+        handlerResult = new HandlerResult { Content = musicFileControl, RequestSize = requestSize };
 
         return true;
     }

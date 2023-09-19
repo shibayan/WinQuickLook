@@ -34,7 +34,7 @@ public class ImageFilePreviewHandler : FilePreviewHandler
             image.Source = bitmap;
         }
 
-        handlerResult = new HandlerResult { Viewer = image, RequestSize = requestSize };
+        handlerResult = new HandlerResult { Content = image, RequestSize = requestSize };
 
         return true;
     }

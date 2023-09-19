@@ -28,7 +28,7 @@ public class MarkdownFilePreviewHandler : FilePreviewHandler
             markdownFileControl.Open(fileInfo);
         }
 
-        handlerResult = new HandlerResult { Viewer = markdownFileControl };
+        handlerResult = new HandlerResult { Content = markdownFileControl };
 
         return true;
     }
