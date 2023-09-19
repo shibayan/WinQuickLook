@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="128" align="center" src="WinQuickLook.Package/Assets/Square44x44Logo.scale-400.png">
+  <img width="128" align="center" src="WinQuickLook.App/Assets/Square44x44Logo.scale-400.png">
 </p>
 <h1 align="center">
   WinQuickLook
