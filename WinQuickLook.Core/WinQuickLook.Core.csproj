@@ -12,7 +12,7 @@
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Cylinder.WPF" Version="1.0.0-preview.2" />
     <PackageReference Include="Markdig" Version="0.33.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2045.28" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2088.41" />
   </ItemGroup>
 
   <ItemGroup>
