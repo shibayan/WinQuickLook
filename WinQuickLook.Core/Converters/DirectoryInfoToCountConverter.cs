@@ -10,7 +10,7 @@ namespace WinQuickLook.Converters;
 [ValueConversion(typeof(DirectoryInfo), typeof(int))]
 public class DirectoryInfoToCountConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is DirectoryInfo directoryInfo)
         {
@@ -20,5 +20,5 @@ public class DirectoryInfoToCountConverter : IValueConverter
         return DependencyProperty.UnsetValue;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 }

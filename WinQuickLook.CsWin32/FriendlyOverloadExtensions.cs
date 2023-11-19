@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -10,10 +9,10 @@ namespace Windows.Win32;
 
 public static class FriendlyOverloadExtensions
 {
-    public static unsafe HRESULT QueryService<T>(this IServiceProvider serviceProvider, in Guid guidService, out T ppvObject)
+    public static HRESULT QueryService<T>(this IServiceProvider serviceProvider, in Guid guidService, out T ppvObject)
     {
         var hr = serviceProvider.QueryService(guidService, typeof(T).GUID, out var o);
-        ppvObject = (T)Marshal.GetTypedObjectForIUnknown(new nint(o), typeof(T));
+        ppvObject = (T)o;
         return hr;
     }
 
@@ -71,6 +70,14 @@ public static class FriendlyOverloadExtensions
             var hr = shellWindows.FindWindowSW(pvarLoc, pvarLocRoot, swClass, (int*)phwndLocal, swfwOptions, out var o);
             ppdispOut = (T)o;
             return hr;
+        }
+    }
+
+    public static unsafe HRESULT Next(this IEnumAssocHandlers enumAssocHandlers, IAssocHandler[] rgelt, out uint pceltFetched)
+    {
+        fixed (uint* pceltFetchedLocal = &pceltFetched)
+        {
+            return enumAssocHandlers.Next(rgelt, pceltFetchedLocal);
         }
     }
 }

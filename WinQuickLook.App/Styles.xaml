@@ -3,6 +3,7 @@
                     xmlns:converters="clr-namespace:WinQuickLook.Converters;assembly=WinQuickLook.Core">
 
     <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+    <converters:ImageSourceToImageConverter x:Key="ImageSourceToImageConverter" />
 
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">

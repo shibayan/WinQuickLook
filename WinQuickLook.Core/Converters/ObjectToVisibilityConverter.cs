@@ -9,9 +9,9 @@ namespace WinQuickLook.Converters;
 [ValueConversion(typeof(object), typeof(Visibility))]
 public class ObjectToVisibilityConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 
     private static bool ToBoolean(object? value)
     {
