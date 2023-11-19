@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media.Imaging;
-
-using WinQuickLook.Providers;
+using System.Windows.Media;
 
 namespace WinQuickLook.Converters;
 
-[ValueConversion(typeof(FileSystemInfo), typeof(BitmapSource))]
-public class FileSystemInfoToThumbnailConverter : IValueConverter
+[ValueConversion(typeof(ImageSource), typeof(Image))]
+public class ImageSourceToImageConverter : IValueConverter
 {
-    private static readonly ShellThumbnailProvider s_shellThumbnailProvider = new();
-
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is FileSystemInfo fileSystemInfo)
+        if (value is ImageSource imageSource)
         {
-            return s_shellThumbnailProvider.GetImage(fileSystemInfo)!;
+            return new Image { Source = imageSource };
         }
 
         return DependencyProperty.UnsetValue;

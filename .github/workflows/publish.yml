@@ -5,14 +5,14 @@ on:
     tags: [ v* ]
 
 env:
-  DOTNET_VERSION: 7.0.x
+  DOTNET_VERSION: 8.0.x
   BUNDLE_PLATFORMS: x64|arm64
 
 jobs:
   publish:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
 

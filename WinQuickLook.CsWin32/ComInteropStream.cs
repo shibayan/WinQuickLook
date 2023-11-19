@@ -18,29 +18,37 @@ public class ComInteropStream : IStream
 
     private readonly Stream _baseStream;
 
-    public unsafe HRESULT Read(void* pv, uint cb, out uint pcbRead)
+    public unsafe HRESULT Read(void* pv, uint cb, uint* pcbRead)
     {
         var buffer = new Span<byte>(pv, (int)cb);
 
-        pcbRead = (uint)_baseStream.Read(buffer);
+        *pcbRead = (uint)_baseStream.Read(buffer);
 
         return new HRESULT();
     }
 
-    public unsafe HRESULT Write(void* pv, uint cb, out uint pcbWritten)
+    public unsafe HRESULT Write(void* pv, uint cb, uint* pcbWritten)
     {
         var buffer = new ReadOnlySpan<byte>(pv, (int)cb);
 
         _baseStream.Write(buffer);
 
-        pcbWritten = (uint)buffer.Length;
+        if (pcbWritten is not null)
+        {
+            *pcbWritten = (uint)buffer.Length;
+        }
 
         return new HRESULT();
     }
 
-    public HRESULT Seek(long dlibMove, SeekOrigin dwOrigin, out ulong plibNewPosition)
+    public unsafe HRESULT Seek(long dlibMove, SeekOrigin dwOrigin, ulong* plibNewPosition)
     {
-        plibNewPosition = (ulong)_baseStream.Seek(dlibMove, dwOrigin);
+        var newPosition = (ulong)_baseStream.Seek(dlibMove, dwOrigin);
+
+        if (plibNewPosition is not null)
+        {
+            *plibNewPosition = newPosition;
+        }
 
         return new HRESULT();
     }
@@ -52,7 +60,7 @@ public class ComInteropStream : IStream
         return new HRESULT();
     }
 
-    public HRESULT CopyTo(IStream pstm, ulong cb, out ulong pcbRead, out ulong pcbWritten) => throw new NotSupportedException();
+    public unsafe HRESULT CopyTo(IStream pstm, ulong cb, ulong* pcbRead, ulong* pcbWritten) => throw new NotSupportedException();
 
     public HRESULT Commit(STGC grfCommitFlags) => throw new NotSupportedException();
 

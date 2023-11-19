@@ -12,7 +12,7 @@ namespace WinQuickLook.Converters;
 [ValueConversion(typeof(FileSystemInfo), typeof(string))]
 public class FileInfoToTypeNameConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not FileSystemInfo fileSystemInfo)
         {
@@ -26,5 +26,5 @@ public class FileInfoToTypeNameConverter : IValueConverter
         return sfi.szTypeName;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 }

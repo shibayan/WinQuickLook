@@ -9,7 +9,7 @@ namespace WinQuickLook.Converters;
 [ValueConversion(typeof(FileInfo), typeof(long))]
 public class FileInfoToSizeConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is FileInfo fileInfo)
         {
@@ -19,7 +19,7 @@ public class FileInfoToSizeConverter : IValueConverter
         return DependencyProperty.UnsetValue;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 
     private const long TeraByte = 1024L * 1024 * 1024 * 1024;
     private const long GigaByte = 1024L * 1024 * 1024;

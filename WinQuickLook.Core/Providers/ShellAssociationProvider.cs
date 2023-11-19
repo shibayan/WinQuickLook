@@ -52,40 +52,58 @@ public class ShellAssociationProvider
             return Array.Empty<Entry>();
         }
 
-        var recommends = new List<Entry>();
-
-        var assocHandlers = new IAssocHandler?[1];
-
-        while (enumAssocHandlers.Next(assocHandlers, out _).Succeeded)
+        try
         {
-            var assocHandler = assocHandlers[0];
+            var recommends = new List<Entry>();
 
-            if (assocHandler is null)
+            var assocHandlers = new IAssocHandler?[8];
+
+            while (enumAssocHandlers.Next(assocHandlers, out var fetched).Succeeded)
             {
-                break;
+                if (fetched == 0)
+                {
+                    break;
+                }
+
+                for (var i = 0; i < fetched; i++)
+                {
+                    var assocHandler = assocHandlers[i];
+
+                    if (assocHandler is null)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        assocHandler.GetUIName(out var pUiName);
+                        assocHandler.GetIconLocation(out var pIconLocation, out var iconIndex);
+
+                        var iconLocation = pIconLocation.ToString();
+
+                        var icon = GetIconFromLocation(iconLocation, iconIndex);
+
+                        recommends.Add(new Entry
+                        {
+                            Name = pUiName.ToString()!,
+                            Icon = icon
+                        });
+                    }
+                    finally
+                    {
+                        Marshal.ReleaseComObject(assocHandler);
+                    }
+                }
             }
 
-            assocHandler.GetUIName(out var pUiName);
-            assocHandler.GetIconLocation(out var pIconLocation, out var iconIndex);
+            recommends.Sort((x, y) => Comparer<string>.Default.Compare(x.Name, y.Name));
 
-            var iconLocation = pIconLocation.ToString();
-
-            var icon = GetIconFromLocation(iconLocation, iconIndex);
-
-            recommends.Add(new Entry
-            {
-                Name = pUiName.ToString()!,
-                Icon = icon
-            });
-
-            Marshal.ReleaseComObject(assocHandler);
+            return recommends;
         }
-
-        Marshal.ReleaseComObject(enumAssocHandlers);
-
-        recommends.Sort((x, y) => Comparer<string>.Default.Compare(x.Name, y.Name));
-
-        return recommends;
+        finally
+        {
+            Marshal.ReleaseComObject(enumAssocHandlers);
+        }
     }
 
     public void Invoke(string appName, FileInfo fileInfo)
@@ -95,38 +113,57 @@ public class ShellAssociationProvider
             return;
         }
 
-        var assocHandlers = new IAssocHandler?[1];
-
-        while (enumAssocHandlers.Next(assocHandlers, out _).Succeeded)
+        try
         {
-            var assocHandler = assocHandlers[0];
+            var assocHandlers = new IAssocHandler?[8];
 
-            if (assocHandler is null)
+            while (enumAssocHandlers.Next(assocHandlers, out var fetched).Succeeded)
             {
-                break;
+                if (fetched == 0)
+                {
+                    break;
+                }
+
+                for (var i = 0; i < fetched; i++)
+                {
+                    var assocHandler = assocHandlers[i];
+
+                    if (assocHandler is null)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        assocHandler.GetUIName(out var pUiName);
+
+                        if (appName != pUiName.ToString())
+                        {
+                            continue;
+                        }
+
+                        PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
+
+                        shellItem.BindToHandler(null, PInvoke.BHID_DataObject, typeof(Windows.Win32.System.Com.IDataObject).GUID, out var dataObject);
+
+                        assocHandler.Invoke((Windows.Win32.System.Com.IDataObject)dataObject);
+
+                        Marshal.ReleaseComObject(dataObject);
+                        Marshal.ReleaseComObject(shellItem);
+
+                        return;
+                    }
+                    finally
+                    {
+                        Marshal.ReleaseComObject(assocHandler);
+                    }
+                }
             }
-
-            assocHandler.GetUIName(out var pUiName);
-
-            if (appName == pUiName.ToString())
-            {
-                PInvoke.SHCreateItemFromParsingName(fileInfo.FullName, null, out IShellItem shellItem);
-
-                shellItem.BindToHandler(null, PInvoke.BHID_DataObject, typeof(Windows.Win32.System.Com.IDataObject).GUID, out var dataObject);
-
-                assocHandler.Invoke((Windows.Win32.System.Com.IDataObject)dataObject);
-
-                Marshal.ReleaseComObject(dataObject);
-                Marshal.ReleaseComObject(shellItem);
-                Marshal.ReleaseComObject(assocHandler);
-
-                break;
-            }
-
-            Marshal.ReleaseComObject(assocHandler);
         }
-
-        Marshal.ReleaseComObject(enumAssocHandlers);
+        finally
+        {
+            Marshal.ReleaseComObject(enumAssocHandlers);
+        }
     }
 
     private static BitmapSource? GetIconFromLocation(string? iconLocation, int iconIndex)
@@ -141,7 +178,7 @@ public class ShellAssociationProvider
             return GetIconFromResource(iconLocation, iconIndex);
         }
 
-        if (iconLocation.StartsWith("@"))
+        if (iconLocation.StartsWith('@'))
         {
             return GetIconFromIndirectString(iconLocation);
         }
@@ -169,7 +206,7 @@ public class ShellAssociationProvider
         }
     }
 
-    private static BitmapSource? GetIconFromIndirectString(string path)
+    private static BitmapImage? GetIconFromIndirectString(string path)
     {
         Span<char> pszOut = new char[512];
 
