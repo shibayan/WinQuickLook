@@ -26,7 +26,7 @@ jobs:
 
     - name: Setup Version
       id: setup_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Update package manifest
