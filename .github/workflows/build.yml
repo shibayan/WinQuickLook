@@ -4,12 +4,12 @@ on:
   push:
     branches: [ master ]
     paths:
-      - ".github/workflows/build.yml"
+      - ".github/workflows/*.yml"
       - "WinQuickLook*"
   pull_request:
     branches: [ master ]
     paths:
-      - ".github/workflows/build.yml"
+      - ".github/workflows/*.yml"
       - "WinQuickLook*"
 
 env:
