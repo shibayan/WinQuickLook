@@ -54,7 +54,7 @@ jobs:
         /verbosity:minimal
 
     - name: Upload MSIX
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: msix
         path: packed\*.msixupload
