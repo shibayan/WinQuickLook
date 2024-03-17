@@ -37,7 +37,9 @@ public class ShellFileControl : HwndHost
             WINDOW_STYLE.WS_CHILD | WINDOW_STYLE.WS_VISIBLE | WINDOW_STYLE.WS_CLIPCHILDREN,
             0, 0,
             (int)ActualWidth, (int)ActualHeight,
-            new HWND(hwndParent.Handle));
+            new HWND(hwndParent.Handle),
+            null,
+            null);
 
         return new HandleRef(this, hwndHost);
     }

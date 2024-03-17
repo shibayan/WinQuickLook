@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Platforms>x64;arm64</Platforms>
     <NoWarn>CS0109</NoWarn>
     <RootNamespace>Windows.Win32</RootNamespace>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
