@@ -8,13 +8,8 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Messaging;
 
-public class LowLevelKeyboardHook : WindowsHook
+public class LowLevelKeyboardHook() : WindowsHook(WINDOWS_HOOK_ID.WH_KEYBOARD_LL)
 {
-    public LowLevelKeyboardHook()
-        : base(WINDOWS_HOOK_ID.WH_KEYBOARD_LL)
-    {
-    }
-
     public Action<VIRTUAL_KEY>? PerformKeyDown { get; set; }
 
     protected override LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam)

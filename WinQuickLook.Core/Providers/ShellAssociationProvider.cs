@@ -49,14 +49,14 @@ public class ShellAssociationProvider
     {
         if (PInvoke.SHAssocEnumHandlers(fileInfo.Extension, ASSOC_FILTER.ASSOC_FILTER_RECOMMENDED, out var enumAssocHandlers).Failed)
         {
-            return Array.Empty<Entry>();
+            return [];
         }
 
         try
         {
             var recommends = new List<Entry>();
 
-            var assocHandlers = new IAssocHandler?[8];
+            var assocHandlers = new IAssocHandler[8];
 
             while (enumAssocHandlers.Next(assocHandlers, out var fetched).Succeeded)
             {
@@ -68,11 +68,6 @@ public class ShellAssociationProvider
                 for (var i = 0; i < fetched; i++)
                 {
                     var assocHandler = assocHandlers[i];
-
-                    if (assocHandler is null)
-                    {
-                        continue;
-                    }
 
                     try
                     {
@@ -115,7 +110,7 @@ public class ShellAssociationProvider
 
         try
         {
-            var assocHandlers = new IAssocHandler?[8];
+            var assocHandlers = new IAssocHandler[8];
 
             while (enumAssocHandlers.Next(assocHandlers, out var fetched).Succeeded)
             {
@@ -127,11 +122,6 @@ public class ShellAssociationProvider
                 for (var i = 0; i < fetched; i++)
                 {
                     var assocHandler = assocHandlers[i];
-
-                    if (assocHandler is null)
-                    {
-                        continue;
-                    }
 
                     try
                     {

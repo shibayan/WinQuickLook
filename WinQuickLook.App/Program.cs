@@ -38,8 +38,8 @@ public class Program
 
     private static void ConfigureService(IServiceCollection services)
     {
-        services.TryAddEnumerable(new[]
-        {
+        services.TryAddEnumerable(
+        [
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, CodeFilePreviewHandler>(),
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, GenericDirectoryPreviewHandler>(),
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, GenericFilePreviewHandler>(),
@@ -51,7 +51,7 @@ public class Program
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, ShellFilePreviewHandler>(),
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, SvgFilePreviewHandler>(),
             ServiceDescriptor.Singleton<IFileSystemPreviewHandler, TextFilePreviewHandler>()
-        });
+        ]);
 
         services.AddSingleton<ShellAssociationProvider>();
         services.AddSingleton<ShellThumbnailProvider>();

@@ -4,13 +4,8 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace WinQuickLook.Messaging;
 
-public class LowLevelMouseHook : WindowsHook
+public class LowLevelMouseHook() : WindowsHook(WINDOWS_HOOK_ID.WH_MOUSE_LL)
 {
-    public LowLevelMouseHook()
-        : base(WINDOWS_HOOK_ID.WH_MOUSE_LL)
-    {
-    }
-
     protected override LRESULT HookProc(int code, WPARAM wParam, LPARAM lParam)
     {
         if (code == PInvoke.HC_ACTION && wParam == PInvoke.WM_LBUTTONDOWN)
