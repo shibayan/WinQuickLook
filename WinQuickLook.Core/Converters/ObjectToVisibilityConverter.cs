@@ -24,7 +24,7 @@ public class ObjectToVisibilityConverter : IValueConverter
         {
             string stringValue => !string.IsNullOrEmpty(stringValue),
             ICollection collection => collection.Count != 0,
-            _ => false
+            _ => true
         };
     }
 }

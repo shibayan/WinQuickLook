@@ -33,5 +33,5 @@ public class HtmlFilePreviewHandler : FilePreviewHandler
         return true;
     }
 
-    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".htm", ".html", ".xhtml" };
+    private static readonly IReadOnlyList<string> s_supportedExtensions = [".htm", ".html", ".xhtml"];
 }

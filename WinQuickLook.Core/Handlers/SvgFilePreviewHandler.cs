@@ -21,5 +21,5 @@ public class SvgFilePreviewHandler : FilePreviewHandler
         throw new NotImplementedException();
     }
 
-    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".svg", ".svgz" };
+    private static readonly IReadOnlyList<string> s_supportedExtensions = [".svg", ".svgz"];
 }

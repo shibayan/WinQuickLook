@@ -36,9 +36,9 @@ public partial class MainWindow
 
     public Ref<FileInfo> FileInfo { get; } = new(null);
 
-    public Ref<string> DefaultName { get; } = new("");
+    public Ref<ShellAssociationProvider.Entry> Default { get; } = new(null);
 
-    public Ref<IReadOnlyList<ShellAssociationProvider.Entry>> Recommends { get; } = new(Array.Empty<ShellAssociationProvider.Entry>());
+    public Ref<IReadOnlyList<ShellAssociationProvider.Entry>> Recommends { get; } = new([]);
 
     public void OpenPreview(FileSystemInfo fileSystemInfo)
     {
@@ -56,13 +56,13 @@ public partial class MainWindow
         {
             FileInfo.Value = fileInfo;
 
-            DefaultName.Value = _shellAssociationProvider.TryGetDefault(fileInfo, out var entry) ? entry.Name : "";
+            Default.Value = _shellAssociationProvider.TryGetDefault(fileInfo, out var entry) ? entry : null;
             Recommends.Value = _shellAssociationProvider.GetRecommends(fileInfo);
         }
         else
         {
-            DefaultName.Value = "";
-            Recommends.Value = Array.Empty<ShellAssociationProvider.Entry>();
+            Default.Value = null;
+            Recommends.Value = [];
         }
 
         if (IsVisible)
@@ -70,7 +70,7 @@ public partial class MainWindow
             return;
         }
 
-        MoveCenter();
+        MoveToCenter();
         Show();
     }
 
@@ -82,26 +82,21 @@ public partial class MainWindow
         contextMenu.IsOpen = true;
     }
 
-    public void OpenWithAssociation(string appName)
+    public void OpenWithAssociation(ShellAssociationProvider.Entry entry)
     {
         if (FileInfo.Value is null)
         {
             return;
         }
 
-        _shellAssociationProvider.Invoke(appName, FileInfo.Value);
-
-        ClosePreview();
-    }
-
-    public void OpenWithDefault()
-    {
-        if (FileInfo.Value is null)
+        if (entry.IsDefault)
         {
-            return;
+            Process.Start(new ProcessStartInfo(FileInfo.Value.FullName) { UseShellExecute = true });
         }
-
-        Process.Start(new ProcessStartInfo(FileInfo.Value.FullName) { UseShellExecute = true });
+        else
+        {
+            _shellAssociationProvider.Invoke(entry.Name, FileInfo.Value);
+        }
 
         ClosePreview();
     }
@@ -132,7 +127,7 @@ public partial class MainWindow
         Height = Math.Max(Math.Round(requestSize.Height * scaleFactor) + AppParameters.CaptionHeight, MinHeight);
     }
 
-    private void MoveCenter()
+    private void MoveToCenter()
     {
         var (monitor, dpi) = GetCurrentMonitorInfo();
 

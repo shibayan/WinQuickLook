@@ -30,7 +30,7 @@ internal static class PropertyStoreExtensions
     {
         if (propertyStore.GetValue(key, out var value).Failed)
         {
-            return Array.Empty<string>();
+            return [];
         }
 
         try

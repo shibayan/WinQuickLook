@@ -19,7 +19,8 @@ public class ShellAssociationProvider
 {
     public class Entry
     {
-        public string Name { get; init; } = null!;
+        public required string Name { get; init; }
+        public required bool IsDefault { get; init; }
         public ImageSource? Icon { get; init; }
     }
 
@@ -27,7 +28,7 @@ public class ShellAssociationProvider
     {
         var pcchOut = 0u;
 
-        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, (Span<char>)null, ref pcchOut);
+        PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, Span<char>.Empty, ref pcchOut);
 
         if (pcchOut == 0)
         {
@@ -40,7 +41,7 @@ public class ShellAssociationProvider
 
         PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileInfo.Extension, null, pszOut, ref pcchOut);
 
-        entry = new Entry { Name = new string(pszOut) };
+        entry = new Entry { Name = new string(pszOut), IsDefault = true };
 
         return true;
     }
@@ -81,6 +82,7 @@ public class ShellAssociationProvider
                         recommends.Add(new Entry
                         {
                             Name = pUiName.ToString()!,
+                            IsDefault = false,
                             Icon = icon
                         });
                     }
