@@ -34,6 +34,18 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 
     private static readonly IReadOnlyList<string> s_ignoreFileExtensions =
     [
-        ".acm", ".ax", ".cpl", ".dll", ".drv", ".efi", ".exe", ".fon", ".mui", ".ocx", ".scr", ".sys", ".tsp"
+        ".acm",
+        ".ax",
+        ".cpl",
+        ".dll",
+        ".drv",
+        ".efi",
+        ".exe",
+        ".fon",
+        ".mui",
+        ".ocx",
+        ".scr",
+        ".sys",
+        ".tsp"
     ];
 }
