@@ -32,8 +32,8 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
 
     protected abstract bool TryCreateViewer(FileInfo fileInfo, out HandlerResult? handlerResult);
 
-    private static readonly IReadOnlyList<string> s_ignoreFileExtensions = new[]
-    {
+    private static readonly IReadOnlyList<string> s_ignoreFileExtensions =
+    [
         ".acm", ".ax", ".cpl", ".dll", ".drv", ".efi", ".exe", ".fon", ".mui", ".ocx", ".scr", ".sys", ".tsp"
-    };
+    ];
 }

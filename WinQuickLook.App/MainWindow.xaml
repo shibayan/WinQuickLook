@@ -30,7 +30,7 @@
                                 <Setter Property="Header" Value="{Binding Path=Name}" />
                                 <Setter Property="Icon" Value="{Binding Path=Icon, Converter={StaticResource ImageSourceToImageConverter}}" />
                                 <Setter Property="Command" Value="{cylinder:Invoke OpenWithAssociation}" />
-                                <Setter Property="CommandParameter" Value="{Binding Path=Name}" />
+                                <Setter Property="CommandParameter" Value="{Binding}" />
                             </Style>
                         </ContextMenu.ItemContainerStyle>
                     </ContextMenu>
@@ -59,11 +59,12 @@
                     <TextBlock Style="{DynamicResource CaptionFontIconStyle}" Text="&#xE78B;" />
                 </Button>
                 <Button Style="{DynamicResource AssociateButtonStyle}"
-                        Command="{cylinder:Invoke OpenWithDefault}"
+                        Command="{cylinder:Invoke OpenWithAssociation}"
+                        CommandParameter="{Binding Path=Default.Value}"
                         Padding="15,0"
                         Height="{x:Static app:AppParameters.CaptionButtonHeight}"
-                        Visibility="{Binding Path=DefaultName.Value, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <TextBlock Text="{Binding Path=DefaultName.Value, StringFormat='Open with {0}'}" />
+                        Visibility="{Binding Path=Default.Value, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <TextBlock Text="{Binding Path=Default.Value.Name, StringFormat='Open with {0}'}" />
                 </Button>
             </StackPanel>
             <TextBlock Grid.Column="1" Grid.Row="0" Margin="20,0" Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}" FontSize="14" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />

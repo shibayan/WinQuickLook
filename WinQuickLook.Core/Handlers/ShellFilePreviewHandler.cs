@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using Windows.Win32;
 using Windows.Win32.UI.Shell;
@@ -18,7 +17,7 @@ public class ShellFilePreviewHandler : FilePreviewHandler
         var pcchOut = 0u;
         var riid = typeof(IPreviewHandler).GUID.ToString("B");
 
-        if (PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, Span<char>.Empty, ref pcchOut).Failed)
+        if (PInvoke.AssocQueryString(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, fileInfo.Extension, riid, [], ref pcchOut).Failed)
         {
             handlerResult = default;
 

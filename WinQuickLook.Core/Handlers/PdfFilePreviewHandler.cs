@@ -21,5 +21,5 @@ public class PdfFilePreviewHandler : FilePreviewHandler
         throw new NotImplementedException();
     }
 
-    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".pdf" };
+    private static readonly IReadOnlyList<string> s_supportedExtensions = [".pdf"];
 }

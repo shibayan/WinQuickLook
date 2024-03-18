@@ -33,5 +33,5 @@ public class MarkdownFilePreviewHandler : FilePreviewHandler
         return true;
     }
 
-    private static readonly IReadOnlyList<string> s_supportedExtensions = new[] { ".md", ".markdown" };
+    private static readonly IReadOnlyList<string> s_supportedExtensions = [".md", ".markdown"];
 }

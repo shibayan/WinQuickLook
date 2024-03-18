@@ -14,8 +14,8 @@ public class CodeFilePreviewHandler : FilePreviewHandler
     {
         var highlightingManager = HighlightingManager.Instance;
 
-        highlightingManager.RegisterHighlighting("TypeScript", new[] { ".ts" }, highlightingManager.GetDefinitionByExtension(".js"));
-        highlightingManager.RegisterHighlighting("Vue", new[] { ".vue" }, highlightingManager.GetDefinitionByExtension(".html"));
+        highlightingManager.RegisterHighlighting("TypeScript", [".ts"], highlightingManager.GetDefinitionByExtension(".js"));
+        highlightingManager.RegisterHighlighting("Vue", [".vue"], highlightingManager.GetDefinitionByExtension(".html"));
     }
 
     public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.AboveNormal;
