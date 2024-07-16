@@ -85,7 +85,7 @@ public class MediaFilePreviewHandler : FilePreviewHandler
 
     private static bool TryCreateAudioViewer(FileInfo fileInfo, IMFAttributes audioMediaType, [NotNullWhen(true)] out HandlerResult? handlerResult)
     {
-        if (!TryGetAudioChannels(audioMediaType, out _))
+        if (!TryGetAudioChannels(audioMediaType))
         {
             handlerResult = null;
 
@@ -120,13 +120,8 @@ public class MediaFilePreviewHandler : FilePreviewHandler
         return true;
     }
 
-    private static bool TryGetAudioChannels(IMFAttributes audioMediaType, out uint channels)
+    private static bool TryGetAudioChannels(IMFAttributes audioMediaType)
     {
-        if (audioMediaType.GetUINT32(PInvoke.MF_MT_AUDIO_NUM_CHANNELS, out channels).Failed || channels == 0)
-        {
-            return false;
-        }
-
-        return true;
+        return !audioMediaType.GetUINT32(PInvoke.MF_MT_AUDIO_NUM_CHANNELS, out var channels).Failed && channels != 0;
     }
 }

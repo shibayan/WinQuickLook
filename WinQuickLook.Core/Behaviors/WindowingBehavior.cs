@@ -41,6 +41,8 @@ public class WindowingBehavior
             window.SourceInitialized -= SourceInitialized;
         }
 
+        return;
+
         static void SourceInitialized(object? sender, EventArgs e)
         {
             var hwnd = new HWND(new WindowInteropHelper((Window)sender!).Handle);
@@ -64,6 +66,8 @@ public class WindowingBehavior
             window.SourceInitialized -= SourceInitialized;
             window.Loaded -= Loaded;
         }
+
+        return;
 
         static void SourceInitialized(object? sender, EventArgs e)
         {
