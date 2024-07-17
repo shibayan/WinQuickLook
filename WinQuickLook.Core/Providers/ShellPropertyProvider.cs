@@ -11,6 +11,13 @@ namespace WinQuickLook.Providers;
 
 public class ShellPropertyProvider
 {
+    public class AudioProperties
+    {
+        public string? Title { get; init; }
+        public string? Artist { get; init; }
+        public string? Album { get; init; }
+    }
+
     public AudioProperties? GetAudioProperties(FileInfo fileInfo)
     {
         if (PInvoke.SHGetPropertyStoreFromParsingName(fileInfo.FullName, null, GETPROPERTYSTOREFLAGS.GPS_DEFAULT, out IPropertyStore propertyStore).Failed)
@@ -32,12 +39,5 @@ public class ShellPropertyProvider
             Marshal.ReleaseComObject(propertyStore);
         }
 
-    }
-
-    public class AudioProperties
-    {
-        public string? Title { get; init; }
-        public string? Artist { get; init; }
-        public string? Album { get; init; }
     }
 }
