@@ -5,7 +5,7 @@ on:
     tags: [ v* ]
 
 env:
-  DOTNET_VERSION: 7.0.x
+  DOTNET_VERSION: 8.0.x
   BUNDLE_PLATFORMS: x64|arm64
 
 jobs:
@@ -17,16 +17,16 @@ jobs:
         submodules: true
 
     - name: Use .NET ${{ env.DOTNET_VERSION }}
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Use MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Setup Version
       id: setup_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Update package manifest
@@ -54,7 +54,7 @@ jobs:
         /verbosity:minimal
 
     - name: Upload MSIX
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: msix
         path: packed\*.msixupload
