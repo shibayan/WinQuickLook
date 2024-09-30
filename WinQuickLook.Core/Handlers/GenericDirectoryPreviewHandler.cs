@@ -7,7 +7,7 @@ namespace WinQuickLook.Handlers;
 
 public class GenericDirectoryPreviewHandler : DirectoryPreviewHandler
 {
-    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Lowest;
+    public override HandlerPriorityClass PriorityClass => HandlerPriorityClass.Generic;
 
     protected override bool TryCreateViewer(DirectoryInfo directoryInfo, out HandlerResult? handlerResult)
     {

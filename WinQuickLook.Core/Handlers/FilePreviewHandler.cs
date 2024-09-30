@@ -14,7 +14,7 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
     {
         if (fileSystemInfo is FileInfo fileInfo)
         {
-            if (PriorityClass == HandlerPriorityClass.Lowest)
+            if (PriorityClass == HandlerPriorityClass.Generic)
             {
                 return TryCreateViewer(fileInfo, out handlerResult);
             }
@@ -46,6 +46,10 @@ public abstract class FilePreviewHandler : IFileSystemPreviewHandler
         ".ocx",
         ".scr",
         ".sys",
-        ".tsp"
+        ".tsp",
+        ".appx",
+        ".msix",
+        ".msixbundle",
+        ".msixupload"
     ];
 }
