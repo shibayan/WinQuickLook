@@ -44,11 +44,6 @@ winget install WinQuickLook --source msstore
 - Windows 10 Version 1903 or later
 - Windows 11
 
-## Thanks
-
-- [PdfiumViewer](https://github.com/pvginkel/PdfiumViewer) by @pvginkel
-- [pdfium-binaries](https://github.com/bblanchon/pdfium-binaries) by @bblanchon
-
 ## License
 
 This project is licensed under the [Apache License 2.0](https://github.com/shibayan/WinQuickLook/blob/master/LICENSE)
