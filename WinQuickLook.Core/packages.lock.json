@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net9.0-windows10.0.22621": {
+      "AvalonEdit": {
+        "type": "Direct",
+        "requested": "[6.3.0.90, )",
+        "resolved": "6.3.0.90",
+        "contentHash": "WVTb5MxwGqKdeasd3nG5udlV4t6OpvkFanziwI133K0/QJ5FvZmfzRQgpAjGTJhQfIA8GP7AzKQ3sTY9JOFk8Q=="
+      },
+      "Cylinder.WPF": {
+        "type": "Direct",
+        "requested": "[1.0.0-preview.2, )",
+        "resolved": "1.0.0-preview.2",
+        "contentHash": "Vi65qfphYUN0O5nm1/1CJQvOmuB8Yt3PRhjvze3uLbktlg8rtX1J19E/bby8BL9IedR4JjGMqfWKUse5EW/6UA=="
+      },
+      "Markdig": {
+        "type": "Direct",
+        "requested": "[0.40.0, )",
+        "resolved": "0.40.0",
+        "contentHash": "4ve14zs+gt1irldTQE3y5FLAHuzmhW7T99lAAvVipe/q2LWT/nUCO0iICb9TXGvMX6n7Z1OZroFXkdSy91rO8w=="
+      },
+      "Microsoft.Web.WebView2": {
+        "type": "Direct",
+        "requested": "[1.0.2957.106, )",
+        "resolved": "1.0.2957.106",
+        "contentHash": "eHc2yKD//d1a6Razu6jl373RGKdzLhxDBk/wc/i//tC9+nEVXcO38pvjZwR2s0C34y+0trzKvbGHffrEx7vyVw=="
+      },
+      "winquicklook.cswin32": {
+        "type": "Project"
+      }
+    }
+  }
+}
