@@ -22,9 +22,9 @@
       },
       "Microsoft.Web.WebView2": {
         "type": "Direct",
-        "requested": "[1.0.2957.106, )",
-        "resolved": "1.0.2957.106",
-        "contentHash": "eHc2yKD//d1a6Razu6jl373RGKdzLhxDBk/wc/i//tC9+nEVXcO38pvjZwR2s0C34y+0trzKvbGHffrEx7vyVw=="
+        "requested": "[1.0.3065.39, )",
+        "resolved": "1.0.3065.39",
+        "contentHash": "ww6ToZ2jpHyP4k3DCQJETjKcdVS1cha9pS8dV2NetyfafItxz08wcAyQV0Yl86W7euhI02UJWEaC5sM8WLr0tQ=="
       },
       "winquicklook.cswin32": {
         "type": "Project"
