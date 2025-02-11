@@ -34,30 +34,9 @@ public static partial class PInvoke
         return hr;
     }
 
-    /// <inheritdoc cref="AssocQueryString(ASSOCF, ASSOCSTR, PCWSTR, PCWSTR, PWSTR, uint*)"/>
-    public static unsafe HRESULT AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string? pszExtra, Span<char> pszOut, ref uint pcchOut)
-    {
-        fixed (char* pszOutLocal = pszOut)
-        {
-            return AssocQueryString(flags, str, pszAssoc, pszExtra, new PWSTR(pszOutLocal), ref pcchOut);
-        }
-    }
-
     public static unsafe HWND CreateWindowEx(WINDOW_EX_STYLE dwExStyle, string lpClassName, string lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, SafeHandle? hMenu, SafeHandle? hInstance)
     {
         return CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, null);
-    }
-
-    /// <inheritdoc cref="SHLoadIndirectString(PCWSTR, PWSTR, uint, void**)"/>
-    public static unsafe HRESULT SHLoadIndirectString(string pszSource, Span<char> pszOutBuf)
-    {
-        fixed (char* pszOutBufLocal = pszOutBuf)
-        {
-            fixed (char* pszSourceLocal = pszSource)
-            {
-                return SHLoadIndirectString(pszSourceLocal, new PWSTR(pszOutBufLocal), (uint)pszOutBuf.Length, null);
-            }
-        }
     }
 
     public static unsafe HRESULT StrRetToBuf(ref STRRET pstr, nint pidl, Span<char> pszBuf)
@@ -72,14 +51,6 @@ public static partial class PInvoke
     }
 
     public static unsafe uint GetWindowThreadProcessId(HWND hWnd) => GetWindowThreadProcessId(hWnd, null);
-
-    public static unsafe int GetClassName(HWND hWnd, Span<char> lpClassName)
-    {
-        fixed (char* lpClassNameLocal = lpClassName)
-        {
-            return GetClassName(hWnd, new PWSTR(lpClassNameLocal), lpClassName.Length);
-        }
-    }
 
     public static unsafe HRESULT DwmSetWindowAttribute<T>(HWND hwnd, Graphics.Dwm.DWMWINDOWATTRIBUTE dwAttribute, ref T pvAttribute) where T : unmanaged
     {
