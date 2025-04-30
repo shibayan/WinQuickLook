@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Cylinder.WPF" Version="1.0.0-preview.2" />
-    <PackageReference Include="Markdig" Version="0.40.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3065.39" />
+    <PackageReference Include="Markdig" Version="0.41.1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
   </ItemGroup>
 
   <ItemGroup>
