@@ -16,15 +16,15 @@
       },
       "Markdig": {
         "type": "Direct",
-        "requested": "[0.41.1, )",
-        "resolved": "0.41.1",
-        "contentHash": "e9QXUg2agxd9iWV3hO5fA4Qp2avMuXFiElatzD8hp69yIEgESrdhKvDFf9y9NOlPe9jO7AA6W1JAnntLmqwRwA=="
+        "requested": "[0.41.3, )",
+        "resolved": "0.41.3",
+        "contentHash": "i3vSTyGpBGWbJB04aJ3cPJs0T3BV2e1nduW3EUHK/i+xUupYbym75iZPss/XjqhS5JlBErwQYnx7ofK3Zcsozg=="
       },
       "Microsoft.Web.WebView2": {
         "type": "Direct",
-        "requested": "[1.0.3179.45, )",
-        "resolved": "1.0.3179.45",
-        "contentHash": "3pokSH5CnN0G6rGhGFo1y87inxYhNxBQ2Vdf0wlvBj99KHxQJormjDACmqRnFeUsmuNFIhWwfAL1ztq7wD5qRA=="
+        "requested": "[1.0.3405.78, )",
+        "resolved": "1.0.3405.78",
+        "contentHash": "ceiIKuPHnzOf5CUv9nGpIBx0CWCCMWcBdv05QuonmUnpPtm6XDyAh6osgvin7MTpVD5O0+NbS5ts/WU9sgXgvA=="
       },
       "winquicklook.cswin32": {
         "type": "Project"
